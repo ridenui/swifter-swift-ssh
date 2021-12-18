@@ -14,12 +14,10 @@
 		FB1DCD4C276D73DB00B40636 /* swifter-swift-ssh-macos-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = FB51F917276D3B9400D8C262 /* swifter-swift-ssh-macos-Bridging-Header.h */; };
 		FB51F8E7276D12DD00D8C262 /* SSH.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51F8E6276D12DD00D8C262 /* SSH.swift */; };
 		FB51F902276D34CE00D8C262 /* SSH.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51F8E6276D12DD00D8C262 /* SSH.swift */; };
-		FB51F907276D352400D8C262 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB51F904276D352400D8C262 /* libcrypto.a */; };
 		FB51F908276D352400D8C262 /* libssh.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB51F905276D352400D8C262 /* libssh.a */; };
 		FB51F909276D352400D8C262 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB51F906276D352400D8C262 /* libssl.a */; };
 		FB51F90D276D355D00D8C262 /* libssh.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB51F90A276D355D00D8C262 /* libssh.a */; };
 		FB51F90E276D355D00D8C262 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB51F90B276D355D00D8C262 /* libssl.a */; };
-		FB51F90F276D355D00D8C262 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB51F90C276D355D00D8C262 /* libcrypto.a */; };
 		FB51F912276D35A600D8C262 /* include in Headers */ = {isa = PBXBuildFile; fileRef = FB51F8F3276D335400D8C262 /* include */; };
 		FB51F919276D3B9400D8C262 /* bridge.m in Sources */ = {isa = PBXBuildFile; fileRef = FB51F918276D3B9400D8C262 /* bridge.m */; };
 		FB51F91A276D3B9400D8C262 /* bridge.m in Sources */ = {isa = PBXBuildFile; fileRef = FB51F918276D3B9400D8C262 /* bridge.m */; };
@@ -69,7 +67,6 @@
 			files = (
 				FB51F90D276D355D00D8C262 /* libssh.a in Frameworks */,
 				FB51F90E276D355D00D8C262 /* libssl.a in Frameworks */,
-				FB51F90F276D355D00D8C262 /* libcrypto.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,7 +74,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FB51F907276D352400D8C262 /* libcrypto.a in Frameworks */,
 				FB51F908276D352400D8C262 /* libssh.a in Frameworks */,
 				FB51F909276D352400D8C262 /* libssl.a in Frameworks */,
 			);

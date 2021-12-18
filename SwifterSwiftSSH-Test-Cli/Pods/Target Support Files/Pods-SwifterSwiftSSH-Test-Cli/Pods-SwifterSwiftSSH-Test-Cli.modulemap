@@ -1,0 +1,6 @@
+module Pods_SwifterSwiftSSH_Test_Cli {
+  umbrella header "Pods-SwifterSwiftSSH-Test-Cli-umbrella.h"
+
+  export *
+  module * { export * }
+}

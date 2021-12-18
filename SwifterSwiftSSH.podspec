@@ -78,7 +78,8 @@ Pod::Spec.new do |spec|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  spec.source       = { :git => "https://github.com/ridenui/swifter-swift-ssh.git", :tag => "#{spec.version}" }
+  #spec.source       = { :git => "https://github.com/ridenui/swifter-swift-ssh.git", :tag => "#{spec.version}" }
+  spec.source = { :git => '.' }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -89,7 +90,8 @@ Pod::Spec.new do |spec|
   #  Not including the public_header_files will make all headers public.
   #
 
-  spec.source_files  = "swifter-swift-ssh", "swifter-swift-ssh/**/*.{h,m,swift}"
+  spec.source_files  = "SwifterSwiftSSH", "SwifterSwiftSSH/**/*.{h,m,swift}"
+  spec.public_header_files = "SwifterSwiftSSH/**/*.h"
   # spec.exclude_files = "Classes/Exclude"
   
 
@@ -108,9 +110,7 @@ Pod::Spec.new do |spec|
   # spec.resources = "Resources/*.png"
 
   # spec.preserve_paths = "FilesToSave", "MoreFilesToSave"
-  
-  spec.preserve_path = "${POD_ROOT}/swifter-swift-ssh/swifter-swift-ssh-Bridging-Header.h", "${POD_ROOT}/swifter-swift-ssh/swifter-swift-ssh-macos-Bridging-Header.h"
-
+  spec.preserve_paths = "Libraries/lib/**/*.a", "Libraries-iOS/lib/**/*.a"
 
   # ――― Project Linking ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
@@ -120,9 +120,11 @@ Pod::Spec.new do |spec|
 
   # spec.framework  = "SomeFramework"
   # spec.frameworks = "SomeFramework", "AnotherFramework"
+  spec.framework    = 'CFNetwork'
+  # spec.library      = 'z'
 
   # spec.library   = "iconv"
-  # spec.libraries = "iconv", "xml2"
+  spec.libraries = "z"
 
 
   # ――― Project Settings ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -131,20 +133,24 @@ Pod::Spec.new do |spec|
   #  where they will only apply to your library. If you depend on other Podspecs
   #  you can include multiple dependencies to ensure it works.
 
-  # spec.requires_arc = true
+  spec.requires_arc = true
 
   # spec.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
   # spec.dependency "JSONKit", "~> 1.4"
   
   spec.ios.deployment_target  = '13.0'
-  spec.ios.vendored_libraries = 'Libraries-iOS/lib/libssh.a', 'Libraries-iOS/lib/libssl.a', 'Libraries-iOS/lib/libcrypto.a'
-  spec.ios.source_files       = 'swifter-swift-ssh', 'Libraries-iOS/**/*.h'
+  spec.ios.vendored_libraries = 'Libraries-iOS/lib/libssh.a', 'Libraries-iOS/lib/libssl.a'
+  # spec.ios.libraries          = "ssh", "ssl"
+  spec.ios.source_files       = 'Libraries-iOS', 'Libraries-iOS/**/*.h'
   spec.ios.public_header_files  = 'Libraries-iOS/**/*.h'
-  spec.ios.xcconfig = { 'SWIFT_OBJC_BRIDGING_HEADER' => "${POD_ROOT}/swifter-swift-ssh/swifter-swift-ssh-Bridging-Header.h" }
   
   spec.osx.deployment_target  = '10.15.0'
-  spec.osx.vendored_libraries = 'Libraries/lib/libssh.a', 'Libraries/lib/libssl.a', 'Libraries/lib/libcrypto.a'
-  spec.osx.source_files       = 'swifter-swift-ssh', 'Libraries/**/*.h'
+  spec.osx.vendored_libraries = 'Libraries/lib/libssh.a', 'Libraries/lib/libssl.a'
+  # spec.osx.libraries          = "ssh", "ssl"
+  spec.osx.source_files       = 'Libraries', 'Libraries/**/*.h'
   spec.osx.public_header_files  = 'Libraries/**/*.h'
-  spec.osx.xcconfig = { 'SWIFT_OBJC_BRIDGING_HEADER' => "${POD_ROOT}/swifter-swift-ssh/swifter-swift-ssh-macos-Bridging-Header.h" }
+  
+  spec.pod_target_xcconfig = { "DEFINES_MODULE" => "YES", "LIBRARY_SEARCH_PATHS" => "" }
+  
+  spec.header_mappings_dir = 'Libraries/include'
 end
