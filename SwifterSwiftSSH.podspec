@@ -124,7 +124,7 @@ Pod::Spec.new do |spec|
   # spec.library      = 'z'
 
   # spec.library   = "iconv"
-  spec.libraries = "z"
+  # spec.libraries = "z"
 
 
   # ――― Project Settings ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -139,18 +139,18 @@ Pod::Spec.new do |spec|
   # spec.dependency "JSONKit", "~> 1.4"
   
   spec.ios.deployment_target  = '13.0'
-  spec.ios.vendored_libraries = 'Libraries-iOS/lib/libssh.a', 'Libraries-iOS/lib/libssl.a'
+  spec.ios.vendored_libraries = 'Libraries-iOS/lib/libssh.a', 'Libraries-iOS/lib/libssl.a', 'Libraries-iOS/lib/libcrypto.a'
   # spec.ios.libraries          = "ssh", "ssl"
-  spec.ios.source_files       = 'Libraries-iOS', 'Libraries-iOS/**/*.h'
-  spec.ios.public_header_files  = 'Libraries-iOS/**/*.h'
+  spec.ios.source_files       = 'Libraries', 'Libraries/**/*.h'
+  spec.ios.public_header_files  = 'Libraries/**/*.h'
   
   spec.osx.deployment_target  = '10.15.0'
-  spec.osx.vendored_libraries = 'Libraries/lib/libssh.a', 'Libraries/lib/libssl.a'
+  spec.osx.vendored_libraries = 'Libraries/lib/libssh.a', 'Libraries/lib/libssl.a', 'Libraries/lib/libcrypto.a'
   # spec.osx.libraries          = "ssh", "ssl"
   spec.osx.source_files       = 'Libraries', 'Libraries/**/*.h'
   spec.osx.public_header_files  = 'Libraries/**/*.h'
   
-  spec.pod_target_xcconfig = { "DEFINES_MODULE" => "YES", "LIBRARY_SEARCH_PATHS" => "" }
+  spec.pod_target_xcconfig = { "DEFINES_MODULE" => "YES", "LIBRARY_SEARCH_PATHS" => "", 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
   
   spec.header_mappings_dir = 'Libraries/include'
 end
