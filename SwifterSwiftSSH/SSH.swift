@@ -24,9 +24,12 @@ public class SSH {
     private let dispatchQueue = DispatchQueue(label: "swifter-ssh")
     private let connectionLock = NSLock();
     private let sessionLock = NSLock();
+    private let cmdLock = NSLock();
     
     public init(options: SSHOption) {
         self.options = options;
+        
+        ssh_init();
         
         ssh_set_log_level(Int32(SSH_LOG_WARNING));
     }
@@ -54,6 +57,26 @@ public class SSH {
                 throw SSHError.CAN_NOT_OPEN_SESSION;
             }
         }
+        
+        let fd = ssh_get_fd(session);
+        
+        LogSSH("FD: \(fd)");
+        
+        var ssh_callbacks = ssh_callbacks_struct();
+        
+        ssh_callbacks.channel_open_request_auth_agent_function = { session, userdata in
+            LogSSH("Deny channel_open_request_auth_agent_function")
+            return nil;
+        }
+        
+        
+        ssh_callbacks.connect_status_function = { session, status in
+            LogSSH("Connection progress: \(status)")
+        }
+        
+        ssh_callbacks.size = MemoryLayout.size(ofValue: ssh_callbacks);
+        
+        ssh_set_callbacks(self.session, &ssh_callbacks);
         
         try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
             self.dispatchQueue.async {
@@ -133,7 +156,16 @@ public class SSH {
     }
     
     public func exec(command: String) async throws -> SSHExecResult {
+        self.cmdLock.lock();
+        var regularUnlock = false;
         let commandUUID = UUID().uuidString;
+        let localDispatch = DispatchQueue(label: "ssh-exec-\(commandUUID)");
+        
+        defer {
+            if !regularUnlock {
+                self.cmdLock.unlock();
+            }
+        }
         
         if !(await self.isConnected()) {
             try await self.connect();
@@ -175,19 +207,26 @@ public class SSH {
         LogSSH("Try create channel for \(command)");
         
         let channel = try await withCheckedThrowingContinuation({ (continuation: CheckedContinuation<ssh_channel, Error>) in
-            self.dispatchQueue.async {
+            localDispatch.async {
                 var triesLeft = 5;
                 var lastError: SSHError?;
                 var success: Bool = false;
                 while (triesLeft > 0) {
+                    LogSSH("+ ssh_channel_new for \(command)")
                     let channel = ssh_channel_new(self.session);
+                    LogSSH("- ssh_channel_new for \(command)")
                     if channel == nil {
+                        LogSSH("CAN_NOT_OPEN_CHANNEL: Tries left \(triesLeft) for \(command)");
                         lastError = SSHError.CAN_NOT_OPEN_CHANNEL;
                         triesLeft -= 1;
                         return;
                     }
                     
+                    LogSSH("+ ssh_channel_open_session for \(command)")
+                    
                     let rc = ssh_channel_open_session(channel);
+                    
+                    LogSSH("- ssh_channel_open_session for \(command)")
                     
                     if rc == SSH_OK {
                         continuation.resume(returning: channel!);
@@ -197,13 +236,21 @@ public class SSH {
                         ssh_channel_free(channel);
                         lastError = SSHError.CAN_NOT_OPEN_CHANNEL_SESSION(rc);
                         triesLeft -= 1;
+                        LogSSH("CAN_NOT_OPEN_CHANNEL_SESSION: Tries left \(triesLeft) for \(command)");
                     }
                 }
                 if !success, let lastError = lastError {
                     continuation.resume(throwing: lastError);
+                } else {
+                    LogSSH("Got here")
                 }
             }
         });
+        
+        self.cmdLock.unlock();
+        regularUnlock = true;
+        
+        LogSSH("Channel for \(command) created");
         
         // free the libssh resources
         defer {
@@ -274,9 +321,12 @@ public class SSH {
             ssh_remove_channel_callbacks(channel, &cbs);
             LogSSH("- ssh_remove_channel_callbacks \(command)")
         }
+        
+        self.cmdLock.lock();
+        regularUnlock = false;
                 
         try await withCheckedThrowingContinuation({ (continuation: CheckedContinuation<Void, Error>) in
-            self.dispatchQueue.async {
+            localDispatch.async {
                 LogSSH("+ ssh_channel_request_exec for \(command)")
                 let rc = ssh_channel_request_exec(channel, command);
                 LogSSH("- ssh_channel_request_exec for \(command)")
@@ -288,8 +338,11 @@ public class SSH {
             }
         })
         
+        self.cmdLock.unlock();
+        regularUnlock = true;
+        
         async let stdout = withCheckedContinuation({ (continuation: CheckedContinuation<String, Never>) in
-            self.dispatchQueue.async {
+            localDispatch.async {
                 var stdout = "";
                 let count = 256
                 let buffer = UnsafeMutablePointer<CChar>.allocate(capacity: count)
@@ -321,7 +374,7 @@ public class SSH {
         });
         
         async let stderr = withCheckedContinuation({ (continuation: CheckedContinuation<String, Never>) in
-            self.dispatchQueue.async {
+            localDispatch.async {
                 var stderr = "";
                 let count = 256
                 let buffer = UnsafeMutablePointer<CChar>.allocate(capacity: count)

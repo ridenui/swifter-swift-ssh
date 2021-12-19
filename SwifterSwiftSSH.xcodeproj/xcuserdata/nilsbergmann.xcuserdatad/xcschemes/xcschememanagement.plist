@@ -7,12 +7,17 @@
 		<key>SwifterSwiftSSH-macos.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>0</integer>
 		</dict>
 		<key>SwifterSwiftSSH.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>1</integer>
+		</dict>
+		<key>Tests.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
 		</dict>
 		<key>swifter-swift-ssh-macos.xcscheme_^#shared#^_</key>
 		<dict>
@@ -28,6 +33,29 @@
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>FB51F8E2276D12DD00D8C262</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FB996DF8276FABAB00F87614</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FB996E09276FAD7800F87614</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FB996E1D276FAE5200F87614</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

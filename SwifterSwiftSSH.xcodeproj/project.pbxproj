@@ -8,26 +8,48 @@
 
 /* Begin PBXBuildFile section */
 		FB1DCD38276D593C00B40636 /* SSHErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1DCD37276D593C00B40636 /* SSHErrors.swift */; };
-		FB1DCD39276D59CF00B40636 /* SSHErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1DCD37276D593C00B40636 /* SSHErrors.swift */; };
 		FB1DCD3B276D651F00B40636 /* SSHResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1DCD3A276D651F00B40636 /* SSHResult.swift */; };
-		FB1DCD3C276D651F00B40636 /* SSHResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1DCD3A276D651F00B40636 /* SSHResult.swift */; };
-		FB1DCD4C276D73DB00B40636 /* swifter-swift-ssh-macos-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = FB51F917276D3B9400D8C262 /* swifter-swift-ssh-macos-Bridging-Header.h */; };
 		FB51F8E7276D12DD00D8C262 /* SSH.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51F8E6276D12DD00D8C262 /* SSH.swift */; };
-		FB51F902276D34CE00D8C262 /* SSH.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51F8E6276D12DD00D8C262 /* SSH.swift */; };
-		FB51F908276D352400D8C262 /* libssh.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB51F905276D352400D8C262 /* libssh.a */; };
-		FB51F909276D352400D8C262 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB51F906276D352400D8C262 /* libssl.a */; };
 		FB51F90D276D355D00D8C262 /* libssh.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB51F90A276D355D00D8C262 /* libssh.a */; };
 		FB51F90E276D355D00D8C262 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB51F90B276D355D00D8C262 /* libssl.a */; };
-		FB51F912276D35A600D8C262 /* include in Headers */ = {isa = PBXBuildFile; fileRef = FB51F8F3276D335400D8C262 /* include */; };
 		FB51F919276D3B9400D8C262 /* bridge.m in Sources */ = {isa = PBXBuildFile; fileRef = FB51F918276D3B9400D8C262 /* bridge.m */; };
-		FB51F91A276D3B9400D8C262 /* bridge.m in Sources */ = {isa = PBXBuildFile; fileRef = FB51F918276D3B9400D8C262 /* bridge.m */; };
 		FB51F91C276D3F1900D8C262 /* SSHOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51F91B276D3F1900D8C262 /* SSHOptions.swift */; };
-		FB51F91D276D3F1900D8C262 /* SSHOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51F91B276D3F1900D8C262 /* SSHOptions.swift */; };
-		FBBE9D9B276ED5BA001686DC /* AsyncTimeout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBBE9D9A276ED5BA001686DC /* AsyncTimeout.swift */; };
+		FB996E0B276FAD7800F87614 /* bridge.m in Sources */ = {isa = PBXBuildFile; fileRef = FB51F918276D3B9400D8C262 /* bridge.m */; };
+		FB996E0C276FAD7800F87614 /* SSHErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1DCD37276D593C00B40636 /* SSHErrors.swift */; };
+		FB996E0D276FAD7800F87614 /* SSHResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1DCD3A276D651F00B40636 /* SSHResult.swift */; };
+		FB996E0E276FAD7800F87614 /* SSHOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51F91B276D3F1900D8C262 /* SSHOptions.swift */; };
+		FB996E0F276FAD7800F87614 /* SSH.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51F8E6276D12DD00D8C262 /* SSH.swift */; };
+		FB996E21276FAE5200F87614 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB996E20276FAE5200F87614 /* Tests.swift */; };
+		FB996E2D276FB1E100F87614 /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = FB996E2C276FB1E100F87614 /* credentials.plist */; };
+		FB996E2F276FB22C00F87614 /* TestErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB996E2E276FB22C00F87614 /* TestErrors.swift */; };
+		FB996E30276FB60D00F87614 /* libSwifterSwiftSSH-macos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB996E17276FAD7800F87614 /* libSwifterSwiftSSH-macos.a */; };
+		FB996E31276FB99900F87614 /* libssh.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB51F905276D352400D8C262 /* libssh.a */; };
+		FB996E32276FB99900F87614 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB51F906276D352400D8C262 /* libssl.a */; };
+		FB996E33276FBA6100F87614 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB51F904276D352400D8C262 /* libcrypto.a */; };
+		FB996E34276FBA6E00F87614 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB51F90C276D355D00D8C262 /* libcrypto.a */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FB996E23276FAE5200F87614 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FB51F8DB276D12DD00D8C262 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FB996E09276FAD7800F87614;
+			remoteInfo = "SwifterSwiftSSH-macos";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		FB51F8E1276D12DD00D8C262 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FB996E13276FAD7800F87614 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "include/$(PRODUCT_NAME)";
@@ -48,7 +70,6 @@
 		FB51F8F0276D30D200D8C262 /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; path = include; sourceTree = "<group>"; };
 		FB51F8F3276D335400D8C262 /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; path = include; sourceTree = "<group>"; };
 		FB51F8F4276D335400D8C262 /* lib */ = {isa = PBXFileReference; lastKnownFileType = folder; path = lib; sourceTree = "<group>"; };
-		FB51F8F9276D348700D8C262 /* libSwifterSwiftSSH-macos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libSwifterSwiftSSH-macos.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB51F904276D352400D8C262 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = Libraries/lib/libcrypto.a; sourceTree = "<group>"; };
 		FB51F905276D352400D8C262 /* libssh.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssh.a; path = Libraries/lib/libssh.a; sourceTree = "<group>"; };
 		FB51F906276D352400D8C262 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = Libraries/lib/libssl.a; sourceTree = "<group>"; };
@@ -59,7 +80,12 @@
 		FB51F917276D3B9400D8C262 /* swifter-swift-ssh-macos-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "swifter-swift-ssh-macos-Bridging-Header.h"; sourceTree = "<group>"; };
 		FB51F918276D3B9400D8C262 /* bridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = bridge.m; sourceTree = "<group>"; };
 		FB51F91B276D3F1900D8C262 /* SSHOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHOptions.swift; sourceTree = "<group>"; };
-		FBBE9D9A276ED5BA001686DC /* AsyncTimeout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncTimeout.swift; sourceTree = "<group>"; };
+		FB996E17276FAD7800F87614 /* libSwifterSwiftSSH-macos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libSwifterSwiftSSH-macos.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB996E1E276FAE5200F87614 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB996E20276FAE5200F87614 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
+		FB996E2A276FB18D00F87614 /* credentials.example.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = credentials.example.plist; sourceTree = "<group>"; };
+		FB996E2C276FB1E100F87614 /* credentials.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = credentials.plist; sourceTree = "<group>"; };
+		FB996E2E276FB22C00F87614 /* TestErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestErrors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,17 +93,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB996E34276FBA6E00F87614 /* libcrypto.a in Frameworks */,
 				FB51F90D276D355D00D8C262 /* libssh.a in Frameworks */,
 				FB51F90E276D355D00D8C262 /* libssl.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FB51F8F7276D348700D8C262 /* Frameworks */ = {
+		FB996E10276FAD7800F87614 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FB51F908276D352400D8C262 /* libssh.a in Frameworks */,
-				FB51F909276D352400D8C262 /* libssl.a in Frameworks */,
+				FB996E33276FBA6100F87614 /* libcrypto.a in Frameworks */,
+				FB996E31276FB99900F87614 /* libssh.a in Frameworks */,
+				FB996E32276FB99900F87614 /* libssl.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FB996E1B276FAE5200F87614 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB996E30276FB60D00F87614 /* libSwifterSwiftSSH-macos.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,6 +127,7 @@
 				FB51F8EE276D30A100D8C262 /* Libraries-iOS */,
 				FB51F8ED276D134D00D8C262 /* SwifterSwiftSSH.podspec */,
 				FB51F8E5276D12DD00D8C262 /* SwifterSwiftSSH */,
+				FB996E1F276FAE5200F87614 /* Tests */,
 				FB51F8E4276D12DD00D8C262 /* Products */,
 				FB51F903276D352400D8C262 /* Frameworks */,
 			);
@@ -100,7 +137,8 @@
 			isa = PBXGroup;
 			children = (
 				FB51F8E3276D12DD00D8C262 /* libSwifterSwiftSSH.a */,
-				FB51F8F9276D348700D8C262 /* libSwifterSwiftSSH-macos.a */,
+				FB996E17276FAD7800F87614 /* libSwifterSwiftSSH-macos.a */,
+				FB996E1E276FAE5200F87614 /* Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -112,7 +150,6 @@
 				FB51F91B276D3F1900D8C262 /* SSHOptions.swift */,
 				FB1DCD37276D593C00B40636 /* SSHErrors.swift */,
 				FB1DCD3A276D651F00B40636 /* SSHResult.swift */,
-				FBBE9D9A276ED5BA001686DC /* AsyncTimeout.swift */,
 				FB51F918276D3B9400D8C262 /* bridge.m */,
 				FB51F916276D3B9400D8C262 /* swifter-swift-ssh-Bridging-Header.h */,
 				FB51F917276D3B9400D8C262 /* swifter-swift-ssh-macos-Bridging-Header.h */,
@@ -151,19 +188,18 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-/* End PBXGroup section */
-
-/* Begin PBXHeadersBuildPhase section */
-		FB51F8F5276D348700D8C262 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FB51F912276D35A600D8C262 /* include in Headers */,
-				FB1DCD4C276D73DB00B40636 /* swifter-swift-ssh-macos-Bridging-Header.h in Headers */,
+		FB996E1F276FAE5200F87614 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				FB996E2C276FB1E100F87614 /* credentials.plist */,
+				FB996E20276FAE5200F87614 /* Tests.swift */,
+				FB996E2A276FB18D00F87614 /* credentials.example.plist */,
+				FB996E2E276FB22C00F87614 /* TestErrors.swift */,
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			path = Tests;
+			sourceTree = "<group>";
 		};
-/* End PBXHeadersBuildPhase section */
+/* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
 		FB51F8E2276D12DD00D8C262 /* SwifterSwiftSSH */ = {
@@ -183,22 +219,40 @@
 			productReference = FB51F8E3276D12DD00D8C262 /* libSwifterSwiftSSH.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		FB51F8F8276D348700D8C262 /* SwifterSwiftSSH-macos */ = {
+		FB996E09276FAD7800F87614 /* SwifterSwiftSSH-macos */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FB51F8FF276D348700D8C262 /* Build configuration list for PBXNativeTarget "SwifterSwiftSSH-macos" */;
+			buildConfigurationList = FB996E14276FAD7800F87614 /* Build configuration list for PBXNativeTarget "SwifterSwiftSSH-macos" */;
 			buildPhases = (
-				FB51F8F5276D348700D8C262 /* Headers */,
-				FB51F8F6276D348700D8C262 /* Sources */,
-				FB51F8F7276D348700D8C262 /* Frameworks */,
+				FB996E0A276FAD7800F87614 /* Sources */,
+				FB996E10276FAD7800F87614 /* Frameworks */,
+				FB996E13276FAD7800F87614 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = "SwifterSwiftSSH-macos";
-			productName = "swifter-swift-ssh-macos";
-			productReference = FB51F8F9276D348700D8C262 /* libSwifterSwiftSSH-macos.a */;
+			productName = "swifter-swift-ssh";
+			productReference = FB996E17276FAD7800F87614 /* libSwifterSwiftSSH-macos.a */;
 			productType = "com.apple.product-type.library.static";
+		};
+		FB996E1D276FAE5200F87614 /* Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FB996E25276FAE5200F87614 /* Build configuration list for PBXNativeTarget "Tests" */;
+			buildPhases = (
+				FB996E1A276FAE5200F87614 /* Sources */,
+				FB996E1B276FAE5200F87614 /* Frameworks */,
+				FB996E1C276FAE5200F87614 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FB996E24276FAE5200F87614 /* PBXTargetDependency */,
+			);
+			name = Tests;
+			productName = Tests;
+			productReference = FB996E1E276FAE5200F87614 /* Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -214,9 +268,8 @@
 						CreatedOnToolsVersion = 13.2;
 						LastSwiftMigration = 1320;
 					};
-					FB51F8F8276D348700D8C262 = {
-						CreatedOnToolsVersion = 13.2;
-						LastSwiftMigration = 1320;
+					FB996E1D276FAE5200F87614 = {
+						CreatedOnToolsVersion = 13.2.1;
 					};
 				};
 			};
@@ -234,10 +287,22 @@
 			projectRoot = "";
 			targets = (
 				FB51F8E2276D12DD00D8C262 /* SwifterSwiftSSH */,
-				FB51F8F8276D348700D8C262 /* SwifterSwiftSSH-macos */,
+				FB996E09276FAD7800F87614 /* SwifterSwiftSSH-macos */,
+				FB996E1D276FAE5200F87614 /* Tests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FB996E1C276FAE5200F87614 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB996E2D276FB1E100F87614 /* credentials.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FB51F8DF276D12DD00D8C262 /* Sources */ = {
@@ -246,26 +311,42 @@
 			files = (
 				FB51F919276D3B9400D8C262 /* bridge.m in Sources */,
 				FB1DCD38276D593C00B40636 /* SSHErrors.swift in Sources */,
-				FBBE9D9B276ED5BA001686DC /* AsyncTimeout.swift in Sources */,
 				FB1DCD3B276D651F00B40636 /* SSHResult.swift in Sources */,
 				FB51F91C276D3F1900D8C262 /* SSHOptions.swift in Sources */,
 				FB51F8E7276D12DD00D8C262 /* SSH.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FB51F8F6276D348700D8C262 /* Sources */ = {
+		FB996E0A276FAD7800F87614 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FB51F91A276D3B9400D8C262 /* bridge.m in Sources */,
-				FB1DCD39276D59CF00B40636 /* SSHErrors.swift in Sources */,
-				FB1DCD3C276D651F00B40636 /* SSHResult.swift in Sources */,
-				FB51F91D276D3F1900D8C262 /* SSHOptions.swift in Sources */,
-				FB51F902276D34CE00D8C262 /* SSH.swift in Sources */,
+				FB996E0B276FAD7800F87614 /* bridge.m in Sources */,
+				FB996E0C276FAD7800F87614 /* SSHErrors.swift in Sources */,
+				FB996E0D276FAD7800F87614 /* SSHResult.swift in Sources */,
+				FB996E0E276FAD7800F87614 /* SSHOptions.swift in Sources */,
+				FB996E0F276FAD7800F87614 /* SSH.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FB996E1A276FAE5200F87614 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB996E2F276FB22C00F87614 /* TestErrors.swift in Sources */,
+				FB996E21276FAE5200F87614 /* Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FB996E24276FAE5200F87614 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FB996E09276FAD7800F87614 /* SwifterSwiftSSH-macos */;
+			targetProxy = FB996E23276FAE5200F87614 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		FB51F8E8276D12DD00D8C262 /* Debug */ = {
@@ -389,6 +470,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = P88CDRP8CR;
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Libraries-iOS/include/**";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -400,10 +482,12 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libraries-iOS/lib",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "SwifterSwiftSSH/swifter-swift-ssh-Bridging-Header.h";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/SwifterSwiftSSH/swifter-swift-ssh-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -415,6 +499,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = P88CDRP8CR;
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Libraries-iOS/include/**";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -426,74 +511,126 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libraries-iOS/lib",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "SwifterSwiftSSH/swifter-swift-ssh-Bridging-Header.h";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/SwifterSwiftSSH/swifter-swift-ssh-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
-		FB51F900276D348700D8C262 /* Debug */ = {
+		FB996E15276FAD7800F87614 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLY_RULES_IN_COPY_HEADERS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = P88CDRP8CR;
-				EXECUTABLE_PREFIX = lib;
-				HEADER_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/Libraries/include/**",
-					"$(inherited)",
-				);
+				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Libraries/include/**";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Libraries/lib",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.6;
-				MODULEMAP_FILE = $SRCROOT/Libraries/libssh.modulemap;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "SwifterSwiftSSH/swifter-swift-ssh-macos-Bridging-Header.h";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/SwifterSwiftSSH/swifter-swift-ssh-macos-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "";
+			};
+			name = Debug;
+		};
+		FB996E16276FAD7800F87614 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLY_RULES_IN_COPY_HEADERS = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = P88CDRP8CR;
+				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Libraries/include/**";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Libraries/lib",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/SwifterSwiftSSH/swifter-swift-ssh-macos-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "";
+			};
+			name = Release;
+		};
+		FB996E26276FAE5200F87614 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = P88CDRP8CR;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherit)",
+					"$(SRCROOT)/Libraries/include/**",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.6;
+				MARKETING_VERSION = 1.0;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = io.noim.Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
-		FB51F901276D348700D8C262 /* Release */ = {
+		FB996E27276FAE5200F87614 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = P88CDRP8CR;
-				EXECUTABLE_PREFIX = lib;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
+				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/Libraries/include/**",
-					"$(inherited)",
-				);
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Libraries/lib",
+					"$(inherit)",
+					"$(SRCROOT)/Libraries/include/**",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.6;
-				MODULEMAP_FILE = $SRCROOT/Libraries/libssh.modulemap;
+				MARKETING_VERSION = 1.0;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = io.noim.Tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "SwifterSwiftSSH/swifter-swift-ssh-macos-Bridging-Header.h";
+				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -519,11 +656,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FB51F8FF276D348700D8C262 /* Build configuration list for PBXNativeTarget "SwifterSwiftSSH-macos" */ = {
+		FB996E14276FAD7800F87614 /* Build configuration list for PBXNativeTarget "SwifterSwiftSSH-macos" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				FB51F900276D348700D8C262 /* Debug */,
-				FB51F901276D348700D8C262 /* Release */,
+				FB996E15276FAD7800F87614 /* Debug */,
+				FB996E16276FAD7800F87614 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FB996E25276FAE5200F87614 /* Build configuration list for PBXNativeTarget "Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FB996E26276FAE5200F87614 /* Debug */,
+				FB996E27276FAE5200F87614 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

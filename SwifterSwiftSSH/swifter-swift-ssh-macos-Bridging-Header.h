@@ -3,3 +3,4 @@
 //
 
 #import <libssh/libssh.h>
+#import <libssh/callbacks.h>
