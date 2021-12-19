@@ -16,4 +16,29 @@ public enum SSHError: Error {
     case AUTH_ERROR
     case AUTH_ERROR_OTHER(ssh_auth_e)
     case REQUEST_EXEC_ERROR(Int32)
+    /// General ssh error
+    case SSH_ERROR
+    
+    public var errorDescription: String? {
+        switch self {
+        case .CAN_NOT_OPEN_SESSION:
+            return "Can not open session"
+        case .CAN_NOT_OPEN_CHANNEL:
+            return "Can not open channel"
+        case .CAN_NOT_OPEN_CHANNEL_SESSION(_):
+            return "Can not open channel session"
+        case .CONNECTION_ERROR(msg: let msg):
+            return "Connection error: \(msg)"
+        case .AUTH_DENIED:
+            return "Auth denied"
+        case .AUTH_ERROR:
+            return "Auth error"
+        case .AUTH_ERROR_OTHER(_):
+            return "Unknown auth error"
+        case .REQUEST_EXEC_ERROR(_):
+            return "REQUEST_EXEC_ERROR"
+        case .SSH_ERROR:
+            return "General SSH Error"
+        }
+    }
 }

@@ -43,6 +43,7 @@ public class SSH {
         if self.session != nil {
             ssh_options_set(self.session, SSH_OPTIONS_HOST, options.host);
             ssh_options_set(self.session, SSH_OPTIONS_PORT, &port);
+            ssh_set_blocking(self.session, 0);
         }
         self.sessionLock.unlock();
     }
@@ -80,32 +81,51 @@ public class SSH {
         
         try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
             self.dispatchQueue.async {
-                let rc = ssh_connect(self.session);
-                if rc != SSH_OK {
-                    let errorString = String(cString: ssh_get_error(&self.session));
-                    continuation.resume(throwing: SSHError.CONNECTION_ERROR(errorString));
-                    self.connectionLock.unlock();
-                } else {
-                    self.ssh_connected = true;
-                    continuation.resume();
+                Task {
+                    var rc = ssh_connect(self.session);
+                    
+                    while (rc == SSH_AGAIN) {
+                        rc = ssh_connect(self.session);
+                        LogSSH("ssh_connect == SSH_AGAIN")
+                        try await Task.sleep(nanoseconds: 10000);
+                    }
+                    
+                    if rc != SSH_OK {
+                        let errorString = String(cString: ssh_get_error(&self.session));
+                        LogSSH("ssh_connect != SSH_OK: \(errorString)")
+                        continuation.resume(throwing: SSHError.CONNECTION_ERROR(errorString));
+                        self.connectionLock.unlock();
+                    } else {
+                        self.ssh_connected = true;
+                        continuation.resume();
+                    }
                 }
             }
         }
         
         try await withCheckedThrowingContinuation({ (continuation: CheckedContinuation<Void, Error>) in
             self.dispatchQueue.async {
-                let ra = ssh_userauth_password(self.session, self.options.username, self.options.password);
-                if ra == SSH_AUTH_SUCCESS.rawValue {
-                    continuation.resume();
-                } else if ra == SSH_AUTH_DENIED.rawValue {
-                    continuation.resume(throwing: SSHError.AUTH_DENIED);
-                    self.connectionLock.unlock();
-                } else if ra == SSH_AUTH_ERROR.rawValue {
-                    continuation.resume(throwing: SSHError.AUTH_ERROR);
-                    self.connectionLock.unlock();
-                } else {
-                    continuation.resume(throwing: SSHError.AUTH_ERROR_OTHER(ssh_auth_e(ra)));
-                    self.connectionLock.unlock();
+                Task {
+                    var ra = ssh_userauth_password(self.session, self.options.username, self.options.password);
+                    
+                    while (ra == SSH_AUTH_AGAIN.rawValue) {
+                        ra = ssh_userauth_password(self.session, self.options.username, self.options.password);
+                        LogSSH("ssh_userauth_password == SSH_AUTH_AGAIN")
+                        try await Task.sleep(nanoseconds: 10000);
+                    }
+                    
+                    if ra == SSH_AUTH_SUCCESS.rawValue {
+                        continuation.resume();
+                    } else if ra == SSH_AUTH_DENIED.rawValue {
+                        continuation.resume(throwing: SSHError.AUTH_DENIED);
+                        self.connectionLock.unlock();
+                    } else if ra == SSH_AUTH_ERROR.rawValue {
+                        continuation.resume(throwing: SSHError.AUTH_ERROR);
+                        self.connectionLock.unlock();
+                    } else {
+                        continuation.resume(throwing: SSHError.AUTH_ERROR_OTHER(ssh_auth_e(ra)));
+                        self.connectionLock.unlock();
+                    }
                 }
             }
         })
@@ -208,41 +228,50 @@ public class SSH {
         
         let channel = try await withCheckedThrowingContinuation({ (continuation: CheckedContinuation<ssh_channel, Error>) in
             localDispatch.async {
-                var triesLeft = 5;
-                var lastError: SSHError?;
-                var success: Bool = false;
-                while (triesLeft > 0) {
-                    LogSSH("+ ssh_channel_new for \(command)")
-                    let channel = ssh_channel_new(self.session);
-                    LogSSH("- ssh_channel_new for \(command)")
-                    if channel == nil {
-                        LogSSH("CAN_NOT_OPEN_CHANNEL: Tries left \(triesLeft) for \(command)");
-                        lastError = SSHError.CAN_NOT_OPEN_CHANNEL;
-                        triesLeft -= 1;
-                        return;
+                Task {
+                    var triesLeft = 5;
+                    var lastError: SSHError?;
+                    var success: Bool = false;
+                    while (triesLeft > 0) {
+                        LogSSH("+ ssh_channel_new for \(command)")
+                        let channel = ssh_channel_new(self.session);
+                        LogSSH("- ssh_channel_new for \(command)")
+                        if channel == nil {
+                            LogSSH("CAN_NOT_OPEN_CHANNEL: Tries left \(triesLeft) for \(command)");
+                            lastError = SSHError.CAN_NOT_OPEN_CHANNEL;
+                            triesLeft -= 1;
+                            return;
+                        }
+                        
+                        LogSSH("+ ssh_channel_open_session for \(command)")
+                        
+                        var rc = ssh_channel_open_session(channel);
+                        
+                        LogSSH("- ssh_channel_open_session for \(command)")
+                        
+                        while (rc == SSH_AGAIN) {
+                            rc = ssh_channel_open_session(channel);
+                            LogSSH("ssh_channel_open_session = SSH_AGAIN");
+                            try await Task.sleep(nanoseconds: 10000);
+                        }
+                        
+                        if rc == SSH_OK {
+                            continuation.resume(returning: channel!);
+                            success = true;
+                            break;
+                        } else {
+                            ssh_channel_free(channel);
+                            lastError = SSHError.CAN_NOT_OPEN_CHANNEL_SESSION(rc);
+                            triesLeft -= 1;
+                            LogSSH("CAN_NOT_OPEN_CHANNEL_SESSION: Tries left \(triesLeft) for \(command)");
+                        }
                     }
-                    
-                    LogSSH("+ ssh_channel_open_session for \(command)")
-                    
-                    let rc = ssh_channel_open_session(channel);
-                    
-                    LogSSH("- ssh_channel_open_session for \(command)")
-                    
-                    if rc == SSH_OK {
-                        continuation.resume(returning: channel!);
-                        success = true;
-                        break;
+                    if !success, let lastError = lastError {
+                        continuation.resume(throwing: lastError);
                     } else {
-                        ssh_channel_free(channel);
-                        lastError = SSHError.CAN_NOT_OPEN_CHANNEL_SESSION(rc);
-                        triesLeft -= 1;
-                        LogSSH("CAN_NOT_OPEN_CHANNEL_SESSION: Tries left \(triesLeft) for \(command)");
+                        
+                        LogSSH("Got here")
                     }
-                }
-                if !success, let lastError = lastError {
-                    continuation.resume(throwing: lastError);
-                } else {
-                    LogSSH("Got here")
                 }
             }
         });
@@ -327,13 +356,22 @@ public class SSH {
                 
         try await withCheckedThrowingContinuation({ (continuation: CheckedContinuation<Void, Error>) in
             localDispatch.async {
-                LogSSH("+ ssh_channel_request_exec for \(command)")
-                let rc = ssh_channel_request_exec(channel, command);
-                LogSSH("- ssh_channel_request_exec for \(command)")
-                if rc == SSH_OK {
-                    continuation.resume();
-                } else {
-                    continuation.resume(throwing: SSHError.REQUEST_EXEC_ERROR(rc));
+                Task {
+                    LogSSH("+ ssh_channel_request_exec for \(command)")
+                    var rc = ssh_channel_request_exec(channel, command);
+                    
+                    while (rc == SSH_AGAIN) {
+                        rc = ssh_channel_request_exec(channel, command);
+                        LogSSH("ssh_channel_request_exec = SSH_AGAIN");
+                        try await Task.sleep(nanoseconds: 10000);
+                    }
+                    
+                    LogSSH("- ssh_channel_request_exec for \(command)")
+                    if rc == SSH_OK {
+                        continuation.resume();
+                    } else {
+                        continuation.resume(throwing: SSHError.REQUEST_EXEC_ERROR(rc));
+                    }
                 }
             }
         })
@@ -341,67 +379,75 @@ public class SSH {
         self.cmdLock.unlock();
         regularUnlock = true;
         
-        async let stdout = withCheckedContinuation({ (continuation: CheckedContinuation<String, Never>) in
+        async let stdout = withCheckedThrowingContinuation({ (continuation: CheckedContinuation<String, Error>) in
             localDispatch.async {
-                var stdout = "";
-                let count = 256
-                let buffer = UnsafeMutablePointer<CChar>.allocate(capacity: count)
-                
-                defer {
-                    buffer.deallocate();
+                Task {
+                    var stdout = "";
+                    let count = 256
+                    let buffer = UnsafeMutablePointer<CChar>.allocate(capacity: count)
+                    
+                    defer {
+                        buffer.deallocate();
+                    }
+                    
+                    while (ssh_channel_is_open(channel) > 0 && ssh_channel_is_eof(channel) != 1) {
+                        LogSSH("Read \(count) bytes from STDOUT for command \(command)");
+                        
+                        let nbytes = ssh_channel_read_nonblocking(channel, buffer, UInt32(count * MemoryLayout<CChar>.size), 0);
+                        
+                        LogSSH("Finish reading \(count) bytes from STDOUT for command \(command). Actually read \(nbytes) bytes.");
+                        
+                        if nbytes < 0 {
+                            break;
+                        }
+                        
+                        if nbytes > 0 {
+                            stdout += self.convertCharPointerToString(pointer: buffer, bytesToCopy: nbytes);
+                        }
+                        
+                        try await Task.sleep(nanoseconds: 100);
+                    }
+                    
+                    LogSSH("End reading STDOUT for \(command)");
+                    
+                    continuation.resume(returning: stdout);
                 }
-                
-                LogSSH("Read \(count) bytes from STDOUT for command \(command)");
-                
-                var nbytesStdout = ssh_channel_read(channel, buffer, UInt32(count * MemoryLayout<CChar>.size), 0)
-                
-                LogSSH("Finish reading \(count) bytes from STDOUT for command \(command). Actually read \(nbytesStdout) bytes.");
-                
-                repeat {
-                    stdout += self.convertCharPointerToString(pointer: buffer, bytesToCopy: nbytesStdout);
-                    
-                    LogSSH("Read \(count) bytes from STDOUT for command \(command). Channel: eof=\(ssh_channel_is_eof(channel)) closed=\(ssh_channel_is_closed(channel))");
-                    
-                    nbytesStdout = ssh_channel_read(channel, buffer, UInt32(count * MemoryLayout<CChar>.size), 0)
-                    
-                    LogSSH("Finish reading \(count) bytes from STDOUT for command \(command). Actually read \(nbytesStdout) bytes. Channel: eof=\(ssh_channel_is_eof(channel)) closed=\(ssh_channel_is_closed(channel))");
-                } while (nbytesStdout > 0);
-                
-                LogSSH("End reading STDOUT for \(command) nbytesStdout=\(nbytesStdout)");
-                
-                continuation.resume(returning: stdout);
             }
         });
         
-        async let stderr = withCheckedContinuation({ (continuation: CheckedContinuation<String, Never>) in
+        async let stderr = withCheckedThrowingContinuation({ (continuation: CheckedContinuation<String, Error>) in
             localDispatch.async {
-                var stderr = "";
-                let count = 256
-                let buffer = UnsafeMutablePointer<CChar>.allocate(capacity: count)
-                
-                defer {
-                    buffer.deallocate();
+                Task {
+                    var stderr = "";
+                    let count = 256
+                    let buffer = UnsafeMutablePointer<CChar>.allocate(capacity: count)
+                    
+                    defer {
+                        buffer.deallocate();
+                    }
+                    
+                    while (ssh_channel_is_open(channel) > 0 && ssh_channel_is_eof(channel) != 1) {
+                        LogSSH("Read \(count) bytes from STDERR for command \(command)");
+                        
+                        let nbytes = ssh_channel_read_nonblocking(channel, buffer, UInt32(count * MemoryLayout<CChar>.size), 1);
+                        
+                        LogSSH("Finish reading \(count) bytes from STDERR for command \(command). Actually read \(nbytes) bytes.");
+                        
+                        if nbytes < 0 {
+                            break;
+                        }
+                        
+                        if nbytes > 0 {
+                            stderr += self.convertCharPointerToString(pointer: buffer, bytesToCopy: nbytes);
+                        }
+                        
+                        try await Task.sleep(nanoseconds: 100);
+                    }
+                    
+                    LogSSH("End reading STDERR for \(command)");
+                    
+                    continuation.resume(returning: stderr);
                 }
-                
-                LogSSH("Read \(count) bytes from STDERR for command \(command)");
-                
-                var nbytesSterr = ssh_channel_read(channel, buffer, UInt32(count * MemoryLayout<CChar>.size), 1)
-                
-                LogSSH("Finish reading \(count) bytes from STDERR for command \(command). Actually read \(nbytesSterr) bytes.");
-                
-                repeat {
-                    stderr += self.convertCharPointerToString(pointer: buffer, bytesToCopy: nbytesSterr);
-                    
-                    LogSSH("Read \(count) bytes from STDERR for command \(command). Channel: eof=\(ssh_channel_is_eof(channel)) closed=\(ssh_channel_is_closed(channel))");
-                    
-                    nbytesSterr = ssh_channel_read(channel, buffer, UInt32(count * MemoryLayout<CChar>.size), 1)
-                    
-                    LogSSH("Finish reading \(count) bytes from STDERR for command \(command). Actually read \(nbytesSterr) bytes. Channel: eof=\(ssh_channel_is_eof(channel)) closed=\(ssh_channel_is_closed(channel))");
-                } while (nbytesSterr > 0);
-                
-                LogSSH("End reading STDERR for \(command) nbytesSterr=\(nbytesSterr)");
-                
-                continuation.resume(returning: stderr);
             }
         });
         
@@ -420,7 +466,7 @@ public class SSH {
         
         LogSSH("Wait for std \(command)");
         
-        let stdArray = await [stdout, stderr];
+        let stdArray = try await [stdout, stderr];
         
         LogSSH("Finish \(command) signal=\(finalExitState.1 ?? nil) code=\(Int32(finalExitState.0))");
         
