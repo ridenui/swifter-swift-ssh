@@ -91,7 +91,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.source_files  = "SwifterSwiftSSH", "SwifterSwiftSSH/**/*.{h,m,swift}"
-  spec.public_header_files = "SwifterSwiftSSH/**/*.h"
+  # spec.public_header_files = "SwifterSwiftSSH/**/*.h"
   # spec.exclude_files = "Classes/Exclude"
   
 
@@ -123,6 +123,8 @@ Pod::Spec.new do |spec|
   spec.framework    = 'CFNetwork'
   # spec.library      = 'z'
 
+  spec.swift_version = '5.3'
+  
   # spec.library   = "iconv"
   # spec.libraries = "z"
 
@@ -144,13 +146,15 @@ Pod::Spec.new do |spec|
   spec.ios.source_files       = 'Libraries', 'Libraries/**/*.h'
   spec.ios.public_header_files  = 'Libraries/**/*.h'
   
-  spec.osx.deployment_target  = '10.15.0'
+  spec.osx.deployment_target  = '11.0'
   spec.osx.vendored_libraries = 'Libraries/lib/libssh.a', 'Libraries/lib/libssl.a', 'Libraries/lib/libcrypto.a'
   # spec.osx.libraries          = "ssh", "ssl"
   spec.osx.source_files       = 'Libraries', 'Libraries/**/*.h'
   spec.osx.public_header_files  = 'Libraries/**/*.h'
   
-  spec.pod_target_xcconfig = { "DEFINES_MODULE" => "YES", "LIBRARY_SEARCH_PATHS" => "", 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
+  spec.pod_target_xcconfig = { "DEFINES_MODULE" => "YES", 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
+  
+  spec.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
   
   spec.header_mappings_dir = 'Libraries/include'
 end

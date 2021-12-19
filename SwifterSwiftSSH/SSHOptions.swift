@@ -8,8 +8,15 @@
 import Foundation
 
 public struct SSHOption {
-    let host: String;
-    var port: Int = 22;
-    var username: String;
-    var password: String?;
+    public init(host: String, port: Int = 22, username: String, password: String? = nil) {
+        self.host = host
+        self.port = port
+        self.username = username
+        self.password = password
+    }
+    
+    public let host: String;
+    public var port: Int = 22;
+    public var username: String;
+    public var password: String?;
 }

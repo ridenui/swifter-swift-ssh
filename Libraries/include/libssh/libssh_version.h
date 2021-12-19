@@ -38,4 +38,6 @@
                                        LIBSSH_VERSION_MINOR, \
                                        LIBSSH_VERSION_MICRO)
 
+#import <sys/kernel_types.h>
+
 #endif /* _LIBSSH_VERSION_H */

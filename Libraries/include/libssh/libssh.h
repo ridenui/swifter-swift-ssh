@@ -118,7 +118,6 @@ typedef SOCKET socket_t;
 #endif /* socket_t */
 #else /* _WIN32 */
 #ifndef socket_t
-typedef int socket_t;
 #endif
 #endif /* _WIN32 */
 

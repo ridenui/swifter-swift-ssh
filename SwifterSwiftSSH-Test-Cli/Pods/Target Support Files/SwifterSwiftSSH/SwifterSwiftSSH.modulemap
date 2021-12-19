@@ -1,6 +1,0 @@
-module SwifterSwiftSSH {
-  umbrella header "SwifterSwiftSSH-umbrella.h"
-
-  export *
-  module * { export * }
-}

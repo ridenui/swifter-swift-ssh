@@ -1,1 +1,0 @@
-../../../../SwifterSwiftSSH/swifter-swift-ssh-macos-Bridging-Header.h

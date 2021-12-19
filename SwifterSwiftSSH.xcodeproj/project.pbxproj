@@ -23,6 +23,7 @@
 		FB51F91A276D3B9400D8C262 /* bridge.m in Sources */ = {isa = PBXBuildFile; fileRef = FB51F918276D3B9400D8C262 /* bridge.m */; };
 		FB51F91C276D3F1900D8C262 /* SSHOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51F91B276D3F1900D8C262 /* SSHOptions.swift */; };
 		FB51F91D276D3F1900D8C262 /* SSHOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51F91B276D3F1900D8C262 /* SSHOptions.swift */; };
+		FBBE9D9B276ED5BA001686DC /* AsyncTimeout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBBE9D9A276ED5BA001686DC /* AsyncTimeout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -58,6 +59,7 @@
 		FB51F917276D3B9400D8C262 /* swifter-swift-ssh-macos-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "swifter-swift-ssh-macos-Bridging-Header.h"; sourceTree = "<group>"; };
 		FB51F918276D3B9400D8C262 /* bridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = bridge.m; sourceTree = "<group>"; };
 		FB51F91B276D3F1900D8C262 /* SSHOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHOptions.swift; sourceTree = "<group>"; };
+		FBBE9D9A276ED5BA001686DC /* AsyncTimeout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncTimeout.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 				FB51F91B276D3F1900D8C262 /* SSHOptions.swift */,
 				FB1DCD37276D593C00B40636 /* SSHErrors.swift */,
 				FB1DCD3A276D651F00B40636 /* SSHResult.swift */,
+				FBBE9D9A276ED5BA001686DC /* AsyncTimeout.swift */,
 				FB51F918276D3B9400D8C262 /* bridge.m */,
 				FB51F916276D3B9400D8C262 /* swifter-swift-ssh-Bridging-Header.h */,
 				FB51F917276D3B9400D8C262 /* swifter-swift-ssh-macos-Bridging-Header.h */,
@@ -243,6 +246,7 @@
 			files = (
 				FB51F919276D3B9400D8C262 /* bridge.m in Sources */,
 				FB1DCD38276D593C00B40636 /* SSHErrors.swift in Sources */,
+				FBBE9D9B276ED5BA001686DC /* AsyncTimeout.swift in Sources */,
 				FB1DCD3B276D651F00B40636 /* SSHResult.swift in Sources */,
 				FB51F91C276D3F1900D8C262 /* SSHOptions.swift in Sources */,
 				FB51F8E7276D12DD00D8C262 /* SSH.swift in Sources */,

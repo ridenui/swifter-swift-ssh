@@ -6,6 +6,16 @@
 //
 import Foundation
 
+func LogSSH(_ msg: String, function: String = #function, file: String = #file, line: Int = #line){
+    print("[LIBSSH]\(makeTag(function: function, file: file, line: line)) : \(msg)")
+}
+
+private func makeTag(function: String, file: String, line: Int) -> String{
+    let url = NSURL(fileURLWithPath: file)
+    let className = url.lastPathComponent ?? file
+    return "\(className) \(function)[\(line)]"
+}
+
 public class SSH {
 
     private var session: ssh_session?;
@@ -15,8 +25,10 @@ public class SSH {
     private let connectionLock = NSLock();
     private let sessionLock = NSLock();
     
-    init(options: SSHOption) {
+    public init(options: SSHOption) {
         self.options = options;
+        
+        ssh_set_log_level(Int32(SSH_LOG_WARNING));
     }
     
     private func initSession() {
@@ -121,78 +133,260 @@ public class SSH {
     }
     
     public func exec(command: String) async throws -> SSHExecResult {
+        let commandUUID = UUID().uuidString;
+        
         if !(await self.isConnected()) {
             try await self.connect();
         }
-                
+        
+        LogSSH("exec: \(command)");
+        
+        actor ExitState {
+            var exitStatus: Int?;
+            var exitSignal: String?;
+            
+            let semaphore = DispatchSemaphore(value: 0);
+            
+            let command: String;
+            let uuid: String;
+            
+            init(command: String, uuid: String) {
+                self.command = command;
+                self.uuid = uuid;
+            }
+            
+            func setExitStatus(to: Int) -> Void {
+                LogSSH("setExitStatus to \(to) \(self.command)");
+                self.exitStatus = to;
+            }
+            
+            func setExitSignal(to: String) -> Void {
+                LogSSH("setExitSignal to \(to) \(self.command)");
+                self.exitSignal = to;
+            }
+            
+            func sendEndSignal() {
+                self.semaphore.signal();
+            }
+        }
+        
+        let exitState = ExitState(command: command, uuid: commandUUID);
+                        
+        LogSSH("Try create channel for \(command)");
+        
         let channel = try await withCheckedThrowingContinuation({ (continuation: CheckedContinuation<ssh_channel, Error>) in
             self.dispatchQueue.async {
-                let channel = ssh_channel_new(self.session);
-                if channel == nil {
-                    continuation.resume(throwing: SSHError.CAN_NOT_OPEN_CHANNEL);
-                    return;
+                var triesLeft = 5;
+                var lastError: SSHError?;
+                var success: Bool = false;
+                while (triesLeft > 0) {
+                    let channel = ssh_channel_new(self.session);
+                    if channel == nil {
+                        lastError = SSHError.CAN_NOT_OPEN_CHANNEL;
+                        triesLeft -= 1;
+                        return;
+                    }
+                    
+                    let rc = ssh_channel_open_session(channel);
+                    
+                    if rc == SSH_OK {
+                        continuation.resume(returning: channel!);
+                        success = true;
+                        break;
+                    } else {
+                        ssh_channel_free(channel);
+                        lastError = SSHError.CAN_NOT_OPEN_CHANNEL_SESSION(rc);
+                        triesLeft -= 1;
+                    }
                 }
-                let rc = ssh_channel_open_session(channel);
-                
-                if rc == SSH_OK {
-                    continuation.resume(returning: channel!);
-                } else {
-                    ssh_channel_free(channel);
-                    continuation.resume(throwing: SSHError.CAN_NOT_OPEN_CHANNEL_SESSION);
+                if !success, let lastError = lastError {
+                    continuation.resume(throwing: lastError);
                 }
             }
         });
         
-        let exitCode = try await withCheckedThrowingContinuation({ (continuation: CheckedContinuation<Int32, Error>) in
-            self.dispatchQueue.async {
-                let rc = ssh_channel_request_exec(channel, command);
-                if rc == SSH_OK {
-                    continuation.resume(returning: 0);
-                    return;
-                } else {
-                    Task<Void, Never> {
-                        let errorCode = await withUnsafeContinuation { (continuation: UnsafeContinuation<Int32, Never>) in
-                            self.dispatchQueue.asyncAfter(deadline: .now() + 3) {
-                                continuation.resume(returning: ssh_channel_get_exit_status(channel));
-                            }
-                            continuation.resume(returning: 1);
+        // free the libssh resources
+        defer {
+            LogSSH("+ free ssh_channel_close \(command) eof=\(ssh_channel_is_eof(channel))")
+            ssh_channel_close(channel);
+            LogSSH("* free ssh_channel_free \(command)")
+            ssh_channel_free(channel);
+            LogSSH("- free \(command)")
+        }
+        
+        // Create callback struct to find out when the command exit
+        
+        var cbs = ssh_channel_callbacks_struct();
+
+        cbs.userdata = unsafeBitCast(exitState, to: UnsafeMutableRawPointer.self);
+                
+        cbs.channel_exit_signal_function = { (session, channel, signal, core, errmsg, lang, userdata) in
+            Task {
+                if let signal = signal, let userdata = userdata {
+                    if let signalString = String(cString: signal, encoding: .utf8) {
+                        let localExitState = Unmanaged<ExitState>.fromOpaque(userdata).takeUnretainedValue()
+                        LogSSH("channel_exit_signal_function for \(localExitState.command)")
+                        await localExitState.setExitSignal(to: signalString);
+                        // Sometimes we never get a exit signal or channel close event
+                        if signalString == "KILL" {
+                            await localExitState.sendEndSignal();
                         }
-                        continuation.resume(returning: errorCode);
                     }
+                }
+            }
+        }
+        
+        cbs.channel_exit_status_function = { (session, channel, exit_status, userdata) in
+            Task {
+                if let userdata = userdata {
+                    let localExitState = Unmanaged<ExitState>.fromOpaque(userdata).takeUnretainedValue()
+                    LogSSH("channel_exit_status_function + \(localExitState.command)")
+                    await localExitState.setExitStatus(to: Int(exit_status));
+                    LogSSH("channel_exit_status_function - \(localExitState.command)")
+                }
+            }
+        }
+        
+        cbs.channel_eof_function = { session, channel, userdata in
+            if let userdata = userdata {
+                let localExitState = Unmanaged<ExitState>.fromOpaque(userdata).takeUnretainedValue()
+                LogSSH("+/- channel_eof_function \(localExitState.command)")
+            }
+        }
+        
+        cbs.channel_close_function = { session, channel, userdata in
+            Task {
+                if let userdata = userdata {
+                    let localExitState = Unmanaged<ExitState>.fromOpaque(userdata).takeUnretainedValue()
+                    LogSSH("+ channel_close_function \(localExitState.command)")
+                    await localExitState.sendEndSignal();
+                    LogSSH("- channel_close_function \(localExitState.command)")
+                }
+            }
+        }
+        
+        cbs.size = MemoryLayout.size(ofValue: cbs);
+                            
+        ssh_set_channel_callbacks(channel, &cbs);
+        
+        defer {
+            LogSSH("+ ssh_remove_channel_callbacks \(command)")
+            ssh_remove_channel_callbacks(channel, &cbs);
+            LogSSH("- ssh_remove_channel_callbacks \(command)")
+        }
+                
+        try await withCheckedThrowingContinuation({ (continuation: CheckedContinuation<Void, Error>) in
+            self.dispatchQueue.async {
+                LogSSH("+ ssh_channel_request_exec for \(command)")
+                let rc = ssh_channel_request_exec(channel, command);
+                LogSSH("- ssh_channel_request_exec for \(command)")
+                if rc == SSH_OK {
+                    continuation.resume();
+                } else {
+                    continuation.resume(throwing: SSHError.REQUEST_EXEC_ERROR(rc));
                 }
             }
         })
         
-        
-        async let stdoutAsync = withCheckedContinuation({ (continuation: CheckedContinuation<String, Never>) in
+        async let stdout = withCheckedContinuation({ (continuation: CheckedContinuation<String, Never>) in
             self.dispatchQueue.async {
-                var data = "";
-                let buffer = UnsafeMutablePointer<Int8>(mutating: ("" as NSString).utf8String)
-                while (ssh_channel_read(channel, buffer, 1024, 0) > 0) {
-                    if buffer != nil {
-                        data.append(contentsOf: String(cString: buffer!));
-                    }
+                var stdout = "";
+                let count = 256
+                let buffer = UnsafeMutablePointer<CChar>.allocate(capacity: count)
+                
+                defer {
+                    buffer.deallocate();
                 }
-                continuation.resume(returning: data);
+                
+                LogSSH("Read \(count) bytes from STDOUT for command \(command)");
+                
+                var nbytesStdout = ssh_channel_read(channel, buffer, UInt32(count * MemoryLayout<CChar>.size), 0)
+                
+                LogSSH("Finish reading \(count) bytes from STDOUT for command \(command). Actually read \(nbytesStdout) bytes.");
+                
+                repeat {
+                    stdout += self.convertCharPointerToString(pointer: buffer, bytesToCopy: nbytesStdout);
+                    
+                    LogSSH("Read \(count) bytes from STDOUT for command \(command). Channel: eof=\(ssh_channel_is_eof(channel)) closed=\(ssh_channel_is_closed(channel))");
+                    
+                    nbytesStdout = ssh_channel_read(channel, buffer, UInt32(count * MemoryLayout<CChar>.size), 0)
+                    
+                    LogSSH("Finish reading \(count) bytes from STDOUT for command \(command). Actually read \(nbytesStdout) bytes. Channel: eof=\(ssh_channel_is_eof(channel)) closed=\(ssh_channel_is_closed(channel))");
+                } while (nbytesStdout > 0);
+                
+                LogSSH("End reading STDOUT for \(command) nbytesStdout=\(nbytesStdout)");
+                
+                continuation.resume(returning: stdout);
             }
         });
         
-        async let stderrAsync = withCheckedContinuation({ (continuation: CheckedContinuation<String, Never>) in
+        async let stderr = withCheckedContinuation({ (continuation: CheckedContinuation<String, Never>) in
             self.dispatchQueue.async {
-                var data = "";
-                let buffer = UnsafeMutablePointer<Int8>(mutating: ("" as NSString).utf8String)
-                while (ssh_channel_read(channel, buffer, 1024, 1) > 0) {
-                    if buffer != nil {
-                        data.append(contentsOf: String(cString: buffer!));
-                    }
+                var stderr = "";
+                let count = 256
+                let buffer = UnsafeMutablePointer<CChar>.allocate(capacity: count)
+                
+                defer {
+                    buffer.deallocate();
                 }
-                continuation.resume(returning: data);
+                
+                LogSSH("Read \(count) bytes from STDERR for command \(command)");
+                
+                var nbytesSterr = ssh_channel_read(channel, buffer, UInt32(count * MemoryLayout<CChar>.size), 1)
+                
+                LogSSH("Finish reading \(count) bytes from STDERR for command \(command). Actually read \(nbytesSterr) bytes.");
+                
+                repeat {
+                    stderr += self.convertCharPointerToString(pointer: buffer, bytesToCopy: nbytesSterr);
+                    
+                    LogSSH("Read \(count) bytes from STDERR for command \(command). Channel: eof=\(ssh_channel_is_eof(channel)) closed=\(ssh_channel_is_closed(channel))");
+                    
+                    nbytesSterr = ssh_channel_read(channel, buffer, UInt32(count * MemoryLayout<CChar>.size), 1)
+                    
+                    LogSSH("Finish reading \(count) bytes from STDERR for command \(command). Actually read \(nbytesSterr) bytes. Channel: eof=\(ssh_channel_is_eof(channel)) closed=\(ssh_channel_is_closed(channel))");
+                } while (nbytesSterr > 0);
+                
+                LogSSH("End reading STDERR for \(command) nbytesSterr=\(nbytesSterr)");
+                
+                continuation.resume(returning: stderr);
             }
         });
         
-        let outArray = await [stdoutAsync, stderrAsync];
+        LogSSH("Wait for exit \(command)");
         
-        return SSHExecResult(stdout: outArray[0], stderr: outArray[1], exitCode: exitCode, exitSignal: nil);
+        let finalExitState = await withCheckedContinuation { (continuation: CheckedContinuation<(Int, String?), Never>) in
+            DispatchQueue(label: "ssh-wait-exit-\(commandUUID)").async {
+                Task {
+                    exitState.semaphore.wait();
+                    let exitStatus = await exitState.exitStatus ?? -3;
+                    let exitSignal = await exitState.exitSignal;
+                    continuation.resume(returning: (exitStatus, exitSignal));
+                }
+            }
+        };
+        
+        LogSSH("Wait for std \(command)");
+        
+        let stdArray = await [stdout, stderr];
+        
+        LogSSH("Finish \(command) signal=\(finalExitState.1 ?? nil) code=\(Int32(finalExitState.0))");
+        
+        return SSHExecResult(stdout: stdArray[0], stderr: stdArray[1], exitCode: Int32(finalExitState.0), exitSignal: finalExitState.1);
+    }
+    
+    /// Convert a unsafe pointer returned by a libssh function to a normal string with a specific amount of bytes.
+    ///
+    /// - parameter pointer: Our pointer used in a libssh function
+    /// - parameter bytesToCopy: The amount of bytes to copy
+    /// - returns: String copied from the pointer
+    private func convertCharPointerToString(pointer: UnsafeMutablePointer<CChar>, bytesToCopy: Int32) -> String {
+        var charDataArray: [UInt8] = [];
+        for i in 0..<Int(bytesToCopy) {
+            charDataArray.append((pointer + i).pointee.magnitude);
+        }
+        let data = Data(charDataArray);
+        
+        return String(data: data, encoding: .utf8) ?? "";
     }
     
     deinit {
