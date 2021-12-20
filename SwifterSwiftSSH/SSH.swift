@@ -58,11 +58,7 @@ public class SSH {
                 throw SSHError.CAN_NOT_OPEN_SESSION;
             }
         }
-        
-        let fd = ssh_get_fd(session);
-        
-        LogSSH("FD: \(fd)");
-        
+                        
         var ssh_callbacks = ssh_callbacks_struct();
         
         ssh_callbacks.channel_open_request_auth_agent_function = { session, userdata in

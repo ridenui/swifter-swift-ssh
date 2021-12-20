@@ -76,8 +76,6 @@
 		FB51F90A276D355D00D8C262 /* libssh.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssh.a; path = "Libraries-iOS/lib/libssh.a"; sourceTree = "<group>"; };
 		FB51F90B276D355D00D8C262 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = "Libraries-iOS/lib/libssl.a"; sourceTree = "<group>"; };
 		FB51F90C276D355D00D8C262 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "Libraries-iOS/lib/libcrypto.a"; sourceTree = "<group>"; };
-		FB51F916276D3B9400D8C262 /* swifter-swift-ssh-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "swifter-swift-ssh-Bridging-Header.h"; sourceTree = "<group>"; };
-		FB51F917276D3B9400D8C262 /* swifter-swift-ssh-macos-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "swifter-swift-ssh-macos-Bridging-Header.h"; sourceTree = "<group>"; };
 		FB51F918276D3B9400D8C262 /* bridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = bridge.m; sourceTree = "<group>"; };
 		FB51F91B276D3F1900D8C262 /* SSHOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHOptions.swift; sourceTree = "<group>"; };
 		FB996E17276FAD7800F87614 /* libSwifterSwiftSSH-macos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libSwifterSwiftSSH-macos.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -151,8 +149,6 @@
 				FB1DCD37276D593C00B40636 /* SSHErrors.swift */,
 				FB1DCD3A276D651F00B40636 /* SSHResult.swift */,
 				FB51F918276D3B9400D8C262 /* bridge.m */,
-				FB51F916276D3B9400D8C262 /* swifter-swift-ssh-Bridging-Header.h */,
-				FB51F917276D3B9400D8C262 /* swifter-swift-ssh-macos-Bridging-Header.h */,
 			);
 			path = SwifterSwiftSSH;
 			sourceTree = "<group>";
@@ -487,7 +483,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
-				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/SwifterSwiftSSH/swifter-swift-ssh-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Libraries-iOS/include/swifter-swift-ssh-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -516,7 +512,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
-				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/SwifterSwiftSSH/swifter-swift-ssh-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Libraries-iOS/include/swifter-swift-ssh-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -549,7 +545,7 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
-				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/SwifterSwiftSSH/swifter-swift-ssh-macos-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Libraries/include/swifter-swift-ssh-macos-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "";
@@ -583,7 +579,7 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
-				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/SwifterSwiftSSH/swifter-swift-ssh-macos-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Libraries/include/swifter-swift-ssh-macos-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "";
 			};

@@ -24,7 +24,7 @@ Pod::Spec.new do |spec|
   #   * Try to keep it short, snappy and to the point.
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
-  spec.description  = spec.summary
+  spec.description  = "This swift ssh client is build on top of libssh and uses swift's new async/await concurrency feature."
   spec.homepage     = "https://github.com/ridenui/swifter-swift-ssh"
   # spec.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
 
@@ -36,8 +36,7 @@ Pod::Spec.new do |spec|
   #  Popular ones are 'MIT', 'BSD' and 'Apache License, Version 2.0'.
   #
 
-  spec.license      = "MIT"
-  # spec.license      = { :type => "MIT", :file => "FILE_LICENSE" }
+  spec.license      = { :type => "MIT", :file => "LICENSE" }
 
 
   # ――― Author Metadata  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -78,8 +77,8 @@ Pod::Spec.new do |spec|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  #spec.source       = { :git => "https://github.com/ridenui/swifter-swift-ssh.git", :tag => "#{spec.version}" }
-  spec.source = { :git => '.' }
+  spec.source       = { :git => "https://github.com/ridenui/swifter-swift-ssh.git", :tag => "#{spec.version}" }
+  # spec.source = { :git => '.' }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -143,8 +142,8 @@ Pod::Spec.new do |spec|
   spec.ios.deployment_target  = '13.0'
   spec.ios.vendored_libraries = 'Libraries-iOS/lib/libssh.a', 'Libraries-iOS/lib/libssl.a', 'Libraries-iOS/lib/libcrypto.a'
   # spec.ios.libraries          = "ssh", "ssl"
-  spec.ios.source_files       = 'Libraries', 'Libraries/**/*.h'
-  spec.ios.public_header_files  = 'Libraries/**/*.h'
+  spec.ios.source_files       = 'Libraries-iOS', 'Libraries-iOS/**/*.h'
+  spec.ios.public_header_files  = 'Libraries-iOS/**/*.h'
   
   spec.osx.deployment_target  = '11.0'
   spec.osx.vendored_libraries = 'Libraries/lib/libssh.a', 'Libraries/lib/libssl.a', 'Libraries/lib/libcrypto.a'
@@ -156,5 +155,6 @@ Pod::Spec.new do |spec|
   
   spec.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
   
-  spec.header_mappings_dir = 'Libraries/include'
+  spec.osx.header_mappings_dir = 'Libraries/include'
+  spec.ios.header_mappings_dir = 'Libraries-iOS/include'
 end
