@@ -198,6 +198,8 @@ public class SSH {
             var exitSignal: String?;
             
             let semaphore = DispatchSemaphore(value: 0);
+            let semaphoreStdout = DispatchSemaphore(value: 0);
+            let semaphoreStderr = DispatchSemaphore(value: 0);
             
             let command: String;
             let uuid: String;
@@ -383,7 +385,7 @@ public class SSH {
             localDispatch.async {
                 Task {
                     var stdout = "";
-                    let count = 256
+                    let count = 65536
                     let buffer = UnsafeMutablePointer<CChar>.allocate(capacity: count)
                     
                     defer {
@@ -405,10 +407,12 @@ public class SSH {
                             stdout += self.convertCharPointerToString(pointer: buffer, bytesToCopy: nbytes);
                         }
                         
-                        try await Task.sleep(nanoseconds: 100);
+                        try await Task.sleep(nanoseconds: 1000);
                     }
                     
                     LogSSH("End reading STDOUT for \(command)");
+                    
+                    exitState.semaphoreStdout.signal();
                     
                     continuation.resume(returning: stdout);
                 }
@@ -419,7 +423,7 @@ public class SSH {
             localDispatch.async {
                 Task {
                     var stderr = "";
-                    let count = 256
+                    let count = 65536
                     let buffer = UnsafeMutablePointer<CChar>.allocate(capacity: count)
                     
                     defer {
@@ -441,10 +445,12 @@ public class SSH {
                             stderr += self.convertCharPointerToString(pointer: buffer, bytesToCopy: nbytes);
                         }
                         
-                        try await Task.sleep(nanoseconds: 100);
+                        try await Task.sleep(nanoseconds: 1000);
                     }
                     
                     LogSSH("End reading STDERR for \(command)");
+                    
+                    exitState.semaphoreStderr.signal();
                     
                     continuation.resume(returning: stderr);
                 }
@@ -454,10 +460,12 @@ public class SSH {
         LogSSH("Wait for exit \(command)");
         
         let finalExitState = await withCheckedContinuation { (continuation: CheckedContinuation<(Int, String?), Never>) in
-            DispatchQueue(label: "ssh-wait-exit-\(commandUUID)").async {
+            localDispatch.async {
                 Task {
-                    exitState.semaphore.wait();
-                    let exitStatus = await exitState.exitStatus ?? -3;
+                    exitState.semaphoreStdout.wait();
+                    exitState.semaphoreStderr.wait()
+                    let _ = exitState.semaphore.wait(timeout: .now() + 0.1);
+                    let exitStatus = await exitState.exitStatus ?? Int(ssh_channel_get_exit_status(channel));
                     let exitSignal = await exitState.exitSignal;
                     continuation.resume(returning: (exitStatus, exitSignal));
                 }
