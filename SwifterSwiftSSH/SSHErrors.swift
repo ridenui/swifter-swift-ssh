@@ -18,6 +18,7 @@ public enum SSHError: Error {
     case REQUEST_EXEC_ERROR(Int32)
     /// General ssh error
     case SSH_ERROR
+    case SSH_IO_ERROR
     
     public var errorDescription: String? {
         switch self {
@@ -39,6 +40,8 @@ public enum SSHError: Error {
             return "REQUEST_EXEC_ERROR"
         case .SSH_ERROR:
             return "General SSH Error"
+        case .SSH_IO_ERROR:
+            return "SSH io error"
         }
     }
 }

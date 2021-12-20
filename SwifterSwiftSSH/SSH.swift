@@ -198,8 +198,7 @@ public class SSH {
             var exitSignal: String?;
             
             let semaphore = DispatchSemaphore(value: 0);
-            let semaphoreStdout = DispatchSemaphore(value: 0);
-            let semaphoreStderr = DispatchSemaphore(value: 0);
+            let semaphoreStd = DispatchSemaphore(value: 0);
             
             let command: String;
             let uuid: String;
@@ -381,78 +380,55 @@ public class SSH {
         self.cmdLock.unlock();
         regularUnlock = true;
         
-        async let stdout = withCheckedThrowingContinuation({ (continuation: CheckedContinuation<String, Error>) in
+        async let std = withCheckedThrowingContinuation({ (continuation: CheckedContinuation<(stdout: String, stderr: String), Error>) in
             localDispatch.async {
                 Task {
                     var stdout = "";
-                    let count = 65536
-                    let buffer = UnsafeMutablePointer<CChar>.allocate(capacity: count)
-                    
-                    defer {
-                        buffer.deallocate();
-                    }
-                    
-                    while (ssh_channel_is_open(channel) > 0 && ssh_channel_is_eof(channel) != 1) {
-                        LogSSH("Read \(count) bytes from STDOUT for command \(command)");
-                        
-                        let nbytes = ssh_channel_read_nonblocking(channel, buffer, UInt32(count * MemoryLayout<CChar>.size), 0);
-                        
-                        LogSSH("Finish reading \(count) bytes from STDOUT for command \(command). Actually read \(nbytes) bytes.");
-                        
-                        if nbytes < 0 {
-                            break;
-                        }
-                        
-                        if nbytes > 0 {
-                            stdout += self.convertCharPointerToString(pointer: buffer, bytesToCopy: nbytes);
-                        }
-                        
-                        try await Task.sleep(nanoseconds: 1000);
-                    }
-                    
-                    LogSSH("End reading STDOUT for \(command)");
-                    
-                    exitState.semaphoreStdout.signal();
-                    
-                    continuation.resume(returning: stdout);
-                }
-            }
-        });
-        
-        async let stderr = withCheckedThrowingContinuation({ (continuation: CheckedContinuation<String, Error>) in
-            localDispatch.async {
-                Task {
                     var stderr = "";
                     let count = 65536
-                    let buffer = UnsafeMutablePointer<CChar>.allocate(capacity: count)
+                    let bufferStdout = UnsafeMutablePointer<CChar>.allocate(capacity: count)
+                    let bufferStderr = UnsafeMutablePointer<CChar>.allocate(capacity: count)
                     
                     defer {
-                        buffer.deallocate();
+                        bufferStdout.deallocate();
+                        bufferStderr.deallocate();
                     }
                     
                     while (ssh_channel_is_open(channel) > 0 && ssh_channel_is_eof(channel) != 1) {
-                        LogSSH("Read \(count) bytes from STDERR for command \(command)");
+                        LogSSH("Read \(count) bytes from STD for command \(command)");
                         
-                        let nbytes = ssh_channel_read_nonblocking(channel, buffer, UInt32(count * MemoryLayout<CChar>.size), 1);
+                        let nbytesStdout = ssh_channel_read_nonblocking(channel, bufferStdout, UInt32(count * MemoryLayout<CChar>.size), 0);
                         
-                        LogSSH("Finish reading \(count) bytes from STDERR for command \(command). Actually read \(nbytes) bytes.");
+                        let nbytesStderr = ssh_channel_read_nonblocking(channel, bufferStderr, UInt32(count * MemoryLayout<CChar>.size), 1);
                         
-                        if nbytes < 0 {
+                        LogSSH("Finish reading \(count) bytes from STDOUT for command \(command). Actually read \(nbytesStdout) bytes.");
+                        LogSSH("Finish reading \(count) bytes from STDERR for command \(command). Actually read \(nbytesStderr) bytes.");
+                    
+                        if nbytesStdout == SSH_EOF, nbytesStderr == SSH_EOF {
                             break;
                         }
                         
-                        if nbytes > 0 {
-                            stderr += self.convertCharPointerToString(pointer: buffer, bytesToCopy: nbytes);
+                        if nbytesStdout > 0 {
+                            stdout += self.convertCharPointerToString(pointer: bufferStdout, bytesToCopy: nbytesStdout);
+                        }
+                        if nbytesStderr > 0 {
+                            stderr += self.convertCharPointerToString(pointer: bufferStderr, bytesToCopy: nbytesStderr);
+                        }
+                        
+                        if nbytesStdout < 0 || nbytesStderr < 0 {
+                            exitState.semaphoreStd.signal();
+                            continuation.resume(returning: (stdout, stderr));
+                            return;
                         }
                         
                         try await Task.sleep(nanoseconds: 1000);
                     }
                     
-                    LogSSH("End reading STDERR for \(command)");
+                    LogSSH("End reading STD for \(command)");
                     
-                    exitState.semaphoreStderr.signal();
+                    exitState.semaphoreStd.signal();
                     
-                    continuation.resume(returning: stderr);
+                    continuation.resume(returning: (stdout, stderr));
                 }
             }
         });
@@ -462,8 +438,7 @@ public class SSH {
         let finalExitState = await withCheckedContinuation { (continuation: CheckedContinuation<(Int, String?), Never>) in
             localDispatch.async {
                 Task {
-                    exitState.semaphoreStdout.wait();
-                    exitState.semaphoreStderr.wait()
+                    exitState.semaphoreStd.wait();
                     let _ = exitState.semaphore.wait(timeout: .now() + 0.1);
                     let exitStatus = await exitState.exitStatus ?? Int(ssh_channel_get_exit_status(channel));
                     let exitSignal = await exitState.exitSignal;
@@ -474,11 +449,9 @@ public class SSH {
         
         LogSSH("Wait for std \(command)");
         
-        let stdArray = try await [stdout, stderr];
-        
-        LogSSH("Finish \(command) signal=\(finalExitState.1 ?? nil) code=\(Int32(finalExitState.0))");
-        
-        return SSHExecResult(stdout: stdArray[0], stderr: stdArray[1], exitCode: Int32(finalExitState.0), exitSignal: finalExitState.1);
+        let stdArray = try await std;
+                
+        return SSHExecResult(stdout: stdArray.stdout, stderr: stdArray.stderr, exitCode: Int32(finalExitState.0), exitSignal: finalExitState.1);
     }
     
     /// Convert a unsafe pointer returned by a libssh function to a normal string with a specific amount of bytes.
