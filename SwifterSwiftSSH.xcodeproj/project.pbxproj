@@ -31,6 +31,8 @@
 		FBAE5ADF277148C300A591F0 /* DispatchQueue+currentLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAE5ADD277148B400A591F0 /* DispatchQueue+currentLabel.swift */; };
 		FBAE5AE1277148D000A591F0 /* SSHLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAE5AE0277148D000A591F0 /* SSHLog.swift */; };
 		FBAE5AE22771492E00A591F0 /* SSHLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAE5AE0277148D000A591F0 /* SSHLog.swift */; };
+		FBBB492627721BCB00D07904 /* SSHExecDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBBB492527721BCB00D07904 /* SSHExecDelegate.swift */; };
+		FBBB492727721BCB00D07904 /* SSHExecDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBBB492527721BCB00D07904 /* SSHExecDelegate.swift */; };
 		FBF87B7E27711D4700D9D8E2 /* SSHConnectionPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF87B7D27711D4700D9D8E2 /* SSHConnectionPool.swift */; };
 		FBF87B7F27711D4B00D9D8E2 /* SSHConnectionPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF87B7D27711D4700D9D8E2 /* SSHConnectionPool.swift */; };
 		FBF87B8127711D6900D9D8E2 /* SSHConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF87B8027711D6900D9D8E2 /* SSHConnection.swift */; };
@@ -94,6 +96,7 @@
 		FB996E2E276FB22C00F87614 /* TestErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestErrors.swift; sourceTree = "<group>"; };
 		FBAE5ADD277148B400A591F0 /* DispatchQueue+currentLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DispatchQueue+currentLabel.swift"; sourceTree = "<group>"; };
 		FBAE5AE0277148D000A591F0 /* SSHLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHLog.swift; sourceTree = "<group>"; };
+		FBBB492527721BCB00D07904 /* SSHExecDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHExecDelegate.swift; sourceTree = "<group>"; };
 		FBF87B7D27711D4700D9D8E2 /* SSHConnectionPool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHConnectionPool.swift; sourceTree = "<group>"; };
 		FBF87B8027711D6900D9D8E2 /* SSHConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHConnection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -163,6 +166,7 @@
 				FBF87B7D27711D4700D9D8E2 /* SSHConnectionPool.swift */,
 				FBF87B8027711D6900D9D8E2 /* SSHConnection.swift */,
 				FBAE5ADD277148B400A591F0 /* DispatchQueue+currentLabel.swift */,
+				FBBB492527721BCB00D07904 /* SSHExecDelegate.swift */,
 				FBAE5AE0277148D000A591F0 /* SSHLog.swift */,
 				FB51F918276D3B9400D8C262 /* bridge.m */,
 			);
@@ -321,6 +325,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FBBB492627721BCB00D07904 /* SSHExecDelegate.swift in Sources */,
 				FB51F919276D3B9400D8C262 /* bridge.m in Sources */,
 				FB1DCD38276D593C00B40636 /* SSHErrors.swift in Sources */,
 				FBF87B8127711D6900D9D8E2 /* SSHConnection.swift in Sources */,
@@ -337,6 +342,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FBBB492727721BCB00D07904 /* SSHExecDelegate.swift in Sources */,
 				FB996E0B276FAD7800F87614 /* bridge.m in Sources */,
 				FB996E0C276FAD7800F87614 /* SSHErrors.swift in Sources */,
 				FBF87B8227711D6900D9D8E2 /* SSHConnection.swift in Sources */,

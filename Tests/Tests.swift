@@ -85,7 +85,7 @@ class Tests: XCTestCase {
         let result = try await ssh.exec(command: "echo \"\(outputString)\"; exit 15;");
         print(result);
         
-        XCTAssert(result.exitCode == 15, "Return code should be 0");
+        XCTAssert(result.exitCode == 15, "Return code should be 15");
         
         XCTAssert(result.stdout == "\(outputString)\n", "Result stdout should match output");
         
@@ -138,24 +138,48 @@ class Tests: XCTestCase {
         await ssh.disconnect();
     }
     
-    func testSignal() async throws {
-        
+    func testCancelAndDelegate() async throws {
         guard let sshConfig = sshConfig else {
             throw TestErrors.CONFIG_IS_NIL
         }
+        
+        let uuid = UUID().uuidString;
 
         let ssh = SSH(options: sshConfig);
         
-        let uuid = UUID().uuidString;
+        actor Canceled {
+            var canceled = false;
+            
+            func setCanceled(to: Bool) {
+                self.canceled = to;
+            }
+        }
         
+        let canceled = Canceled();
         
-        async let command = ssh.exec(command: "echo \"\(uuid)\"; sleep 5; exit; 10;");
+        let delegate = SSHExecEventHandler { stdout in
+            print("stdout: \(stdout)");
+        } onStderr: { stderr in
+            print("stderr: \(stderr)");
+        } cancelFunction: { id in
+            DispatchQueue(label: "cancel").asyncAfter(deadline: .now() + 2) {
+                Task {
+                    try await ssh.cancel(id: id);
+                    await canceled.setCanceled(to: true);
+                }
+            }
+        }
+
         
-        async let killCommand = ssh.exec(command: "sleep 1; kill -SIGTERM `ps aux | grep \"\(uuid)\" | head -n 1 | awk '{print $2}'`; exit 4;");
+        let command = try await ssh.exec(command: "echo \"\(uuid)\" && sleep 30 && exit 10;", delegate: delegate);
         
-        let results = try await [command, killCommand];
+        while (await canceled.canceled == false) {
+            try await Task.sleep(nanoseconds: 10000);
+        }
         
-        print(results)
+        XCTAssert(command.stdout == "\(uuid)\n")
+        XCTAssertNotNil(command.exitSignal);
+        XCTAssert(command.exitSignal! == "KILL");
     }
     
 }

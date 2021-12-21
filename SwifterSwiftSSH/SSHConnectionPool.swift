@@ -79,6 +79,10 @@ class SSHConnectionPool {
     }
     
     public func exec(command: String) async throws -> SSHExecResult {
+        return try await self.exec(command: command, delegate: nil);
+    }
+    
+    public func exec(command: String, delegate: SSHExecDelegate?, notCancelable: Bool = false) async throws -> SSHExecResult {
         var connectionState = try await self.pool.getConnection()
         
         if connectionState == nil {
@@ -91,7 +95,7 @@ class SSHConnectionPool {
         let connection = connectionState!.connection;
         
         do {
-            let result = try await connection.exec(command: command);
+            let result = try await connection.exec(command: command, delegate: delegate, notCancelable: notCancelable);
             
             await self.pool.freeConnection(id: connectionState!.id);
             
