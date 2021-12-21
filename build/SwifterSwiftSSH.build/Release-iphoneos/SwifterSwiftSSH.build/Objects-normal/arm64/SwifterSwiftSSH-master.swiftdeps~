@@ -1,0 +1,9 @@
+version: "Apple Swift version 5.5.2 (swiftlang-1300.0.47.5 clang-1300.0.29.30)"
+options: "cef8ee46a271e1b2fb24f665263d1cb6f2819d55d039bc7c5e64c1c2d29bf902"
+build_start_time: [1639940360, 983031988]
+build_end_time: [1639940364, 188277959]
+inputs:
+  "/Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSH.swift": [1639937427, 384650707]
+  "/Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift": [1639873638, 952936649]
+  "/Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHOptions.swift": [1639840776, 970134735]
+  "/Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHResult.swift": [1639840614, 220188617]

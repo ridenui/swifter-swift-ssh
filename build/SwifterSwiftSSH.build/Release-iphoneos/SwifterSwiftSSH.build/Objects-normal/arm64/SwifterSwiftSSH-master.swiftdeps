@@ -1,9 +1,14 @@
 version: "Apple Swift version 5.5.2 (swiftlang-1300.0.47.5 clang-1300.0.29.30)"
 options: "cef8ee46a271e1b2fb24f665263d1cb6f2819d55d039bc7c5e64c1c2d29bf902"
-build_start_time: [1639940360, 983031988]
-build_end_time: [1639940364, 188277959]
+build_start_time: [1640130073, 696429967]
+build_end_time: [1640130075, 621289014]
 inputs:
-  "/Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSH.swift": [1639937427, 384650707]
-  "/Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift": [1639873638, 952936649]
-  "/Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHOptions.swift": [1639840776, 970134735]
+  "/Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/DispatchQueue+currentLabel.swift": [1640042852, 75702190]
+  "/Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSH.swift": [1640127079, 799769163]
+  "/Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift": [1640124373, 411343097]
+  "/Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnectionPool.swift": [1640116143, 56137084]
+  "/Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift": [1639959019, 988555192]
+  "/Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHExecDelegate.swift": [1640127890, 695802211]
+  "/Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHLog.swift": [1640042929, 388256549]
+  "/Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHOptions.swift": [1640130055, 851934432]
   "/Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHResult.swift": [1639840614, 220188617]
