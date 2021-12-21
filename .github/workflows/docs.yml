@@ -1,0 +1,21 @@
+name: Publish to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    timeout-minutes: 5
+    steps:
+    - uses: actions/checkout@v2
+    - name: Generate docs
+      run: jazzy --module SwifterSwiftSSH
+    - name: Publish generated content to GitHub Pages
+      uses: tsunematsu21/actions-publish-gh-pages@v1.0.2
+      with:
+        dir: docs
+        branch: gh-pages
+        token: ${{ secrets.ACCESS_TOKEN }}
+      
