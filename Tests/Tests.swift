@@ -33,6 +33,26 @@ class Tests: XCTestCase {
         self.sshConfig = SSHOption(host: host, port: port, username: username, password: password);
     }
     
+    func testConnectionActor() async throws {
+        guard let sshConfig = sshConfig else {
+            throw TestErrors.CONFIG_IS_NIL
+        }
+        
+        let ssh = try SSHConnection(options: sshConfig);
+        
+        let outputString = "Hello world!"
+        
+        let result = try await ssh.exec(command: "echo \"\(outputString)\"");
+        
+        print(result);
+                
+        XCTAssert(result.exitCode == 0, "Return code should be 0");
+        
+        XCTAssert(result.stdout == "\(outputString)\n", "Result stdout should match output");
+        
+        await ssh.disconnect();
+    }
+    
     func testHelloWorldCommand() async throws {
         guard let sshConfig = sshConfig else {
             throw TestErrors.CONFIG_IS_NIL
@@ -78,9 +98,7 @@ class Tests: XCTestCase {
         }
 
         let ssh = SSH(options: sshConfig);
-        
-//        try await ssh.exec(command: "ls -lah");
-        
+                
         // Command 1
         
         let outputString1 = "Hello world!"
@@ -89,9 +107,7 @@ class Tests: XCTestCase {
         let runCount1 = 5;
 
         async let command1 = ssh.exec(command: "for i in {1..\(runCount1)}; do echo \"\(outputString1)\"; echo \"\(outputStderr1)\" >&2; sleep 1; done; exit \(exitCode1);");
-        
-//        try await ssh.exec(command: "for i in {1..\(runCount1)}; do echo \"\(outputString1)\"; echo \"\(outputStderr1)\" >&2; sleep 1; done; exit \(exitCode1);")
-        
+                
 
         // Command 2
 
@@ -120,6 +136,26 @@ class Tests: XCTestCase {
         XCTAssert(result2.stderr == String(repeating: "\(outputStderr2)\n", count: runCount2), "Stderr should be '\(outputStderr2)' \(runCount2) times");
         
         await ssh.disconnect();
+    }
+    
+    func testSignal() async throws {
+        
+        guard let sshConfig = sshConfig else {
+            throw TestErrors.CONFIG_IS_NIL
+        }
+
+        let ssh = SSH(options: sshConfig);
+        
+        let uuid = UUID().uuidString;
+        
+        
+        async let command = ssh.exec(command: "echo \"\(uuid)\"; sleep 5; exit; 10;");
+        
+        async let killCommand = ssh.exec(command: "sleep 1; kill -SIGTERM `ps aux | grep \"\(uuid)\" | head -n 1 | awk '{print $2}'`; exit 4;");
+        
+        let results = try await [command, killCommand];
+        
+        print(results)
     }
     
 }

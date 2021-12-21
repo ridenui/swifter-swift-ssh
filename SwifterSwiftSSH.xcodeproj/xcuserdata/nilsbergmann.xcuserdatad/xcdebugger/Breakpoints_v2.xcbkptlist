@@ -23,47 +23,1280 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B5CA5890-1EE4-4781-8413-7EAF5FABB211"
-            shouldBeEnabled = "No"
+            uuid = "533B7C93-51D2-4DCE-BCC8-810A716BCFEC"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "SwifterSwiftSSH/SSH.swift"
+            filePath = "SwifterSwiftSSH/SSHConnection.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "423"
-            endingLineNumber = "423"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "connect()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "533B7C93-51D2-4DCE-BCC8-810A716BCFEC - 564839916aa25b2b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.connect() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "56"
+                  endingLineNumber = "56"
+                  offsetFromSymbolStart = "1293">
+               </Location>
+               <Location
+                  uuid = "533B7C93-51D2-4DCE-BCC8-810A716BCFEC - a9971912ed871d35"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.connect() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "56"
+                  endingLineNumber = "56"
+                  offsetFromSymbolStart = "733">
+               </Location>
+               <Location
+                  uuid = "533B7C93-51D2-4DCE-BCC8-810A716BCFEC - 564839916aa25bca"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.connect() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "55"
+                  endingLineNumber = "55"
+                  offsetFromSymbolStart = "1086">
+               </Location>
+               <Location
+                  uuid = "533B7C93-51D2-4DCE-BCC8-810A716BCFEC - a9971912ed871dd4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.connect() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "55"
+                  endingLineNumber = "55"
+                  offsetFromSymbolStart = "529">
+               </Location>
+               <Location
+                  uuid = "533B7C93-51D2-4DCE-BCC8-810A716BCFEC - 564839916aa25b08"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.connect() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "57"
+                  endingLineNumber = "57"
+                  offsetFromSymbolStart = "1277">
+               </Location>
+               <Location
+                  uuid = "533B7C93-51D2-4DCE-BCC8-810A716BCFEC - a9971912ed871d16"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.connect() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "57"
+                  endingLineNumber = "57"
+                  offsetFromSymbolStart = "529">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "63E2323D-C5C2-4222-9C85-B6D1752E4053"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SwifterSwiftSSH/SSHConnection.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "connect()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "63E2323D-C5C2-4222-9C85-B6D1752E4053 - 564839916aa25832"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.connect() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "63"
+                  endingLineNumber = "63"
+                  offsetFromSymbolStart = "1831">
+               </Location>
+               <Location
+                  uuid = "63E2323D-C5C2-4222-9C85-B6D1752E4053 - a9971912ed871e2c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.connect() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "63"
+                  endingLineNumber = "63"
+                  offsetFromSymbolStart = "1257">
+               </Location>
+               <Location
+                  uuid = "63E2323D-C5C2-4222-9C85-B6D1752E4053 - 564839916aa258d5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.connect() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "62"
+                  endingLineNumber = "62"
+                  offsetFromSymbolStart = "1624">
+               </Location>
+               <Location
+                  uuid = "63E2323D-C5C2-4222-9C85-B6D1752E4053 - a9971912ed871ecb"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.connect() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "62"
+                  endingLineNumber = "62"
+                  offsetFromSymbolStart = "1053">
+               </Location>
+               <Location
+                  uuid = "63E2323D-C5C2-4222-9C85-B6D1752E4053 - 564839916aa25851"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.connect() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "66"
+                  endingLineNumber = "66"
+                  offsetFromSymbolStart = "2022">
+               </Location>
+               <Location
+                  uuid = "63E2323D-C5C2-4222-9C85-B6D1752E4053 - a9971912ed871e4f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.connect() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "66"
+                  endingLineNumber = "66"
+                  offsetFromSymbolStart = "1260">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4127FFC6-A20E-4142-B881-56911EFC82CC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SwifterSwiftSSH/SSHConnection.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
+            landmarkName = "connect()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "4127FFC6-A20E-4142-B881-56911EFC82CC - 564839916aa25ea6"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.connect() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "75"
+                  endingLineNumber = "75"
+                  offsetFromSymbolStart = "4260">
+               </Location>
+               <Location
+                  uuid = "4127FFC6-A20E-4142-B881-56911EFC82CC - a9971912ed8718b8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.connect() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "75"
+                  endingLineNumber = "75"
+                  offsetFromSymbolStart = "3614">
+               </Location>
+               <Location
+                  uuid = "4127FFC6-A20E-4142-B881-56911EFC82CC - 38d27eac6c68daba"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(5) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.connect() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "75"
+                  endingLineNumber = "75"
+                  offsetFromSymbolStart = "1797">
+               </Location>
+               <Location
+                  uuid = "4127FFC6-A20E-4142-B881-56911EFC82CC - 564839916aa25959"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.connect() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "74"
+                  endingLineNumber = "74"
+                  offsetFromSymbolStart = "4053">
+               </Location>
+               <Location
+                  uuid = "4127FFC6-A20E-4142-B881-56911EFC82CC - a9971912ed871f47"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.connect() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "74"
+                  endingLineNumber = "74"
+                  offsetFromSymbolStart = "3410">
+               </Location>
+               <Location
+                  uuid = "4127FFC6-A20E-4142-B881-56911EFC82CC - 38d27eac6c68dd45"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(5) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.connect() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "74"
+                  endingLineNumber = "74"
+                  offsetFromSymbolStart = "1797">
+               </Location>
+               <Location
+                  uuid = "4127FFC6-A20E-4142-B881-56911EFC82CC - 564839916aa25ec5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.connect() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "78"
+                  endingLineNumber = "78"
+                  offsetFromSymbolStart = "4437">
+               </Location>
+               <Location
+                  uuid = "4127FFC6-A20E-4142-B881-56911EFC82CC - a9971912ed8718db"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.connect() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "78"
+                  endingLineNumber = "78"
+                  offsetFromSymbolStart = "3603">
+               </Location>
+               <Location
+                  uuid = "4127FFC6-A20E-4142-B881-56911EFC82CC - 38d27eac6c68dad9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(5) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.connect() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "78"
+                  endingLineNumber = "78"
+                  offsetFromSymbolStart = "1797">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F4718A24-7F72-4F6D-854D-9E00FEA69E95"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SwifterSwiftSSH/SSHConnection.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
+            landmarkName = "openChannel()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "F4718A24-7F72-4F6D-854D-9E00FEA69E95 - 11b5593712d0db26"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.openChannel() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "94"
+                  endingLineNumber = "94"
+                  offsetFromSymbolStart = "215">
+               </Location>
+               <Location
+                  uuid = "F4718A24-7F72-4F6D-854D-9E00FEA69E95 - 11b5593712d0da2e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.openChannel() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "102"
+                  endingLineNumber = "102"
+                  offsetFromSymbolStart = "560">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4E8D0EC8-045D-470E-B0B8-667BA3F857ED"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SwifterSwiftSSH/SSHConnection.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
+            landmarkName = "openChannel()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "4E8D0EC8-045D-470E-B0B8-667BA3F857ED - 11b5593712d0db85"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.openChannel() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "91"
+                  endingLineNumber = "91"
+                  offsetFromSymbolStart = "668">
+               </Location>
+               <Location
+                  uuid = "4E8D0EC8-045D-470E-B0B8-667BA3F857ED - 11b5593712d0db43"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.openChannel() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "97"
+                  endingLineNumber = "97"
+                  offsetFromSymbolStart = "1056">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4297F8A6-B165-46AD-97E7-3B3D4EA2DF71"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SwifterSwiftSSH/SSHConnection.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
+            landmarkName = "openChannel()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "4297F8A6-B165-46AD-97E7-3B3D4EA2DF71 - 11b5593712d0d85a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.openChannel() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "90"
+                  endingLineNumber = "90"
+                  offsetFromSymbolStart = "128">
+               </Location>
+               <Location
+                  uuid = "4297F8A6-B165-46AD-97E7-3B3D4EA2DF71 - 11b5593712d0db60"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.openChannel() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "96"
+                  endingLineNumber = "96"
+                  offsetFromSymbolStart = "282">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D3471285-7215-4ACF-B30F-CF45A11E5839"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SwifterSwiftSSH/SSHConnection.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
+            landmarkName = "openChannel()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "D3471285-7215-4ACF-B30F-CF45A11E5839 - 11b5593712d0da09"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.openChannel() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "103"
+                  endingLineNumber = "103"
+                  offsetFromSymbolStart = "413">
+               </Location>
+               <Location
+                  uuid = "D3471285-7215-4ACF-B30F-CF45A11E5839 - a9beab78d8b9f60b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.openChannel() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "103"
+                  endingLineNumber = "103"
+                  offsetFromSymbolStart = "309">
+               </Location>
+               <Location
+                  uuid = "D3471285-7215-4ACF-B30F-CF45A11E5839 - 11b5593712d0da2e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.openChannel() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "102"
+                  endingLineNumber = "102"
+                  offsetFromSymbolStart = "413">
+               </Location>
+               <Location
+                  uuid = "D3471285-7215-4ACF-B30F-CF45A11E5839 - a9beab78d8b9f62c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.openChannel() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "102"
+                  endingLineNumber = "102"
+                  offsetFromSymbolStart = "309">
+               </Location>
+               <Location
+                  uuid = "D3471285-7215-4ACF-B30F-CF45A11E5839 - 11b5593712d0d536"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.openChannel() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "110"
+                  endingLineNumber = "110"
+                  offsetFromSymbolStart = "779">
+               </Location>
+               <Location
+                  uuid = "D3471285-7215-4ACF-B30F-CF45A11E5839 - a9beab78d8b9f934"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.openChannel() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "110"
+                  endingLineNumber = "110"
+                  offsetFromSymbolStart = "309">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3A945BC3-0427-4D0B-B54E-E446BEEAF960"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SwifterSwiftSSH/SSHConnection.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "112"
+            endingLineNumber = "112"
+            landmarkName = "openChannel()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "3A945BC3-0427-4D0B-B54E-E446BEEAF960 - 11b5593712d0da4b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.openChannel() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "105"
+                  endingLineNumber = "105"
+                  offsetFromSymbolStart = "515">
+               </Location>
+               <Location
+                  uuid = "3A945BC3-0427-4D0B-B54E-E446BEEAF960 - a9beab78d8b9f649"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.openChannel() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "105"
+                  endingLineNumber = "105"
+                  offsetFromSymbolStart = "405">
+               </Location>
+               <Location
+                  uuid = "3A945BC3-0427-4D0B-B54E-E446BEEAF960 - 11b5593712d0da68"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.openChannel() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "104"
+                  endingLineNumber = "104"
+                  offsetFromSymbolStart = "515">
+               </Location>
+               <Location
+                  uuid = "3A945BC3-0427-4D0B-B54E-E446BEEAF960 - a9beab78d8b9f66a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.openChannel() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "104"
+                  endingLineNumber = "104"
+                  offsetFromSymbolStart = "405">
+               </Location>
+               <Location
+                  uuid = "3A945BC3-0427-4D0B-B54E-E446BEEAF960 - 11b5593712d0d570"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.openChannel() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "112"
+                  endingLineNumber = "112"
+                  offsetFromSymbolStart = "897">
+               </Location>
+               <Location
+                  uuid = "3A945BC3-0427-4D0B-B54E-E446BEEAF960 - a9beab78d8b9f972"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.openChannel() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "112"
+                  endingLineNumber = "112"
+                  offsetFromSymbolStart = "405">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8A37D220-8C14-4268-A411-0FFA4C2AF76E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SwifterSwiftSSH/SSHConnection.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "181"
+            endingLineNumber = "181"
             landmarkName = "exec(command:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "B5CA5890-1EE4-4781-8413-7EAF5FABB211 - b1a6e25a5c464dcf"
+                  uuid = "8A37D220-8C14-4268-A411-0FFA4C2AF76E - cf6da2112514825e"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 @Sendable () async throws -&gt; () in closure #1 () -&gt; () in closure #7 (Swift.CheckedContinuation&lt;Swift.String, Swift.Error&gt;) -&gt; () in implicit closure #1 @Sendable () async throws -&gt; Swift.String in SwifterSwiftSSH_macos.SSH.exec(command: Swift.String) async throws -&gt; SwifterSwiftSSH_macos.SSHExecResult"
+                  symbolName = "(4) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.exec(command: Swift.String) async throws -&gt; SwifterSwiftSSH_macos.SSHExecResult"
                   moduleName = "Tests"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSH.swift"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "411"
-                  endingLineNumber = "411"
-                  offsetFromSymbolStart = "3270">
+                  startingLineNumber = "178"
+                  endingLineNumber = "178"
+                  offsetFromSymbolStart = "2581">
                </Location>
                <Location
-                  uuid = "B5CA5890-1EE4-4781-8413-7EAF5FABB211 - afa53b2a388cb050"
+                  uuid = "8A37D220-8C14-4268-A411-0FFA4C2AF76E - 3087ec144f3a465c"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "(1) await resume partial function for closure #1 @Sendable () async throws -&gt; () in closure #1 () -&gt; () in closure #7 (Swift.CheckedContinuation&lt;Swift.String, Swift.Error&gt;) -&gt; () in implicit closure #1 @Sendable () async throws -&gt; Swift.String in SwifterSwiftSSH_macos.SSH.exec(command: Swift.String) async throws -&gt; SwifterSwiftSSH_macos.SSHExecResult"
+                  symbolName = "(6) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.exec(command: Swift.String) async throws -&gt; SwifterSwiftSSH_macos.SSHExecResult"
                   moduleName = "Tests"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSH.swift"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "411"
-                  endingLineNumber = "411"
-                  offsetFromSymbolStart = "2914">
+                  startingLineNumber = "178"
+                  endingLineNumber = "178"
+                  offsetFromSymbolStart = "1197">
+               </Location>
+               <Location
+                  uuid = "8A37D220-8C14-4268-A411-0FFA4C2AF76E - cf6da2112514bcc2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.exec(command: Swift.String) async throws -&gt; SwifterSwiftSSH_macos.SSHExecResult"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "166"
+                  endingLineNumber = "166"
+                  offsetFromSymbolStart = "1398">
+               </Location>
+               <Location
+                  uuid = "8A37D220-8C14-4268-A411-0FFA4C2AF76E - cf6da2112514bca3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.exec(command: Swift.String) async throws -&gt; SwifterSwiftSSH_macos.SSHExecResult"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "165"
+                  endingLineNumber = "165"
+                  offsetFromSymbolStart = "1398">
+               </Location>
+               <Location
+                  uuid = "8A37D220-8C14-4268-A411-0FFA4C2AF76E - cf6da211251483bb"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.exec(command: Swift.String) async throws -&gt; SwifterSwiftSSH_macos.SSHExecResult"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "173"
+                  endingLineNumber = "173"
+                  offsetFromSymbolStart = "1398">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "69BE75CE-33A1-47DC-92C3-D5534B2888FF"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SwifterSwiftSSH/SSHConnection.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "216"
+            endingLineNumber = "216"
+            landmarkName = "exec(command:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "69BE75CE-33A1-47DC-92C3-D5534B2888FF - cf6da211251486b0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.exec(command: Swift.String) async throws -&gt; SwifterSwiftSSH_macos.SSHExecResult"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "212"
+                  endingLineNumber = "212"
+                  offsetFromSymbolStart = "2984">
+               </Location>
+               <Location
+                  uuid = "69BE75CE-33A1-47DC-92C3-D5534B2888FF - 3087ec144f3a42b2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(6) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.exec(command: Swift.String) async throws -&gt; SwifterSwiftSSH_macos.SSHExecResult"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "212"
+                  endingLineNumber = "212"
+                  offsetFromSymbolStart = "1597">
+               </Location>
+               <Location
+                  uuid = "69BE75CE-33A1-47DC-92C3-D5534B2888FF - cf6da21125148724"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.exec(command: Swift.String) async throws -&gt; SwifterSwiftSSH_macos.SSHExecResult"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "200"
+                  endingLineNumber = "200"
+                  offsetFromSymbolStart = "1774">
+               </Location>
+               <Location
+                  uuid = "69BE75CE-33A1-47DC-92C3-D5534B2888FF - cf6da21125148705"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.exec(command: Swift.String) async throws -&gt; SwifterSwiftSSH_macos.SSHExecResult"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "199"
+                  endingLineNumber = "199"
+                  offsetFromSymbolStart = "1774">
+               </Location>
+               <Location
+                  uuid = "69BE75CE-33A1-47DC-92C3-D5534B2888FF - cf6da2112514865f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.exec(command: Swift.String) async throws -&gt; SwifterSwiftSSH_macos.SSHExecResult"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "209"
+                  endingLineNumber = "209"
+                  offsetFromSymbolStart = "1965">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F315C280-1F29-4433-9F4A-02D45E0ED5AD"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SwifterSwiftSSH/SSHConnection.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
+            landmarkName = "openChannel()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "F315C280-1F29-4433-9F4A-02D45E0ED5AD - 11b5593712d0d818"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.openChannel() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "88"
+                  endingLineNumber = "88"
+                  offsetFromSymbolStart = "111">
+               </Location>
+               <Location
+                  uuid = "F315C280-1F29-4433-9F4A-02D45E0ED5AD - 11b5593712d0dbe4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for SwifterSwiftSSH_macos.SSHConnection.openChannel() async throws -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "92"
+                  endingLineNumber = "92"
+                  offsetFromSymbolStart = "117">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B56835FD-945A-4ABC-B8AE-C2B2EF826A88"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SwifterSwiftSSH/SSHConnection.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
+            landmarkName = "cleanUpChannel()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "B56835FD-945A-4ABC-B8AE-C2B2EF826A88 - a15092aace391f7e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SwifterSwiftSSH_macos.SSHConnection.cleanUpChannel() -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "112"
+                  endingLineNumber = "112"
+                  offsetFromSymbolStart = "55">
+               </Location>
+               <Location
+                  uuid = "B56835FD-945A-4ABC-B8AE-C2B2EF826A88 - a15092aace391f7e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SwifterSwiftSSH_macos.SSHConnection.cleanUpChannel() -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "112"
+                  endingLineNumber = "112"
+                  offsetFromSymbolStart = "119">
+               </Location>
+               <Location
+                  uuid = "B56835FD-945A-4ABC-B8AE-C2B2EF826A88 - a15092aace391e76"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SwifterSwiftSSH_macos.SSHConnection.cleanUpChannel() -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "120"
+                  endingLineNumber = "120"
+                  offsetFromSymbolStart = "55">
+               </Location>
+               <Location
+                  uuid = "B56835FD-945A-4ABC-B8AE-C2B2EF826A88 - a15092aace391e76"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SwifterSwiftSSH_macos.SSHConnection.cleanUpChannel() -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "120"
+                  endingLineNumber = "120"
+                  offsetFromSymbolStart = "119">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8E10E75F-94FB-4241-97A0-9AF130D46393"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SwifterSwiftSSH/SSHConnection.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
+            landmarkName = "cleanUpChannel()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "8E10E75F-94FB-4241-97A0-9AF130D46393 - a15092aace391f5d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SwifterSwiftSSH_macos.SSHConnection.cleanUpChannel() -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "113"
+                  endingLineNumber = "113"
+                  offsetFromSymbolStart = "132">
+               </Location>
+               <Location
+                  uuid = "8E10E75F-94FB-4241-97A0-9AF130D46393 - a15092aace391e55"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SwifterSwiftSSH_macos.SSHConnection.cleanUpChannel() -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "121"
+                  endingLineNumber = "121"
+                  offsetFromSymbolStart = "132">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "48641EDB-6250-4FF0-A760-5219E26306B8"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SwifterSwiftSSH/SSHConnection.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "122"
+            endingLineNumber = "122"
+            landmarkName = "cleanUpChannel()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "48641EDB-6250-4FF0-A760-5219E26306B8 - a15092aace391e93"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SwifterSwiftSSH_macos.SSHConnection.cleanUpChannel() -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "115"
+                  endingLineNumber = "115"
+                  offsetFromSymbolStart = "307">
+               </Location>
+               <Location
+                  uuid = "48641EDB-6250-4FF0-A760-5219E26306B8 - a15092aace391deb"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SwifterSwiftSSH_macos.SSHConnection.cleanUpChannel() -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "123"
+                  endingLineNumber = "123"
+                  offsetFromSymbolStart = "307">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8D6365F9-FCE0-49F9-B7D4-733594BF57F1"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SwifterSwiftSSH/SSHConnection.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
+            landmarkName = "cleanUpChannel()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "8D6365F9-FCE0-49F9-B7D4-733594BF57F1 - a15092aace391e93"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SwifterSwiftSSH_macos.SSHConnection.cleanUpChannel() -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "115"
+                  endingLineNumber = "115"
+                  offsetFromSymbolStart = "307">
+               </Location>
+               <Location
+                  uuid = "8D6365F9-FCE0-49F9-B7D4-733594BF57F1 - a15092aace391deb"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SwifterSwiftSSH_macos.SSHConnection.cleanUpChannel() -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "123"
+                  endingLineNumber = "123"
+                  offsetFromSymbolStart = "307">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D71C023C-CCBD-4093-9F48-5F19E488827C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SwifterSwiftSSH/SSHConnection.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "124"
+            endingLineNumber = "124"
+            landmarkName = "cleanUpChannel()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "D71C023C-CCBD-4093-9F48-5F19E488827C - a15092aace391ef2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SwifterSwiftSSH_macos.SSHConnection.cleanUpChannel() -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "116"
+                  endingLineNumber = "116"
+                  offsetFromSymbolStart = "320">
+               </Location>
+               <Location
+                  uuid = "D71C023C-CCBD-4093-9F48-5F19E488827C - a15092aace391dca"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SwifterSwiftSSH_macos.SSHConnection.cleanUpChannel() -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "124"
+                  endingLineNumber = "124"
+                  offsetFromSymbolStart = "320">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "ECD1E2BC-2381-4A8D-98F5-5328229A4061"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SwifterSwiftSSH/SSHConnection.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
+            landmarkName = "cleanUpChannel()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "ECD1E2BC-2381-4A8D-98F5-5328229A4061 - a15092aace391e30"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SwifterSwiftSSH_macos.SSHConnection.cleanUpChannel() -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "118"
+                  endingLineNumber = "118"
+                  offsetFromSymbolStart = "365">
+               </Location>
+               <Location
+                  uuid = "ECD1E2BC-2381-4A8D-98F5-5328229A4061 - a15092aace391d08"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SwifterSwiftSSH_macos.SSHConnection.cleanUpChannel() -&gt; ()"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "126"
+                  endingLineNumber = "126"
+                  offsetFromSymbolStart = "365">
                </Location>
             </Locations>
          </BreakpointContent>
