@@ -16,7 +16,7 @@
     <a title="SwifterSwiftSSH  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">SwifterSwiftSSH 1.0.0 Docs</a> (57% documented)</p>
+        <p><a href="index.html">SwifterSwiftSSH 1.0 Docs</a> (57% documented)</p>
         <div class="header-right">
           <form role="search" action="search.json">
             <input type="text" placeholder="Search documentation" data-typeahead>
@@ -79,15 +79,33 @@
           <section class="section">
             
             <h1 id='swifterswiftssh' class='heading'>SwifterSwiftSSH</h1>
-<h3 id='a-swift-ssh-client-with-libssh' class='heading'>A swift ssh client with libssh</h3>
 
-<p>This swift ssh client is build on top of libssh and uses swift&rsquo;s new async/await concurrency feature.</p>
-<h3 id='installation' class='heading'>Installation</h3>
-<pre class="highlight ruby"><code><span class="n">pod</span> <span class="s1">'SwifterSwiftSSH'</span>
+<p><img src="https://img.shields.io/cocoapods/v/SwifterSwiftSSH?style=for-the-badge" alt="Pod Version"> <img src="https://img.shields.io/cocoapods/l/SwifterSwiftSSH?style=for-the-badge" alt="License"> <a href="https://ridenui.github.io/swifter-swift-ssh"><img src="https://img.shields.io/badge/-Docs-blueviolet" alt="Docs"></a></p>
+<h3 id='requirements' class='heading'>Requirements</h3>
+
+<ul>
+<li>XCode &gt;= 13.2.1</li>
+<li>Swift Toolchain &gt;= 5.5.2</li>
+</ul>
+<h3 id='basic-usage' class='heading'>Basic usage</h3>
+
+<p>Podfile:</p>
+<pre class="highlight plaintext"><code>pod 'SwifterSwiftSSH'
 </code></pre>
-<h3 id='authors' class='heading'>Authors</h3>
 
-<p>Nils Bergmann</p>
+<p>Swift:</p>
+<pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">SwifterSwiftSSH</span>
+
+<span class="c1">// ...</span>
+
+<span class="k">let</span> <span class="nv">options</span> <span class="o">=</span> <span class="kt">SSHOption</span><span class="p">(</span><span class="nv">host</span><span class="p">:</span> <span class="n">host</span><span class="p">,</span> <span class="nv">port</span><span class="p">:</span> <span class="n">port</span><span class="p">,</span> <span class="nv">username</span><span class="p">:</span> <span class="n">username</span><span class="p">,</span> <span class="nv">password</span><span class="p">:</span> <span class="n">password</span><span class="p">);</span>
+
+<span class="k">let</span> <span class="nv">ssh</span> <span class="o">=</span> <span class="kt">SSH</span><span class="p">(</span><span class="nv">option</span><span class="p">:</span> <span class="n">options</span><span class="p">);</span>
+
+<span class="k">let</span> <span class="nv">result</span> <span class="o">=</span> <span class="k">try</span> <span class="k">await</span> <span class="n">ssh</span><span class="o">.</span><span class="nf">exec</span><span class="p">(</span><span class="s">"ls -lah"</span><span class="p">);</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="p">);</span>
+</code></pre>
 
           </section>
         </section>
