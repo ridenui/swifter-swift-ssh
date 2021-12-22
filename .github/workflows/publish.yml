@@ -25,6 +25,10 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '^13.2.1'
+      
       - uses: fwal/setup-swift@v1
         with:
           swift-version: '5.5.2'
@@ -40,6 +44,7 @@ jobs:
         run: |
           set -eo pipefail
           export LIB_VERSION=$(git describe --tags `git rev-list --tags --max-count=1`)
+          export TOOLCHAINS=swift
           pod lib lint --allow-warnings --use-libraries --verbose
           pod trunk push --allow-warnings --use-libraries
         env:
