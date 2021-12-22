@@ -97,6 +97,7 @@
 		FBAE5ADD277148B400A591F0 /* DispatchQueue+currentLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DispatchQueue+currentLabel.swift"; sourceTree = "<group>"; };
 		FBAE5AE0277148D000A591F0 /* SSHLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHLog.swift; sourceTree = "<group>"; };
 		FBBB492527721BCB00D07904 /* SSHExecDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHExecDelegate.swift; sourceTree = "<group>"; };
+		FBBB49282772AB6200D07904 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		FBF87B7D27711D4700D9D8E2 /* SSHConnectionPool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHConnectionPool.swift; sourceTree = "<group>"; };
 		FBF87B8027711D6900D9D8E2 /* SSHConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHConnection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -136,6 +137,7 @@
 		FB51F8DA276D12DD00D8C262 = {
 			isa = PBXGroup;
 			children = (
+				FBBB49282772AB6200D07904 /* README.md */,
 				FB51F8F2276D326100D8C262 /* Libraries */,
 				FB51F8EE276D30A100D8C262 /* Libraries-iOS */,
 				FB51F8ED276D134D00D8C262 /* SwifterSwiftSSH.podspec */,
