@@ -25,6 +25,13 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       
+      - uses: fwal/setup-swift@v1
+        with:
+          swift-version: '5.5.2'
+          
+      - name: Get swift version
+        run: swift --version
+      
       - name: Install Cocoapods
         run: gem install cocoapods
     
