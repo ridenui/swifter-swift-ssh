@@ -278,6 +278,33 @@ class Tests: XCTestCase {
         await ssh.disconnect();
     }
     
+    func testDisconnectWithActiveCommand() async throws {
+        guard let sshConfig = sshConfig else {
+            throw TestErrors.CONFIG_IS_NIL
+        }
+
+        let ssh = SSH(options: sshConfig);
+        
+        let outputString1 = "Hello world!"
+        let outputStderr1 = "Error world!"
+        let exitCode1 = 15;
+        let runCount1 = 5;
+
+        await withThrowingTaskGroup(of: Void.self, returning: Void.self) { taskGroup in
+            taskGroup.addTask {
+                let result = try await ssh.exec(command: "for i in {1..\(runCount1)}; do echo \"\(outputString1)\"; echo \"\(outputStderr1)\" >&2; sleep 1; done; exit \(exitCode1);");
+                print(result)
+            }
+            
+            taskGroup.addTask {
+                try await Task.sleep(nanoseconds: 2 * UInt64(pow(10.0, 9.0))); // wait 2s
+                await ssh.disconnect();
+            }
+        }
+        
+        await ssh.disconnect();
+    }
+    
     func testRSAKey() throws {
         
         let keyPair = try generateRSAKeyPair();

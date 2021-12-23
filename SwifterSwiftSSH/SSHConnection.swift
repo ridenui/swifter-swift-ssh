@@ -59,9 +59,15 @@ actor SSHConnection {
             
             LogSSH("ssh_connect")
             
+            if ssh_is_connected(self.session) > 0 {
+                self.disconnect();
+            }
+            
+            let connectStarted: DispatchTime = .now();
+            
             var rc = ssh_connect(self.session);
             
-            while (rc == SSH_AGAIN) {
+            while (rc == SSH_AGAIN && !(connectStarted < .now() - 5)) {
                 try Task.checkCancellation()
                 rc = ssh_connect(self.session);
                 try await Task.sleep(nanoseconds: 10000);
@@ -69,8 +75,15 @@ actor SSHConnection {
             
             try Task.checkCancellation()
             
+            let isTimeOut = connectStarted < .now() - 5;
+            
             if rc != SSH_OK {
-                if let errorCChar = ssh_get_error(&self.session) {
+                if isTimeOut {
+                    LogSSH("Connection timeout")
+                    throw SSHError.SSH_CONNECT_TIMEOUT;
+                }
+                let errorPointer: UnsafeMutableRawPointer = .init(self.session);
+                if let errorCChar = ssh_get_error(errorPointer) {
                     let errorString = self.convertCharPointerToString(pointer: errorCChar);
                     LogSSH("libssh error string \(errorString)");
                     throw SSHError.CONNECTION_ERROR(errorString);
@@ -193,6 +206,8 @@ actor SSHConnection {
         
         // connect makes sure we have an channel
         let channel = self.channel!;
+        let optionalChannel = self.channel;
+        let session = self.session;
         
         try Task.checkCancellation()
                 
@@ -301,7 +316,9 @@ actor SSHConnection {
         ssh_set_channel_callbacks(channel, &cbs);
         
         defer {
-            ssh_remove_channel_callbacks(channel, &cbs);
+            if optionalChannel != nil {
+                ssh_remove_channel_callbacks(channel, &cbs);
+            }
         }
         
         LogSSH("ssh_channel_request_exec")
@@ -417,8 +434,7 @@ actor SSHConnection {
                     try await Task.sleep(nanoseconds: 10000000);
                 }
                 await exitHandler.setCanSendSignal(to: false);
-                LogSSH("Real exit \(ssh_channel_get_exit_status(channel)) for \( exitHandler.command)");
-                let exitStatus = await exitHandler.exitStatus ?? Int(ssh_channel_get_exit_status(channel));
+                let exitStatus = await exitHandler.exitStatus ?? Int(ssh_is_connected(session) > 0 ?  ssh_channel_get_exit_status(channel) : -10);
                 let exitSignal = await exitHandler.exitSignal;
                 LogSSH("+ ssh_channel_send_eof \( exitHandler.command)");
                 ssh_channel_send_eof(channel);

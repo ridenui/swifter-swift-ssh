@@ -19,6 +19,7 @@ public enum SSHError: Error {
     /// General ssh error
     case SSH_ERROR
     case SSH_IO_ERROR
+    case SSH_CONNECT_TIMEOUT
     
     public var errorDescription: String? {
         switch self {
@@ -42,6 +43,8 @@ public enum SSHError: Error {
             return "General SSH Error"
         case .SSH_IO_ERROR:
             return "SSH io error"
+        case .SSH_CONNECT_TIMEOUT:
+            return "SSH connect timedout"
         }
     }
 }
