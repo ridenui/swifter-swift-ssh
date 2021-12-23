@@ -12,6 +12,7 @@ actor SSHConnection {
     private var session: ssh_session;
     private var channel: ssh_channel?;
     private var authenticated: Bool = false;
+    private var channelRef = 0;
     
     public var connected: Bool {
         return authenticated && ssh_is_connected(self.session) > 0;
@@ -132,17 +133,24 @@ actor SSHConnection {
         
         var rc = ssh_channel_open_session(channel);
         
-        while (rc == SSH_AGAIN) {
+        let connectStarted: DispatchTime = .now();
+        
+        while (rc == SSH_AGAIN && !(connectStarted < .now() - 5)) {
             try Task.checkCancellation()
             rc = ssh_channel_open_session(channel);
             try await Task.sleep(nanoseconds: 10000);
         }
+        
+        let isTimeOut = connectStarted < .now() - 5;
         
         if rc == SSH_OK {
             self.channel = channel;
             return;
         } else {
             ssh_channel_free(channel);
+            if isTimeOut {
+                throw SSHError.SSH_CHANNEL_TIMEOUT;
+            }
             throw SSHError.CAN_NOT_OPEN_CHANNEL_SESSION(rc);
         }
     }
@@ -153,6 +161,7 @@ actor SSHConnection {
             
             ssh_channel_free(channel);
             self.channel = nil;
+            self.channelRef += 1;
         }
     }
     
@@ -207,8 +216,9 @@ actor SSHConnection {
         // connect makes sure we have an channel
         let channel = self.channel!;
         let optionalChannel = self.channel;
-        let session = self.session;
-        
+        let currentChannelRef = self.channelRef;
+        let channelRefPtr: UnsafeMutablePointer<Int> = .init(&self.channelRef);
+                        
         try Task.checkCancellation()
                 
         actor ExitHandler {
@@ -316,8 +326,8 @@ actor SSHConnection {
         ssh_set_channel_callbacks(channel, &cbs);
         
         defer {
-            if optionalChannel != nil {
-                ssh_remove_channel_callbacks(channel, &cbs);
+            if optionalChannel != nil, currentChannelRef == self.channelRef {
+                ssh_remove_channel_callbacks(optionalChannel!, &cbs);
             }
         }
         
@@ -367,7 +377,7 @@ actor SSHConnection {
                     bufferStderr.deallocate();
                 }
                                     
-                while (ssh_channel_is_open(channel) > 0 && ssh_channel_is_eof(channel) != 1) {
+                while (ssh_channel_is_open(channel) > 0 && ssh_channel_is_eof(channel) != 1 && currentChannelRef == channelRefPtr.pointee) {
                     try Task.checkCancellation()
                     let nbytesStdout = ssh_channel_read_nonblocking(channel, bufferStdout, UInt32(count * MemoryLayout<CChar>.size), 0);
                     try Task.checkCancellation()
@@ -434,7 +444,7 @@ actor SSHConnection {
                     try await Task.sleep(nanoseconds: 10000000);
                 }
                 await exitHandler.setCanSendSignal(to: false);
-                let exitStatus = await exitHandler.exitStatus ?? Int(ssh_is_connected(session) > 0 ?  ssh_channel_get_exit_status(channel) : -10);
+                let exitStatus = await exitHandler.exitStatus ?? -10;
                 let exitSignal = await exitHandler.exitSignal;
                 LogSSH("+ ssh_channel_send_eof \( exitHandler.command)");
                 ssh_channel_send_eof(channel);

@@ -16,8 +16,8 @@ struct SSHConnectionPoolStateObject: Identifiable {
 
 actor SSHConnectionPoolState {
     var connections: [SSHConnectionPoolStateObject] = [];
-    var maxConnections = 4;
-    var normalConnections = 2;
+    var maxConnections = 6;
+    var normalConnections = 3;
     let options: SSHOption;
     
     init(options: SSHOption) {
@@ -63,6 +63,19 @@ actor SSHConnectionPoolState {
         LogSSH("- freeConnection");
     }
     
+    func closeOldestStuckConnection() async {
+        LogSSH("+ closeOldestStuckConnection");
+        
+        let connection = self.connections.sorted(by: { $0.activeRuns > $1.activeRuns && $0.lastRun > $1.lastRun }).first;
+        
+        if let connection = connection {
+            await connection.connection.disconnect();
+            await self.freeConnection(id: connection.id);
+        }
+        
+        LogSSH("- closeOldestStuckConnection");
+    }
+    
     func disconnect() async {
         LogSSH("+ disconnect");
         for connectionState in self.connections {
@@ -88,7 +101,13 @@ class SSHConnectionPool {
         var connectionState = try await self.pool.getConnection()
         
         if connectionState == nil {
+            let startWaitForConnection: DispatchTime = .now();
+            
             while (connectionState == nil) {
+                if startWaitForConnection < .now() - 3 {
+                    await self.pool.closeOldestStuckConnection();
+                }
+                
                 try await Task.sleep(nanoseconds: UInt64(pow(10.0, 9.0)));
                 connectionState = try await self.pool.getConnection();
             }

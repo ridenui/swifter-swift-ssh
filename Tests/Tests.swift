@@ -305,6 +305,32 @@ class Tests: XCTestCase {
         await ssh.disconnect();
     }
     
+    func testAutoCloseStuckConnections() async throws {
+        guard let sshConfig = sshConfig else {
+            throw TestErrors.CONFIG_IS_NIL
+        }
+
+        let ssh = SSH(options: sshConfig);
+        
+        let outputString1 = "Hello world!"
+        let outputStderr1 = "Error world!"
+        let exitCode1 = 15;
+        let runCount1 = 5;
+
+        await withThrowingTaskGroup(of: Void.self, returning: Void.self) { taskGroup in
+            for _ in 0..<11 {
+                taskGroup.addTask {
+                    let result = try await ssh.exec(command: "for i in {1..\(runCount1)}; do echo \"\(outputString1)\"; echo \"\(outputStderr1)\" >&2; sleep 1; done; exit \(exitCode1);");
+                    print(result)
+                }
+            }
+            
+            
+        }
+        
+        await ssh.disconnect();
+    }
+    
     func testRSAKey() throws {
         
         let keyPair = try generateRSAKeyPair();
