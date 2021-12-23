@@ -72,7 +72,14 @@
     },
     {
       "file": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
-      "line": 23,
+      "line": 22,
+      "symbol": "SSHError.SSH_CONNECT_TIMEOUT",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
+      "line": 24,
       "symbol": "SSHError.errorDescription",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
