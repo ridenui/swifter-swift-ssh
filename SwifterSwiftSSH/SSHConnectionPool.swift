@@ -11,6 +11,7 @@ struct SSHConnectionPoolStateObject: Identifiable {
     var activeRuns: Int = 0;
     var connection: SSHConnection;
     var id = UUID();
+    var lastRun: DispatchTime;
 }
 
 actor SSHConnectionPoolState {
@@ -26,7 +27,7 @@ actor SSHConnectionPoolState {
     func getConnection() throws -> (connection: SSHConnection, id: UUID)? {
         LogSSH("+ getConnection");
         if self.connections.filter({ $0.activeRuns == 0 }).count < 1, self.connections.count < self.maxConnections {
-            connections.append(SSHConnectionPoolStateObject(activeRuns: 0, connection: try SSHConnection(options: self.options)))
+            connections.append(SSHConnectionPoolStateObject(activeRuns: 0, connection: try SSHConnection(options: self.options), lastRun: .now()))
         }
         
         var connectionState = self.connections.sorted(by: { $0.activeRuns < $1.activeRuns }).first!;
@@ -49,10 +50,11 @@ actor SSHConnectionPoolState {
         
         if let index = self.connections.firstIndex(where: { $0.id == id }) {
             self.connections[index].activeRuns -= 1;
+            self.connections[index].lastRun = .now();
         }
         
-        while (self.connections.count > self.normalConnections && self.connections.filter({ $0.activeRuns == 0 }).count > 0) {
-            let toBeKilledConnection = self.connections.first(where: { $0.activeRuns == 0 })!;
+        while (self.connections.count > self.normalConnections && self.connections.filter({ $0.activeRuns == 0 && $0.lastRun < .now() - 5 }).count > 0) {
+            let toBeKilledConnection = self.connections.first(where: { $0.activeRuns == 0 && $0.lastRun < .now() - 5 })!;
             
             await toBeKilledConnection.connection.disconnect();
             

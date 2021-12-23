@@ -15,6 +15,8 @@ import XCTest
 class Tests: XCTestCase {
     
     var sshConfig: SSHOption?;
+    
+    var connectionType: String?;
         
     override func setUpWithError() throws {
         guard let path = Bundle(for: type(of: self)).path(forResource: "credentials", ofType: "plist") else {
@@ -32,6 +34,9 @@ class Tests: XCTestCase {
         guard let password = credentialsDictionary["password"] as? String else {
             throw TestErrors.MISSING_PASSWORD;
         }
+        let connectionType = credentialsDictionary["type"] as? String;
+        self.connectionType = connectionType ?? "mac";
+        
         let port = credentialsDictionary["port"] as? Int ?? 22;
         
 #if canImport(SwifterSwiftSSH_macos)
@@ -203,6 +208,74 @@ class Tests: XCTestCase {
         XCTAssert(command.stdout == "\(uuid)\n")
         XCTAssertNotNil(command.exitSignal);
         XCTAssert(command.exitSignal! == "KILL");
+    }
+    
+    func testMultipleCommandsInARow() async throws {
+        guard let sshConfig = sshConfig else {
+            throw TestErrors.CONFIG_IS_NIL
+        }
+
+        let ssh = SSH(options: sshConfig);
+        
+        for i in 0..<6 {
+            let outputString = "Hello world!"
+            
+            let result = try await ssh.exec(command: "echo \"\(outputString)\"; exit \(i);");
+            print(result);
+            
+            XCTAssert(result.exitCode == i, "Return code should be \(i)");
+            
+            XCTAssert(result.stdout == "\(outputString)\n", "Result stdout should match output");
+        }
+        
+        await ssh.disconnect();
+    }
+    
+    func testMultipleCommandsInARowParallel() async throws {
+        
+        guard let sshConfig = sshConfig else {
+            throw TestErrors.CONFIG_IS_NIL
+        }
+
+        let ssh = SSH(options: sshConfig);
+        
+        await withThrowingTaskGroup(of: Void.self, returning: Void.self, body: { taskGroup in
+            
+            taskGroup.addTask {
+                for _ in 0..<6 {
+                    if self.connectionType! == "unraid" {
+                        let result = try await ssh.exec(command: "cat /boot/config/ident.cfg");
+                        print(result);
+                    } else {
+                        let result = try await ssh.exec(command: "ipconfig getifaddr en0");
+                        print(result);
+                    }
+                }
+            }
+            
+            taskGroup.addTask {
+                for _ in 0..<6 {
+                    if self.connectionType! == "unraid" {
+                        let result = try await ssh.exec(command: "TERM=xterm top -1 -n 1 -b | grep '^%Cpu[[:digit:]+]' | tr '\\n' '|'");
+                        print(result);
+                    } else {
+                        let result = try await ssh.exec(command: "top -l 1");
+                        print(result);
+                    }
+                }
+            }
+            
+            taskGroup.addTask {
+                for _ in 0..<6 {
+                    
+                    let result = try await ssh.exec(command: "uptime");
+                    print(result);
+                }
+            }
+            
+        })
+        
+        await ssh.disconnect();
     }
     
     func testRSAKey() throws {
