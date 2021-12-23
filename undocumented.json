@@ -78,6 +78,13 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHOptions.swift",
+      "line": 39,
+      "symbol": "SSHOption.idRsaLocation",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHResult.swift",
       "line": 10,
       "symbol": "SSHExecResult",
