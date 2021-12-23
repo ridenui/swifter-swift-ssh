@@ -89,7 +89,7 @@ class SSHConnectionPool {
         
         if connectionState == nil {
             while (connectionState == nil) {
-                try await Task.sleep(nanoseconds: 10000);
+                try await Task.sleep(nanoseconds: UInt64(pow(10.0, 9.0)));
                 connectionState = try await self.pool.getConnection();
             }
         }
