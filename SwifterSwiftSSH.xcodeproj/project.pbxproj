@@ -36,9 +36,7 @@
 		FBB5FFF027739ED800DC24FA /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = FB996E2C276FB1E100F87614 /* credentials.plist */; };
 		FBB5FFF527739EE600DC24FA /* libSwifterSwiftSSH.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB51F8E3276D12DD00D8C262 /* libSwifterSwiftSSH.a */; };
 		FBB5FFF92773CCCE00DC24FA /* KeyUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB5FFF82773CCCE00DC24FA /* KeyUtility.swift */; };
-		FBB5FFFB2773ECD100DC24FA /* AsyncSemaphore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB5FFFA2773ECD100DC24FA /* AsyncSemaphore.swift */; };
 		FBB5FFFC2773F6D000DC24FA /* KeyUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB5FFF82773CCCE00DC24FA /* KeyUtility.swift */; };
-		FBB5FFFD2773F6D300DC24FA /* AsyncSemaphore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB5FFFA2773ECD100DC24FA /* AsyncSemaphore.swift */; };
 		FBBB492627721BCB00D07904 /* SSHExecDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBBB492527721BCB00D07904 /* SSHExecDelegate.swift */; };
 		FBBB492727721BCB00D07904 /* SSHExecDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBBB492527721BCB00D07904 /* SSHExecDelegate.swift */; };
 		FBF87B7E27711D4700D9D8E2 /* SSHConnectionPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF87B7D27711D4700D9D8E2 /* SSHConnectionPool.swift */; };
@@ -113,7 +111,6 @@
 		FBAE5AE0277148D000A591F0 /* SSHLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHLog.swift; sourceTree = "<group>"; };
 		FBB5FFF427739ED800DC24FA /* Tests-iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests-iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBB5FFF82773CCCE00DC24FA /* KeyUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyUtility.swift; sourceTree = "<group>"; };
-		FBB5FFFA2773ECD100DC24FA /* AsyncSemaphore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncSemaphore.swift; sourceTree = "<group>"; };
 		FBBB492527721BCB00D07904 /* SSHExecDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHExecDelegate.swift; sourceTree = "<group>"; };
 		FBBB49282772AB6200D07904 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		FBF87B7D27711D4700D9D8E2 /* SSHConnectionPool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHConnectionPool.swift; sourceTree = "<group>"; };
@@ -199,7 +196,6 @@
 				FBAE5AE0277148D000A591F0 /* SSHLog.swift */,
 				FBB5FFF82773CCCE00DC24FA /* KeyUtility.swift */,
 				FB51F918276D3B9400D8C262 /* bridge.m */,
-				FBB5FFFA2773ECD100DC24FA /* AsyncSemaphore.swift */,
 			);
 			path = SwifterSwiftSSH;
 			sourceTree = "<group>";
@@ -388,7 +384,6 @@
 				FB1DCD38276D593C00B40636 /* SSHErrors.swift in Sources */,
 				FBF87B8127711D6900D9D8E2 /* SSHConnection.swift in Sources */,
 				FB1DCD3B276D651F00B40636 /* SSHResult.swift in Sources */,
-				FBB5FFFB2773ECD100DC24FA /* AsyncSemaphore.swift in Sources */,
 				FBAE5ADE277148B400A591F0 /* DispatchQueue+currentLabel.swift in Sources */,
 				FB51F91C276D3F1900D8C262 /* SSHOptions.swift in Sources */,
 				FBF87B7E27711D4700D9D8E2 /* SSHConnectionPool.swift in Sources */,
@@ -407,7 +402,6 @@
 				FB996E0C276FAD7800F87614 /* SSHErrors.swift in Sources */,
 				FBF87B8227711D6900D9D8E2 /* SSHConnection.swift in Sources */,
 				FB996E0D276FAD7800F87614 /* SSHResult.swift in Sources */,
-				FBB5FFFD2773F6D300DC24FA /* AsyncSemaphore.swift in Sources */,
 				FBAE5ADF277148C300A591F0 /* DispatchQueue+currentLabel.swift in Sources */,
 				FB996E0E276FAD7800F87614 /* SSHOptions.swift in Sources */,
 				FBF87B7F27711D4B00D9D8E2 /* SSHConnectionPool.swift in Sources */,
