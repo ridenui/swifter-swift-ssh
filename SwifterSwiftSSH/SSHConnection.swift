@@ -26,9 +26,22 @@ actor SSHConnection {
             throw SSHError.CAN_NOT_OPEN_SESSION;
         }
         
+        LogSSH("\(options.username)@\(options.host):\(options.port)")
+        
         ssh_options_set(session, SSH_OPTIONS_HOST, options.host);
         ssh_options_set(session, SSH_OPTIONS_PORT, &port);
+        ssh_options_set(session, SSH_OPTIONS_USER, options.username);
+        var logLevel = SSH_LOG_FUNCTIONS;
+        ssh_options_set(session, SSH_OPTIONS_LOG_VERBOSITY, &logLevel);
         ssh_set_blocking(session, 0);
+        
+        if let idRsaLocation = options.idRsaLocation {
+            ssh_options_set(session, SSH_OPTIONS_ADD_IDENTITY, idRsaLocation);
+        }
+        
+        if let knownHostFile = options.knownHostFile {
+            ssh_options_set(session, SSH_OPTIONS_KNOWNHOSTS, knownHostFile);
+        }
         
         self.session = session;
     }
@@ -57,8 +70,13 @@ actor SSHConnection {
             try Task.checkCancellation()
             
             if rc != SSH_OK {
-                let errorString = String(cString: ssh_get_error(&self.session));
-                throw SSHError.CONNECTION_ERROR(errorString);
+                if let errorCChar = ssh_get_error(&self.session) {
+                    let errorString = self.convertCharPointerToString(pointer: errorCChar);
+                    LogSSH("libssh error string \(errorString)");
+                    throw SSHError.CONNECTION_ERROR(errorString);
+                } else {
+                    throw SSHError.CONNECTION_ERROR("unknown connection error");
+                }
             }
             
             LogSSH("ssh_userauth_password")
@@ -204,11 +222,13 @@ actor SSHConnection {
             }
             
             func sendEndSignal(std: Bool = false) {
+                LogSSH("+ sendEndSignal \(std)")
                 if std {
                     self.semaphoreStd.signal();
                 } else {
                     self.semaphore.signal();
                 }
+                LogSSH("- sendEndSignal \(std)")
             }
             
             func setCanSendSignal(to: Bool) {
@@ -247,10 +267,12 @@ actor SSHConnection {
             
             let signalString = localUserData.connection.convertCharPointerToString(pointer: signal);
             
+            LogSSH("+ channel_exit_signal_function \(signalString)")
+            
             Task {
                 try Task.checkCancellation()
                 await localUserData.exitHandler.setExitSignal(to: signalString);
-                LogSSH("channel_exit_signal_function \(signalString)")
+                LogSSH("- channel_exit_signal_function \(signalString)")
             }
         }
         
@@ -263,10 +285,12 @@ actor SSHConnection {
             
             let localUserData = Unmanaged<UserData>.fromOpaque(userdata).takeUnretainedValue()
             
+            LogSSH("+ channel_exit_status_function \(exitStatus)")
+            
             Task {
                 try Task.checkCancellation()
                 await localUserData.exitHandler.setExitStatus(to: Int(exitStatus));
-                LogSSH("channel_exit_status_function \(exitStatus)")
+                LogSSH("- channel_exit_status_function \(exitStatus)")
             }
         }
         
@@ -311,104 +335,107 @@ actor SSHConnection {
             throw SSHError.REQUEST_EXEC_ERROR(rc);
         }
         
-        async let stdAsync = withCheckedThrowingContinuation({ (continuation: CheckedContinuation<(stdout: String, stderr: String), Error>) in
-            localDispatch.async {
-                Task {
-                    var stdout = "";
-                    var stderr = "";
-                    let count = 65536
-                    let bufferStdout = UnsafeMutablePointer<CChar>.allocate(capacity: count)
-                    let bufferStderr = UnsafeMutablePointer<CChar>.allocate(capacity: count)
-                    
-                    defer {
-                        bufferStdout.deallocate();
-                        bufferStderr.deallocate();
-                    }
-                    
-                    while (ssh_channel_is_open(channel) > 0 && ssh_channel_is_eof(channel) != 1) {
-                        try Task.checkCancellation()
-                        let nbytesStdout = ssh_channel_read_nonblocking(channel, bufferStdout, UInt32(count * MemoryLayout<CChar>.size), 0);
-                        try Task.checkCancellation()
-                        let nbytesStderr = ssh_channel_read_nonblocking(channel, bufferStderr, UInt32(count * MemoryLayout<CChar>.size), 1);
-                                            
-                        if nbytesStdout == SSH_EOF, nbytesStderr == SSH_EOF {
-                            break;
-                        }
-                        
-                        if nbytesStdout > 0 {
-                            let new = self.convertCharPointerToString(pointer: bufferStdout, bytesToCopy: nbytesStdout);
-                            stdout += new;
-                            if let delegate = delegate {
-                                if let onStdout = delegate.onStdout {
-                                    localDispatch.async {
-                                        onStdout(new);
-                                    }
-                                }
-                            }
-                        }
-                        if nbytesStderr > 0 {
-                            let new = self.convertCharPointerToString(pointer: bufferStderr, bytesToCopy: nbytesStderr);
-                            stderr += new;
-                            if let delegate = delegate {
-                                if let onStderr = delegate.onStderr {
-                                    localDispatch.async {
-                                        onStderr(new);
-                                    }
-                                }
-                            }
-                        }
-                        
-                        if nbytesStdout < 0 || nbytesStderr < 0 {
-                            LogSSH("end std while \(exitHandler.command)")
-                            await exitHandler.sendEndSignal(std: true);
-                            continuation.resume(returning: (stdout, stderr));
-                            return;
-                        }
-                        
-                        try await Task.sleep(nanoseconds: 1000);
-                    }
-                    
+        let result = try await withThrowingTaskGroup(of: Any.self, returning: (std: (stdout: String, stderr: String), exitStatus: (code: Int, signal: String?)).self, body: { taskGroup in
+            
+            taskGroup.addTask {
+                LogSSH("Start stdAsync Task");
+                var stdout = "";
+                var stderr = "";
+                let count = 65536
+                let bufferStdout = UnsafeMutablePointer<CChar>.allocate(capacity: count)
+                let bufferStderr = UnsafeMutablePointer<CChar>.allocate(capacity: count)
+                
+                defer {
+                    bufferStdout.deallocate();
+                    bufferStderr.deallocate();
+                }
+                                    
+                while (ssh_channel_is_open(channel) > 0 && ssh_channel_is_eof(channel) != 1) {
                     try Task.checkCancellation()
+                    let nbytesStdout = ssh_channel_read_nonblocking(channel, bufferStdout, UInt32(count * MemoryLayout<CChar>.size), 0);
+                    try Task.checkCancellation()
+                    let nbytesStderr = ssh_channel_read_nonblocking(channel, bufferStderr, UInt32(count * MemoryLayout<CChar>.size), 1);
+                                        
+                
+                    // LogSSH("Read nbytesStdout=\(nbytesStdout) nbytesStderr=\(nbytesStderr)");
                     
-                    LogSSH("end std \(exitHandler.command)")
+                    if nbytesStdout == SSH_EOF, nbytesStderr == SSH_EOF {
+                        break;
+                    }
+                    
+                    if nbytesStdout > 0 {
+                        let new = self.convertCharPointerToString(pointer: bufferStdout, bytesToCopy: nbytesStdout);
+                        stdout += new;
+                        if let delegate = delegate {
+                            if let onStdout = delegate.onStdout {
+                                localDispatch.async {
+                                    onStdout(new);
+                                }
+                            }
+                        }
+                    }
+                    if nbytesStderr > 0 {
+                        let new = self.convertCharPointerToString(pointer: bufferStderr, bytesToCopy: nbytesStderr);
+                        stderr += new;
+                        if let delegate = delegate {
+                            if let onStderr = delegate.onStderr {
+                                localDispatch.async {
+                                    onStderr(new);
+                                }
+                            }
+                        }
+                    }
+                    
+                    if nbytesStdout < 0 || nbytesStderr < 0 {
+                        LogSSH("end std while \(exitHandler.command)")
+                        await exitHandler.sendEndSignal(std: true);
+                        return (stdout, stderr);
+                    }
+                    
+                    try await Task.sleep(nanoseconds: 500000);
+                }
+                
+                try Task.checkCancellation()
+                
+                LogSSH("end std \(exitHandler.command)")
 
-                    await exitHandler.sendEndSignal(std: true);
-                    
-                    continuation.resume(returning: (stdout, stderr));
-                }
+                await exitHandler.sendEndSignal(std: true);
+                
+                return (stdout, stderr);
             }
-        });
-        
-        try Task.checkCancellation()
-        
-        let finalExitState = await withCheckedContinuation { (continuation: CheckedContinuation<(code: Int, signal: String?), Never>) in
-            localDispatch.async {
-                Task {
-                    try Task.checkCancellation()
-                    exitHandler.semaphoreStd.wait();
-                    try Task.checkCancellation()
-                    let _ = exitHandler.semaphore.wait(timeout: .now() + 0.3);
-                    await exitHandler.setCanSendSignal(to: false);
-                    LogSSH("Real exit \(ssh_channel_get_exit_status(channel)) for \( exitHandler.command)");
-                    let exitStatus = await exitHandler.exitStatus ?? Int(ssh_channel_get_exit_status(channel));
-                    let exitSignal = await exitHandler.exitSignal;
-                    LogSSH("+ ssh_channel_send_eof \( exitHandler.command)");
-                    ssh_channel_send_eof(channel);
-                    LogSSH("- ssh_channel_send_eof \( exitHandler.command)");
-                    continuation.resume(returning: (exitStatus, exitSignal));
+            
+            taskGroup.addTask(priority: .background, operation: {
+                try Task.checkCancellation()
+                LogSSH("Wait std semaphore")
+                while (exitHandler.semaphoreStd.wait(timeout: .now() + 0.0000001) == .timedOut) {
+                    try await Task.sleep(nanoseconds: 10000000);
                 }
-            }
-        };
+                try Task.checkCancellation()
+                LogSSH("Wait semaphore")
+                let end: DispatchTime = .now() + 0.3;
+                while (exitHandler.semaphore.wait(timeout: .now() + 0.00000001) == .timedOut && end > .now()) {
+                    try await Task.sleep(nanoseconds: 10000000);
+                }
+                await exitHandler.setCanSendSignal(to: false);
+                LogSSH("Real exit \(ssh_channel_get_exit_status(channel)) for \( exitHandler.command)");
+                let exitStatus = await exitHandler.exitStatus ?? Int(ssh_channel_get_exit_status(channel));
+                let exitSignal = await exitHandler.exitSignal;
+                LogSSH("+ ssh_channel_send_eof \( exitHandler.command)");
+                ssh_channel_send_eof(channel);
+                LogSSH("- ssh_channel_send_eof \( exitHandler.command)");
+                return (exitStatus, exitSignal);
+            })
+            
+            let std = try await taskGroup.next();
+            let exitStatus = try await taskGroup.next();
+            
+            
+            return (std: std as! (stdout: String, stderr: String), exitStatus: exitStatus as! (code: Int, signal: String?));
+        })
         
-        try Task.checkCancellation()
+        let std = result.std;
         
-        LogSSH("+ await stdAsync \( exitHandler.command)");
-        
-        let std = try await stdAsync;
-        
-        try Task.checkCancellation()
-        
-        LogSSH("- await stdAsync \( exitHandler.command)");
+        let finalExitState = result.exitStatus;
         
         return SSHExecResult(stdout: std.stdout, stderr: std.stderr, exitCode: Int32(finalExitState.code), exitSignal: finalExitState.signal);
     }

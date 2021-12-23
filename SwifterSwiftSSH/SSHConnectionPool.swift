@@ -95,7 +95,9 @@ class SSHConnectionPool {
         let connection = connectionState!.connection;
         
         do {
-            let result = try await connection.exec(command: command, delegate: delegate, notCancelable: notCancelable);
+            let result = try await Task<SSHExecResult, Error>.detached(priority: .background, operation: {
+                return try await connection.exec(command: command, delegate: delegate, notCancelable: notCancelable)
+            }).value;
             
             await self.pool.freeConnection(id: connectionState!.id);
             

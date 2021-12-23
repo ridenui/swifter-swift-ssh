@@ -47,27 +47,30 @@ public class SSH {
     /// - Parameter id: Id of the command which gets passed in the `SSHExecDelegate.cancelFunction` method of the `SSHExecDelegate` in `exec(command:delegate:notCancelable:)`
     /// - Warning: If the ssh pool is satisfied, this function doesn't return until a connection gets freed up
     public func cancel(id: String) async throws {
-        let result = try await self.pool.exec(command: """
-            kill_descendant_processes() {
-                local pid="$1"
-                local and_self="${2:-false}"
-                if children="$(pgrep -P "$pid")"; then
-                    for child in $children; do
-                        kill_descendant_processes "$child" true
-                    done
+        Task.detached {
+            let result = try await self.pool.exec(command: """
+                kill_descendant_processes() {
+                    local pid="$1"
+                    local and_self="${2:-false}"
+                    if children="$(pgrep -P "$pid")"; then
+                        for child in $children; do
+                            kill_descendant_processes "$child" true
+                        done
+                    fi
+                    if [[ "$and_self" == true ]]; then
+                        kill -9 "$pid"
+                    fi
+                }
+                if [[ -f /tmp/\(id)-parent.pid ]]; then
+                    kill_descendant_processes `cat /tmp/\(id)-parent.pid` true
                 fi
-                if [[ "$and_self" == true ]]; then
-                    kill -9 "$pid"
+                if [[ -f /tmp/\(id)-parent.pid ]]; then
+                    rm /tmp/\(id)-parent.pid 2>/dev/null
                 fi
-            }
-            if [[ -f /tmp/\(id)-parent.pid ]]; then
-                kill_descendant_processes `cat /tmp/\(id)-parent.pid` true
-            fi
-            if [[ -f /tmp/\(id)-parent.pid ]]; then
-                rm /tmp/\(id)-parent.pid 2>/dev/null
-            fi
-        """, delegate: nil, notCancelable: true)
-        LogSSH("Cancel result \(result)")
+                echo "Killed"
+            """, delegate: nil, notCancelable: true)
+            LogSSH("Cancel result \(result)")
+        }
         return;
     }
 }

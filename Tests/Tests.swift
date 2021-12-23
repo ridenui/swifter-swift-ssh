@@ -6,7 +6,11 @@
 //
 
 import XCTest
+#if canImport(SwifterSwiftSSH_macos)
 @testable import SwifterSwiftSSH_macos
+#else
+@testable import SwifterSwiftSSH
+#endif
 
 class Tests: XCTestCase {
     
@@ -30,7 +34,26 @@ class Tests: XCTestCase {
         }
         let port = credentialsDictionary["port"] as? Int ?? 22;
         
+#if canImport(SwifterSwiftSSH_macos)
         self.sshConfig = SSHOption(host: host, port: port, username: username, password: password);
+#else
+        let folderURL = try FileManager.default.url(
+            for: .documentDirectory,
+            in: .userDomainMask,
+            appropriateFor: nil,
+            create: false
+        )
+        let knownHostFile = folderURL.appendingPathComponent("known_hosts")
+        let idLocation = folderURL.appendingPathComponent("id_rsa")
+        
+        let keyPair = try generateRSAKeyPair();
+        
+        if !FileManager.default.fileExists(atPath: idLocation.path) {
+            try keyPair.privateKey.write(toFile: idLocation.path, atomically: true, encoding: .utf8);
+        }
+        
+        self.sshConfig = SSHOption(host: host, port: port, username: username, password: password, knownHostFile: knownHostFile.path, idRsaLocation: idLocation.path);
+#endif
     }
     
     func testConnectionActor() async throws {
@@ -182,4 +205,11 @@ class Tests: XCTestCase {
         XCTAssert(command.exitSignal! == "KILL");
     }
     
+    func testRSAKey() throws {
+        
+        let keyPair = try generateRSAKeyPair();
+        
+        XCTAssert(keyPair.publicKey != "")
+        XCTAssert(keyPair.privateKey != "")
+    }
 }

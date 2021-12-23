@@ -15,11 +15,14 @@ public struct SSHOption {
     ///   - port: Port. The default is 22
     ///   - username: Username
     ///   - password: Password
-    public init(host: String, port: Int = 22, username: String, password: String? = nil) {
+    ///   - knownHostFile: The known host file location. Please see `knownHostFile`
+    public init(host: String, port: Int = 22, username: String, password: String? = nil, knownHostFile: String? = nil, idRsaLocation: String? = nil) {
         self.host = host
         self.port = port
         self.username = username
         self.password = password
+        self.knownHostFile = knownHostFile
+        self.idRsaLocation = idRsaLocation
     }
     
     /// Hostname or ip address
@@ -30,4 +33,8 @@ public struct SSHOption {
     public var username: String;
     /// Password
     public var password: String?;
+    /// The location of the known host file.
+    /// - Warning: You need to change this path on iOS
+    public var knownHostFile: String?;
+    public var idRsaLocation: String?;
 }
