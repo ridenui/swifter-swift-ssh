@@ -157,9 +157,15 @@ actor SSHConnection {
     
     private func cleanUpChannel() {
         if let channel = self.channel {
-            ssh_channel_request_send_signal(channel, "QUIT");
+            let _ = try? self.doUnsafeTaskBlocking(task: {
+                LogSSH("Send QUIT")
+                ssh_channel_request_send_signal(channel, "QUIT");
+            }, timeout: .now() + 0.4)
             
-            ssh_channel_free(channel);
+            let _ = try? self.doUnsafeTaskBlocking(task: {
+                LogSSH("ssh_channel_free")
+                ssh_channel_free(channel);
+            }, timeout: .now() + 0.4)
             self.channel = nil;
             self.channelRef += 1;
         }
@@ -168,7 +174,11 @@ actor SSHConnection {
     public func disconnect() {
         self.cleanUpChannel();
         
-        ssh_disconnect(self.session);
+        try? self.doUnsafeTaskBlocking(task: {
+            LogSSH("ssh_disconnect")
+            ssh_disconnect(self.session);
+        }, timeout: .now() + 1)
+        
         self.authenticated = false;
     }
     
@@ -495,6 +505,48 @@ actor SSHConnection {
         
         return String(data: data, encoding: .ascii) ?? "";
     }
+    
+    /// Run a task on a separate thread and time out after a specific time
+    /// This should help us prevent dead locks when we call libssh functions
+    /// - Returns: return value of task
+    private nonisolated func doUnsafeTask<T>(task: @escaping () -> T, timeout: DispatchTime = .now() + 5) async throws -> T? {
+        var returnValue: T?;
+        let thread = Thread.init {
+            returnValue = task();
+        }
+        thread.start()
+        
+        while (!thread.isFinished && !thread.isCancelled) {
+            if timeout < .now() {
+                thread.cancel()
+                throw SSHError.GENERAL_UNSAFE_TASK_TIMEOUT;
+            }
+            try await Task.sleep(nanoseconds: 10000);
+        }
+        
+        return returnValue;
+    }
+    
+    /// Run a task on a separate thread and time out after a specific time
+    /// This should help us prevent dead locks when we call libssh functions
+    /// - Returns: return value of task
+    private nonisolated func doUnsafeTaskBlocking<T>(task: @escaping () -> T, timeout: DispatchTime = .now() + 5) throws -> T? {
+        var returnValue: T?;
+        let thread = Thread.init {
+            returnValue = task();
+        }
+        thread.start()
+        
+        while (!thread.isFinished && !thread.isCancelled) {
+            if timeout < .now() {
+                thread.cancel()
+                throw SSHError.GENERAL_UNSAFE_TASK_TIMEOUT;
+            }
+        }
+        
+        return returnValue;
+    }
+
     
     deinit {
         self.disconnect();

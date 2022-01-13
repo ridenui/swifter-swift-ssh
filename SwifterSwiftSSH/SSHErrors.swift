@@ -22,6 +22,8 @@ public enum SSHError: Error {
     case SSH_CONNECT_TIMEOUT
     case SSH_CHANNEL_TIMEOUT
     
+    case GENERAL_UNSAFE_TASK_TIMEOUT
+    
     public var errorDescription: String? {
         switch self {
         case .CAN_NOT_OPEN_SESSION:
@@ -48,6 +50,8 @@ public enum SSHError: Error {
             return "SSH connect timedout"
         case .SSH_CHANNEL_TIMEOUT:
             return "Open SSH channel timedout"
+        case .GENERAL_UNSAFE_TASK_TIMEOUT:
+            return "General task timeout. This can happen when a call to libssh never returns. This error helps us to prevent a dead lock on the main thread"
         }
     }
 }
