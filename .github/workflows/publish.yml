@@ -58,6 +58,7 @@ jobs:
                       @semantic-release/github
                       @semantic-release/git
                       @semantic-release/commit-analyzer
+                      conventional-changelog-conventionalcommits
               env:
                   COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
                   GITHUB_TOKEN: ${{ secrets.HIGH5_BOT_TOKEN }}
