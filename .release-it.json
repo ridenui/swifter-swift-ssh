@@ -13,16 +13,12 @@
 		"@j-ulrich/release-it-regex-bumper": {
 			"in": {
 				"file": "SwifterSwiftSSH.podspec",
-				"search": {
-					"pattern": "spec.version = \"{{semver}}\""
-				}
+				"search": "spec.version = \"{{semver}}\""
 			},
 			"out": {
 				"file": "SwifterSwiftSSH.podspec",
-				"search": {
-					"pattern": "spec.version = \"{{semver}}\"",
-					"replace": "spec.version = \"{{version}}\""
-				}
+				"search": "spec.version = \"{{semver}}\"",
+				"replace": "spec.version = \"{{version}}\""
 			}
 		}
 	},
