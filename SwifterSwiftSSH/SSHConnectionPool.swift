@@ -24,10 +24,10 @@ actor SSHConnectionPoolState {
         self.options = options;
     }
     
-    func getConnection() throws -> (connection: SSHConnection, id: UUID)? {
+    func getConnection() async throws -> (connection: SSHConnection, id: UUID)? {
         LogSSH("+ getConnection");
         if self.connections.filter({ $0.activeRuns == 0 }).count < 1, self.connections.count < self.maxConnections {
-            connections.append(SSHConnectionPoolStateObject(activeRuns: 0, connection: try SSHConnection(options: self.options), lastRun: .now()))
+            connections.append(SSHConnectionPoolStateObject(activeRuns: 0, connection: try await SSHConnection(options: self.options), lastRun: .now()))
         }
         
         var connectionState = self.connections.sorted(by: { $0.activeRuns < $1.activeRuns }).first!;

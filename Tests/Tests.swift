@@ -66,7 +66,7 @@ class Tests: XCTestCase {
             throw TestErrors.CONFIG_IS_NIL
         }
         
-        let ssh = try SSHConnection(options: sshConfig);
+        let ssh = await try SSHConnection(options: sshConfig);
         
         let outputString = "Hello world!"
         
@@ -331,6 +331,8 @@ class Tests: XCTestCase {
         await ssh.disconnect();
     }
     
+    #if !canImport(SwifterSwiftSSH_macos)
+    
     func testRSAKey() throws {
         
         let keyPair = try generateRSAKeyPair();
@@ -338,4 +340,6 @@ class Tests: XCTestCase {
         XCTAssert(keyPair.publicKey != "")
         XCTAssert(keyPair.privateKey != "")
     }
+    
+    #endif
 }

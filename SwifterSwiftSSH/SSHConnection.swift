@@ -9,18 +9,46 @@ import Foundation
 
 actor SSHConnection {
     private let options: SSHOption;
-    private var session: ssh_session;
+    private var session: ssh_session?;
     private var channel: ssh_channel?;
     private var authenticated: Bool = false;
     private var channelRef = 0;
     
     public var connected: Bool {
-        return authenticated && ssh_is_connected(self.session) > 0;
+        var connected = false;
+        
+        if self.session != nil {
+            try? self.doUnsafeTaskBlocking(task: {
+                connected = ssh_is_connected(self.session) > 0;
+            }, timeout: .now() + 1);
+        }
+        
+        return authenticated && connected;
     }
     
-    public init(options: SSHOption) throws {
+    public init(options: SSHOption) async throws {
         self.options = options;
                 
+        try self.createSession();
+    }
+    
+    private func invalidateSession() {
+        LogSSH("+ invalidateSession")
+        if let session = self.session {
+            LogSSH("+ ssh_free")
+            try? self.doUnsafeTaskBlocking(task: {
+                ssh_free(session);
+            }, timeout: .now() + 0.5);
+            LogSSH("- ssh_free")
+        }
+        self.session = nil;
+        LogSSH("- invalidateSession")
+    }
+    
+    private func createSession() throws {
+        LogSSH("+ createSession()")
+        self.invalidateSession();
+        
         var port = options.port;
         
         guard let session = ssh_new() else {
@@ -45,12 +73,17 @@ actor SSHConnection {
         }
         
         self.session = session;
+        LogSSH("- createSession()")
     }
     
     public func connect() async throws {
         var ra: Int32 = SSH_OK;
+        
+        if self.session == nil {
+            try self.createSession();
+        }
                 
-        if ssh_is_connected(self.session) < 1 {
+        if ssh_is_connected(self.session!) < 1 || self.connected == false {
             self.authenticated = false;
             
             if let channel = self.channel {
@@ -83,7 +116,7 @@ actor SSHConnection {
                     LogSSH("Connection timeout")
                     throw SSHError.SSH_CONNECT_TIMEOUT;
                 }
-                let errorPointer: UnsafeMutableRawPointer = .init(self.session);
+                let errorPointer: UnsafeMutableRawPointer = .init(self.session!);
                 if let errorCChar = ssh_get_error(errorPointer) {
                     let errorString = self.convertCharPointerToString(pointer: errorCChar);
                     LogSSH("libssh error string \(errorString)");
@@ -180,6 +213,8 @@ actor SSHConnection {
         }, timeout: .now() + 1)
         
         self.authenticated = false;
+        
+        self.invalidateSession();
     }
     
     func exec(command: String) async throws -> SSHExecResult {
@@ -519,6 +554,7 @@ actor SSHConnection {
         while (!thread.isFinished && !thread.isCancelled) {
             if timeout < .now() {
                 thread.cancel()
+                LogSSH("doUnsafeTask timed out")
                 throw SSHError.GENERAL_UNSAFE_TASK_TIMEOUT;
             }
             try await Task.sleep(nanoseconds: 10000);
@@ -540,6 +576,7 @@ actor SSHConnection {
         while (!thread.isFinished && !thread.isCancelled) {
             if timeout < .now() {
                 thread.cancel()
+                LogSSH("doUnsafeTaskBlocking timed out")
                 throw SSHError.GENERAL_UNSAFE_TASK_TIMEOUT;
             }
         }
