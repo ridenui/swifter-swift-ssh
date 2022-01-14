@@ -1,0 +1,138 @@
+## [1.1.2](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.1...1.1.2) (2022-01-14)
+
+
+### Bug Fixes
+
+* **ci:** add missing release-it plugin ([549654e](https://github.com/ridenui/swifter-swift-ssh/commit/549654e6ddec7bd13c623bff0dba63123fbedb0e))
+* **ci:** add release script ([1703af4](https://github.com/ridenui/swifter-swift-ssh/commit/1703af439181a79c27d1e3c32af64a4d9dfe3830))
+* **ci:** disable npm part of release-it ([c206b96](https://github.com/ridenui/swifter-swift-ssh/commit/c206b966abf8f4306548cea03c318248b40a815d))
+* **ci:** fix release it regex ([f0a9e1b](https://github.com/ridenui/swifter-swift-ssh/commit/f0a9e1b384932555c7c86e3262cbfc11857308ca))
+* **ci:** use regex capture group for version ([797c724](https://github.com/ridenui/swifter-swift-ssh/commit/797c724f9ce38f70b87a2ef1086a6c85f06a953c))
+
+
+
+## [1.1.1](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.1...1.1.2) (2022-01-14)
+
+
+### Bug Fixes
+
+* **ci:** add podPushArgs arguments ([461b88b](https://github.com/ridenui/swifter-swift-ssh/commit/461b88ba389c37ae6f45fc01ff46d7dd2bcafb56))
+
+
+
+# [1.1.0](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.1...1.1.2) (2022-01-14)
+
+
+### Bug Fixes
+
+* **ci:** add missing conventional-changelog-conventionalcommits to extra_plugins ([2658269](https://github.com/ridenui/swifter-swift-ssh/commit/2658269b41fc71ff8bde48a9ac8beeda6126efd8))
+* **ci:** add name via package.json and fix release branche ([acdd8bb](https://github.com/ridenui/swifter-swift-ssh/commit/acdd8bb1646fc9ceba3ffb3e269bb8705f823762))
+* **ci:** rearrange [@semantic-release](https://github.com/semantic-release) plugins ([76e9dd5](https://github.com/ridenui/swifter-swift-ssh/commit/76e9dd5d616e4216158093554244b88aa423ea62))
+* **ci:** setup correct node version ([cd39528](https://github.com/ridenui/swifter-swift-ssh/commit/cd3952833bfa531ffc4ee77a449048ba0f39701d))
+* **ci:** try to fix github push in ci publish action ([59a7607](https://github.com/ridenui/swifter-swift-ssh/commit/59a76071e558732627aa948c4cc0bda6156ad56d))
+* **ci:** try to fix npm install for semantic-release extra plugins ([13596b9](https://github.com/ridenui/swifter-swift-ssh/commit/13596b99a69c8109378b1c76558c1af3611b8e46))
+* **ci:** use custom @ridenui/semantic-release-cocoapods ([6b8f1e6](https://github.com/ridenui/swifter-swift-ssh/commit/6b8f1e636e4809bdd0316a365614dc69320a410f))
+* **release:** correct pod lint args ([a96de5f](https://github.com/ridenui/swifter-swift-ssh/commit/a96de5f054bfe796484e224a88dd994c6047cd4d))
+
+
+### Features
+
+* **ci:** use [@semantic-release](https://github.com/semantic-release) for cocoapods release ([dceeedb](https://github.com/ridenui/swifter-swift-ssh/commit/dceeedbdce1eb3d61cf54a2593f3d1570b99a8a5))
+
+
+
+## [1.0.10](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.1...1.1.2) (2022-01-14)
+
+
+### Bug Fixes
+
+* "ssh_socket_connect called on socket not unconnected" after device sleep ([4fb5466](https://github.com/ridenui/swifter-swift-ssh/commit/4fb5466ad3585757b124803f0666951fbcb38c95))
+
+
+
+## [1.0.9](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.1...1.1.2) (2022-01-13)
+
+
+### Bug Fixes
+
+* try to prevent dead lock on main thread when disconnecting a dead connection ([76188ce](https://github.com/ridenui/swifter-swift-ssh/commit/76188cec9bc822b857afaacbf52c33799609150d))
+
+
+
+## [1.0.8](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.1...1.1.2) (2021-12-23)
+
+
+### Features
+
+* auto find and close stuck connection in the connection pool ([8cad98c](https://github.com/ridenui/swifter-swift-ssh/commit/8cad98c8bd1cf22d1b43299ac02a24172b96269a))
+
+
+
+## [1.0.7](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.1...1.1.2) (2021-12-23)
+
+
+### Bug Fixes
+
+* prevent crash if there is an invalid connection ([24fcfc5](https://github.com/ridenui/swifter-swift-ssh/commit/24fcfc528520dbe718ef4bad2bbc6e65cf883414))
+
+
+
+## [1.0.6](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.1...1.1.2) (2021-12-23)
+
+
+### Bug Fixes
+
+* increase Task sleep if no connection is available ([9d72b0d](https://github.com/ridenui/swifter-swift-ssh/commit/9d72b0ddeb17903dedcbcd395bed566e6a6752e0))
+
+
+
+## [1.0.5](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.1...1.1.2) (2021-12-23)
+
+
+### Bug Fixes
+
+* improve pool connection handling ([fe89a03](https://github.com/ridenui/swifter-swift-ssh/commit/fe89a03b6fbc82477f37716f7e6c8dc2251fcaf2))
+
+
+
+## [1.0.4](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.1...1.1.2) (2021-12-23)
+
+
+
+## [1.0.3](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.1...1.1.2) (2021-12-23)
+
+
+### Bug Fixes
+
+* prevent deadlocks on ios ([91f886b](https://github.com/ridenui/swifter-swift-ssh/commit/91f886b79b8247e9316586e9520a1d150bff549d))
+
+
+
+## [1.0.1](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.1...1.1.2) (2021-12-22)
+
+
+
+# [1.0.0](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.1...1.1.2) (2021-12-21)
+
+
+### Features
+
+* connection pool ([846c7a1](https://github.com/ridenui/swifter-swift-ssh/commit/846c7a127f682558c0fc5cc35f5bc5560064fdd9))
+
+
+
+## [0.0.1](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.1...1.1.2) (2021-12-20)
+
+
+### Bug Fixes
+
+* make valid podspec ([8ca35b2](https://github.com/ridenui/swifter-swift-ssh/commit/8ca35b2d661995f0aaa78d9d081d58afcfdc3ea5))
+* prevent deadlock ([5922d82](https://github.com/ridenui/swifter-swift-ssh/commit/5922d82fab2231c4f8686edbc1fcbc0287934022))
+* race condition ([14c6991](https://github.com/ridenui/swifter-swift-ssh/commit/14c6991b8584097a7fe4e2787346d98b73e781b8))
+
+
+### Features
+
+* add first working exec method ([430a75a](https://github.com/ridenui/swifter-swift-ssh/commit/430a75a561533f23c2afbc6f60eb7fb8f0a97632))
+* use non blocking read ([9ee8e38](https://github.com/ridenui/swifter-swift-ssh/commit/9ee8e38c38127adc9ec0a3bf26067ddea8095ae7))
+
