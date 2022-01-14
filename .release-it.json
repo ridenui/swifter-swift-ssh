@@ -23,6 +23,10 @@
 			}
 		}
 	},
+	"npm": {
+		"ignoreVersion": true,
+		"publish": false
+	},
 	"hooks": {
 		"before:init": "pod lib lint --allow-warnings --use-libraries --verbose",
 		"after:git:release": "pod trunk push --allow-warnings --use-libraries"
