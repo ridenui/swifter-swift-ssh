@@ -491,9 +491,13 @@ actor SSHConnection {
                 await exitHandler.setCanSendSignal(to: false);
                 let exitStatus = await exitHandler.exitStatus ?? -10;
                 let exitSignal = await exitHandler.exitSignal;
-                LogSSH("+ ssh_channel_send_eof \( exitHandler.command)");
-                ssh_channel_send_eof(channel);
-                LogSSH("- ssh_channel_send_eof \( exitHandler.command)");
+                if await self.connected {
+                    LogSSH("+ ssh_channel_send_eof \( exitHandler.command)");
+                    let _ = try? await self.doUnsafeTask(task: {
+                        ssh_channel_send_eof(channel);
+                    }, timeout: .now() + 1);
+                    LogSSH("- ssh_channel_send_eof \( exitHandler.command)");
+                }
                 return (exitStatus, exitSignal);
             })
             
