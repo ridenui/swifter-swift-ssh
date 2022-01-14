@@ -1,3 +1,10 @@
+## [1.1.4](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.3...1.1.4) (2022-01-14)
+
+
+### Bug Fixes
+
+* **ssh:** try to prevent socket not unconnected error ([2a2b760](https://github.com/ridenui/swifter-swift-ssh/commit/2a2b760352ff85dbcdd0557fe2041538e876dd4f))
+
 ## [1.1.3](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.2...1.1.3) (2022-01-14)
 
 
