@@ -1,3 +1,10 @@
 {
-	"name": "SwifterSwiftSSH"
+	"name": "SwifterSwiftSSH",
+	"devDependencies": {
+		"@j-ulrich/release-it-regex-bumper": "^3.0.1",
+		"release-it": "^14.12.1"
+	},
+	"scripts": {
+		"after:git:release": ""
+	}
 }

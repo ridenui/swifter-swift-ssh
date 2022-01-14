@@ -1,0 +1,33 @@
+{
+	"github": {
+		"release": true
+	},
+	"git": {
+		"commitMessage": "chore(release): v${version}"
+	},
+	"plugins": {
+		"@release-it/conventional-changelog": {
+			"preset": "angular",
+			"infile": "CHANGELOG.md"
+		},
+		"@j-ulrich/release-it-regex-bumper": {
+			"in": {
+				"file": "SwifterSwiftSSH.podspec",
+				"search": {
+					"pattern": "spec.version = \"{{semver}}\""
+				}
+			},
+			"out": {
+				"file": "SwifterSwiftSSH.podspec",
+				"search": {
+					"pattern": "spec.version = \"{{semver}}\"",
+					"replace": "spec.version = \"{{version}}\""
+				}
+			}
+		}
+	},
+	"hooks": {
+		"before:init": "pod lib lint --allow-warnings --use-libraries --verbose",
+		"after:git:release": "pod trunk push --allow-warnings --use-libraries"
+	}
+}
