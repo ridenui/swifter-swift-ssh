@@ -79,9 +79,11 @@ actor SSHConnection {
     public func connect() async throws {
         var ra: Int32 = SSH_OK;
         
-        if self.session == nil {
-            try self.createSession();
+        if self.session != nil {
+            self.disconnect()
         }
+        
+        try self.createSession()
                 
         if ssh_is_connected(self.session!) < 1 || self.connected == false {
             self.authenticated = false;
@@ -119,6 +121,9 @@ actor SSHConnection {
                 let errorPointer: UnsafeMutableRawPointer = .init(self.session!);
                 if let errorCChar = ssh_get_error(errorPointer) {
                     let errorString = self.convertCharPointerToString(pointer: errorCChar);
+                    if errorString.contains("unconnected") {
+                        throw SSHError.SOCKET_UNCONNECTED
+                    }
                     LogSSH("libssh error string \(errorString)");
                     throw SSHError.CONNECTION_ERROR(errorString);
                 } else {
