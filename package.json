@@ -5,6 +5,6 @@
 		"release-it": "^14.12.1"
 	},
 	"scripts": {
-		"after:git:release": ""
+		"release": "release-it"
 	}
 }
