@@ -13,7 +13,8 @@
 		"@j-ulrich/release-it-regex-bumper": {
 			"in": {
 				"file": "SwifterSwiftSSH.podspec",
-				"search": "spec.version = \"{{semver}}\""
+				"search": "spec.version = \"(?<version>{{semver}})\"",
+				"versionCaptureGroup": "version"
 			},
 			"out": {
 				"file": "SwifterSwiftSSH.podspec",
