@@ -36,6 +36,10 @@ jobs:
             - name: Get swift version
               run: swift --version
 
+            - uses: actions/setup-node@v2
+              with:
+                  node-version: "14"
+
             - name: Semantic Release
               uses: cycjimmy/semantic-release-action@v2
               with:
