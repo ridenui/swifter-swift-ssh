@@ -20,7 +20,7 @@
 			"semantic-release-cocoapods",
 			{
 				"podLint": true,
-				"podLintArgs": "--allow-warnings --use-libraries --verbose"
+				"podLintArgs": ["--allow-warnings", "--use-libraries", "--verbose"]
 			}
 		]
 	]
