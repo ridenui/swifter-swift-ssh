@@ -9,18 +9,18 @@
 			}
 		],
 		"@semantic-release/release-notes-generator",
+		[
+			"@semantic-release/git",
+			{
+				"message": "chore(release): v${nextRelease.version}"
+			}
+		],
 		"@semantic-release/github",
 		[
 			"semantic-release-cocoapods",
 			{
 				"podLint": true,
 				"podLintArgs": "--allow-warnings --use-libraries --verbose"
-			}
-		],
-		[
-			"@semantic-release/git",
-			{
-				"message": "chore(release): v${nextRelease.version}"
 			}
 		]
 	]
