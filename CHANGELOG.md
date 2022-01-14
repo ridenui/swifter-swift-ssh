@@ -1,3 +1,10 @@
+## [1.1.3](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.2...1.1.3) (2022-01-14)
+
+
+### Bug Fixes
+
+* **ssh:** prevent bad access when calling disconnect on an active connection ([057612b](https://github.com/ridenui/swifter-swift-ssh/commit/057612bd3c3818f001b76743e5d67b18527530d7))
+
 ## [1.1.2](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.1...1.1.2) (2022-01-14)
 
 
