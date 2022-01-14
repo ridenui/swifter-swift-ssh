@@ -17,7 +17,7 @@
 		],
 		"@semantic-release/github",
 		[
-			"semantic-release-cocoapods",
+			"@ridenui/semantic-release-cocoapods",
 			{
 				"podLint": true,
 				"podLintArgs": ["--allow-warnings", "--use-libraries", "--verbose"]
