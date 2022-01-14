@@ -88,7 +88,7 @@
 		FB1DCD3A276D651F00B40636 /* SSHResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHResult.swift; sourceTree = "<group>"; };
 		FB51F8E3276D12DD00D8C262 /* libSwifterSwiftSSH.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSwifterSwiftSSH.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB51F8E6276D12DD00D8C262 /* SSH.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSH.swift; sourceTree = "<group>"; };
-		FB51F8ED276D134D00D8C262 /* SwifterSwiftSSH.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; path = SwifterSwiftSSH.podspec; sourceTree = "<group>"; };
+		FB51F8ED276D134D00D8C262 /* SwifterSwiftSSH.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; path = SwifterSwiftSSH.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		FB51F8EF276D30D200D8C262 /* lib */ = {isa = PBXFileReference; lastKnownFileType = folder; path = lib; sourceTree = "<group>"; };
 		FB51F8F0276D30D200D8C262 /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; path = include; sourceTree = "<group>"; };
 		FB51F8F3276D335400D8C262 /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; path = include; sourceTree = "<group>"; };
