@@ -387,11 +387,15 @@ actor SSHConnection {
         
         LogSSH("ssh_channel_request_exec")
         
-        var rc = ssh_channel_request_exec(channel, command);
+        var rc = try await self.doUnsafeTask(task: {
+            ssh_channel_request_exec(channel, command);
+        }, timeout: .now() + 3) ?? SSH_ERROR;
         
         while (rc == SSH_AGAIN) {
             try Task.checkCancellation()
-            rc = ssh_channel_request_exec(channel, command);
+            rc = try await self.doUnsafeTask(task: {
+                ssh_channel_request_exec(channel, command);
+            }, timeout: .now() + 3) ?? SSH_ERROR;
             try await Task.sleep(nanoseconds: 10000);
         }
         
@@ -433,9 +437,16 @@ actor SSHConnection {
                                     
                 while (ssh_channel_is_open(channel) > 0 && ssh_channel_is_eof(channel) != 1 && currentChannelRef == channelRefPtr.pointee) {
                     try Task.checkCancellation()
-                    let nbytesStdout = ssh_channel_read_nonblocking(channel, bufferStdout, UInt32(count * MemoryLayout<CChar>.size), 0);
+                    
+                    let nbytesStdout = try await self.doUnsafeTask(task: {
+                        ssh_channel_read_nonblocking(channel, bufferStdout, UInt32(count * MemoryLayout<CChar>.size), 0);
+                    }, timeout: .now() + 0.8) ?? -10;
+                    
                     try Task.checkCancellation()
-                    let nbytesStderr = ssh_channel_read_nonblocking(channel, bufferStderr, UInt32(count * MemoryLayout<CChar>.size), 1);
+                    
+                    let nbytesStderr = try await self.doUnsafeTask(task: {
+                        ssh_channel_read_nonblocking(channel, bufferStderr, UInt32(count * MemoryLayout<CChar>.size), 1);
+                    }, timeout: .now() + 0.8) ?? -10;
                                         
                 
                     // LogSSH("Read nbytesStdout=\(nbytesStdout) nbytesStderr=\(nbytesStderr)");
