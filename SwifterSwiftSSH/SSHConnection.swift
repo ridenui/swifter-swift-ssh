@@ -101,11 +101,15 @@ actor SSHConnection {
             
             let connectStarted: DispatchTime = .now();
             
-            var rc = ssh_connect(self.session);
+            var rc = try await self.doUnsafeTask {
+                ssh_connect(self.session);
+            };
             
             while (rc == SSH_AGAIN && !(connectStarted < .now() - 5)) {
                 try Task.checkCancellation()
-                rc = ssh_connect(self.session);
+                rc = try await self.doUnsafeTask {
+                    ssh_connect(self.session);
+                };
                 try await Task.sleep(nanoseconds: 10000);
             }
             
