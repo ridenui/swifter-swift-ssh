@@ -1,3 +1,10 @@
+## [1.1.5](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.4...1.1.5) (2022-01-15)
+
+
+### Bug Fixes
+
+* **connect:** run ssh_connect with doUnsafeTask ([d97443e](https://github.com/ridenui/swifter-swift-ssh/commit/d97443e9190676a910511c86ce7544b182911238))
+
 ## [1.1.4](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.3...1.1.4) (2022-01-14)
 
 
