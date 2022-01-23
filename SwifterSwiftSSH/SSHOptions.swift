@@ -7,6 +7,12 @@
 
 import Foundation
 
+public enum HostKeyEvent {
+    case KEY_CHANGED
+    case OTHER
+    case UNKNOWN
+}
+
 /// SSH options required for `SSH`
 public struct SSHOption {
     /// Initialize SSHOptions
@@ -37,4 +43,6 @@ public struct SSHOption {
     /// - Warning: You need to change this path on iOS
     public var knownHostFile: String?;
     public var idRsaLocation: String?;
+    
+    public var onHostkeyEvent: ()
 }

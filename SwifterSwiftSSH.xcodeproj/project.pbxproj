@@ -43,6 +43,7 @@
 		FBF87B7F27711D4B00D9D8E2 /* SSHConnectionPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF87B7D27711D4700D9D8E2 /* SSHConnectionPool.swift */; };
 		FBF87B8127711D6900D9D8E2 /* SSHConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF87B8027711D6900D9D8E2 /* SSHConnection.swift */; };
 		FBF87B8227711D6900D9D8E2 /* SSHConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF87B8027711D6900D9D8E2 /* SSHConnection.swift */; };
+		FBFCB4C62795EECB00133438 /* HostKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBFCB4C52795EECB00133438 /* HostKey.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -115,6 +116,7 @@
 		FBBB49282772AB6200D07904 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		FBF87B7D27711D4700D9D8E2 /* SSHConnectionPool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHConnectionPool.swift; sourceTree = "<group>"; };
 		FBF87B8027711D6900D9D8E2 /* SSHConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHConnection.swift; sourceTree = "<group>"; };
+		FBFCB4C52795EECB00133438 /* HostKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostKey.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +197,7 @@
 				FBBB492527721BCB00D07904 /* SSHExecDelegate.swift */,
 				FBAE5AE0277148D000A591F0 /* SSHLog.swift */,
 				FBB5FFF82773CCCE00DC24FA /* KeyUtility.swift */,
+				FBFCB4C52795EECB00133438 /* HostKey.swift */,
 				FB51F918276D3B9400D8C262 /* bridge.m */,
 			);
 			path = SwifterSwiftSSH;
@@ -386,6 +389,7 @@
 				FB1DCD3B276D651F00B40636 /* SSHResult.swift in Sources */,
 				FBAE5ADE277148B400A591F0 /* DispatchQueue+currentLabel.swift in Sources */,
 				FB51F91C276D3F1900D8C262 /* SSHOptions.swift in Sources */,
+				FBFCB4C62795EECB00133438 /* HostKey.swift in Sources */,
 				FBF87B7E27711D4700D9D8E2 /* SSHConnectionPool.swift in Sources */,
 				FB51F8E7276D12DD00D8C262 /* SSH.swift in Sources */,
 				FBAE5AE1277148D000A591F0 /* SSHLog.swift in Sources */,
