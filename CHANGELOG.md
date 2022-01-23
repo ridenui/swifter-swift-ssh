@@ -1,3 +1,5 @@
+## [1.1.7](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.6...1.1.7) (2022-01-23)
+
 ## [1.1.6](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.5...1.1.6) (2022-01-15)
 
 ## [1.1.5](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.4...1.1.5) (2022-01-15)
