@@ -1,3 +1,4 @@
 .DS_Store
 Tests/credentials.plist
 node_modules
+build

@@ -1,22 +1,21 @@
 name: Publish to GitHub Pages
 
 on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
+    push:
+        branches: [main]
+    workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: macos-latest
-    timeout-minutes: 5
-    steps:
-    - uses: actions/checkout@v2
-    - name: Generate docs
-      run: jazzy --module SwifterSwiftSSH
-    - name: Publish generated content to GitHub Pages
-      uses: tsunematsu21/actions-publish-gh-pages@v1.0.2
-      with:
-        dir: docs
-        branch: gh-pages
-        token: ${{ secrets.ACCESS_TOKEN }}
-      
+    build:
+        runs-on: macos-latest
+        timeout-minutes: 5
+        steps:
+            - uses: actions/checkout@v2
+            - name: Generate docs
+              run: jazzy --module SwifterSwiftSSH --copyright "This project is licensed under the [MIT License](https://github.com/ridenui/swifter-swift-ssh/blob/main/LICENSE)."
+            - name: Publish generated content to GitHub Pages
+              uses: tsunematsu21/actions-publish-gh-pages@v1.0.2
+              with:
+                  dir: docs
+                  branch: gh-pages
+                  token: ${{ secrets.ACCESS_TOKEN }}
