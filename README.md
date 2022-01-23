@@ -1,6 +1,6 @@
 #  SwifterSwiftSSH
 
-![Pod Version](https://img.shields.io/cocoapods/v/SwifterSwiftSSH?style=for-the-badge) ![License](https://img.shields.io/cocoapods/l/SwifterSwiftSSH?style=for-the-badge) [![Docs](https://img.shields.io/badge/-Docs-blueviolet?style=for-the-badge)](https://ssh.ridenui.org) [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](https://lbesson.mit-license.org/)
+![Pod Version](https://img.shields.io/cocoapods/v/SwifterSwiftSSH?style=for-the-badge) ![License](https://img.shields.io/cocoapods/l/SwifterSwiftSSH?style=for-the-badge) [![Docs](https://img.shields.io/badge/-Docs-blueviolet?style=for-the-badge)](https://ssh.ridenui.org)
 
 
 ### Requirements
