@@ -15,6 +15,7 @@ actor SSHConnection {
     private var channel: ssh_channel?;
     private var authenticated: Bool = false;
     private var channelRef = 0;
+    private var channelLock = NSLock();
     
     public var connected: Bool {
         var connected = false;
@@ -201,6 +202,10 @@ actor SSHConnection {
     
     private func cleanUpChannel() {
         if let channel = self.channel {
+            self.channelLock.lock();
+            defer {
+                self.channelLock.unlock();
+            }
             let _ = try? self.doUnsafeTaskBlocking(task: {
                 LogSSH("Send QUIT")
                 ssh_channel_request_send_signal(channel, "QUIT");
@@ -274,6 +279,7 @@ actor SSHConnection {
         let optionalChannel = self.channel;
         let currentChannelRef = self.channelRef;
         let channelRefPtr: UnsafeMutablePointer<Int> = .init(&self.channelRef);
+        let channelLockPtr: UnsafeMutablePointer<NSLock> = .init(&self.channelLock);
                         
         try Task.checkCancellation()
                 
@@ -520,7 +526,7 @@ actor SSHConnection {
                 }
                 try Task.checkCancellation()
                 LogSSH("Wait semaphore")
-                let end: DispatchTime = .now() + 1;
+                let end: DispatchTime = .now() + 0.3;
                 while (exitHandler.semaphore.wait(timeout: .now() + 0.00000001) == .timedOut && end > .now()) {
                     try await Task.sleep(nanoseconds: 10000000);
                 }
@@ -533,8 +539,12 @@ actor SSHConnection {
                 if await self.connected {
                     LogSSH("+ ssh_channel_send_eof \( exitHandler.command)");
                     let _ = try? await self.doUnsafeTask(task: {
-                        ssh_channel_send_eof(channel);
+                        channelLockPtr.pointee.lock()
+                        if channelRefPtr.pointee == currentChannelRef {
+                            ssh_channel_send_eof(channel);
+                        }
                     }, timeout: .now() + 1);
+                    channelLockPtr.pointee.unlock()
                     LogSSH("- ssh_channel_send_eof \( exitHandler.command)");
                 }
                 return (exitStatus, exitSignal);
