@@ -1,3 +1,10 @@
+## [1.1.9](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.8...1.1.9) (2022-02-03)
+
+
+### Bug Fixes
+
+* prevent another channel bad access crash ([32a7b6b](https://github.com/ridenui/swifter-swift-ssh/commit/32a7b6bec5c44fa37987c4bd9b0e4e3173464d49))
+
 ## [1.1.8](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.7...1.1.8) (2022-02-03)
 
 
