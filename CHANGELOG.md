@@ -1,3 +1,10 @@
+## [1.1.8](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.7...1.1.8) (2022-02-03)
+
+
+### Bug Fixes
+
+* improve reliability of stdout and stderr captcha ([a9fb961](https://github.com/ridenui/swifter-swift-ssh/commit/a9fb9614894a7be7124ea8d8ebec8a34a5544f19))
+
 ## [1.1.7](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.6...1.1.7) (2022-01-23)
 
 ## [1.1.6](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.5...1.1.6) (2022-01-15)
