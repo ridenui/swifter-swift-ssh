@@ -7,6 +7,8 @@
 
 import Foundation
 
+var cmdId: Int = 0;
+
 actor SSHConnection {
     private let options: SSHOption;
     private var session: ssh_session?;
@@ -434,21 +436,35 @@ actor SSHConnection {
                     bufferStdout.deallocate();
                     bufferStderr.deallocate();
                 }
+                
+                var readErrorsTimeout = 0
+                var readErrors = 0
                                     
                 while (ssh_channel_is_open(channel) > 0 && ssh_channel_is_eof(channel) != 1 && currentChannelRef == channelRefPtr.pointee) {
                     try Task.checkCancellation()
                     
                     let nbytesStdout = try await self.doUnsafeTask(task: {
                         ssh_channel_read_nonblocking(channel, bufferStdout, UInt32(count * MemoryLayout<CChar>.size), 0);
-                    }, timeout: .now() + 0.8) ?? -10;
+                    }, timeout: .now() + 0.8) ?? -1337;
+                    
+                    if nbytesStdout == -1337 {
+                        readErrorsTimeout += 1
+                    } else if nbytesStdout < 0 {
+                        readErrors += 1
+                    }
                     
                     try Task.checkCancellation()
                     
                     let nbytesStderr = try await self.doUnsafeTask(task: {
                         ssh_channel_read_nonblocking(channel, bufferStderr, UInt32(count * MemoryLayout<CChar>.size), 1);
-                    }, timeout: .now() + 0.8) ?? -10;
+                    }, timeout: .now() + 0.8) ?? -1337;
                                         
-                
+                    if nbytesStderr == -1337 {
+                        readErrorsTimeout += 1
+                    } else if nbytesStderr < 0 {
+                        readErrors += 1
+                    }
+                    
                     // LogSSH("Read nbytesStdout=\(nbytesStdout) nbytesStderr=\(nbytesStderr)");
                     
                     if nbytesStdout == SSH_EOF, nbytesStderr == SSH_EOF {
@@ -478,8 +494,8 @@ actor SSHConnection {
                         }
                     }
                     
-                    if nbytesStdout < 0 || nbytesStderr < 0 {
-                        LogSSH("end std while \(exitHandler.command)")
+                    if readErrors > 10 || readErrorsTimeout > 4 {
+                        LogSSH("end std while \(exitHandler.command) nbytesStdout=\(nbytesStdout) nbytesStderr=\(nbytesStderr)")
                         await exitHandler.sendEndSignal(std: true);
                         return (stdout, stderr);
                     }
@@ -504,9 +520,12 @@ actor SSHConnection {
                 }
                 try Task.checkCancellation()
                 LogSSH("Wait semaphore")
-                let end: DispatchTime = .now() + 0.3;
+                let end: DispatchTime = .now() + 1;
                 while (exitHandler.semaphore.wait(timeout: .now() + 0.00000001) == .timedOut && end > .now()) {
                     try await Task.sleep(nanoseconds: 10000000);
+                }
+                if end <= .now() {
+                    LogSSH("Wait semaphore timeout");
                 }
                 await exitHandler.setCanSendSignal(to: false);
                 let exitStatus = await exitHandler.exitStatus ?? -10;

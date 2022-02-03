@@ -267,6 +267,30 @@ class Tests: XCTestCase {
             
             taskGroup.addTask {
                 for _ in 0..<6 {
+                    let result = try await ssh.exec(command: "echo -e \"Hello\\nthere\\nHow\\nIs\\nit?\"");
+                    
+                    print(result)
+                    
+                    let testString = """
+Hello
+there
+How
+Is
+it?
+
+""";
+                    
+                    if result.stdout != testString {
+                        print("Wrong result:")
+                        print(result.stdout)
+                    }
+                    
+                    XCTAssert(result.stdout == testString)
+                }
+            }
+            
+            taskGroup.addTask {
+                for _ in 0..<6 {
                     
                     let result = try await ssh.exec(command: "uptime");
                     print(result);
