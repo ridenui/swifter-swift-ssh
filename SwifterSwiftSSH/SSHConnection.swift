@@ -9,13 +9,14 @@ import Foundation
 
 var cmdId: Int = 0;
 
-actor SSHConnection {
+class SSHConnection {
     private let options: SSHOption;
     private var session: ssh_session?;
     private var channel: ssh_channel?;
     private var authenticated: Bool = false;
     private var channelRef = 0;
     private var channelLock = NSLock();
+    private var sessionLock = NSLock();
     
     public var connected: Bool {
         var connected = false;
@@ -35,7 +36,15 @@ actor SSHConnection {
         try self.createSession();
     }
     
-    private func invalidateSession() {
+    private func invalidateSession(lock: Bool = true) {
+        if lock {
+            self.sessionLock.lock();
+        }
+        defer {
+            if lock {
+                self.sessionLock.unlock();
+            }
+        }
         LogSSH("+ invalidateSession")
         if let session = self.session {
             LogSSH("+ ssh_free")
@@ -48,9 +57,17 @@ actor SSHConnection {
         LogSSH("- invalidateSession")
     }
     
-    private func createSession() throws {
+    private func createSession(lock: Bool = true) throws {
+        if lock {
+            self.sessionLock.lock();
+        }
+        defer {
+            if lock {
+                self.sessionLock.unlock();
+            }
+        }
         LogSSH("+ createSession()")
-        self.invalidateSession();
+        self.invalidateSession(lock: false);
         
         var port = options.port;
         
@@ -80,13 +97,17 @@ actor SSHConnection {
     }
     
     public func connect() async throws {
+        self.sessionLock.lock();
+        defer {
+            self.sessionLock.unlock();
+        }
         var ra: Int32 = SSH_OK;
         
         if self.session != nil {
-            self.disconnect()
+            self.disconnect(lock: false)
         }
         
-        try self.createSession()
+        try self.createSession(lock: false)
                 
         if ssh_is_connected(self.session!) < 1 || self.connected == false {
             self.authenticated = false;
@@ -99,7 +120,7 @@ actor SSHConnection {
             LogSSH("ssh_connect")
             
             if ssh_is_connected(self.session) > 0 {
-                self.disconnect();
+                self.disconnect(lock: false);
             }
             
             let connectStarted: DispatchTime = .now();
@@ -123,6 +144,7 @@ actor SSHConnection {
             if rc != SSH_OK {
                 if isTimeOut {
                     LogSSH("Connection timeout")
+                    self.disconnect(lock: false)
                     throw SSHError.SSH_CONNECT_TIMEOUT;
                 }
                 let errorPointer: UnsafeMutableRawPointer = .init(self.session!);
@@ -132,8 +154,10 @@ actor SSHConnection {
                         throw SSHError.SOCKET_UNCONNECTED
                     }
                     LogSSH("libssh error string \(errorString)");
+                    self.disconnect(lock: false)
                     throw SSHError.CONNECTION_ERROR(errorString);
                 } else {
+                    self.disconnect(lock: false)
                     throw SSHError.CONNECTION_ERROR("unknown connection error");
                 }
             }
@@ -154,13 +178,13 @@ actor SSHConnection {
         if ra == SSH_AUTH_SUCCESS.rawValue {
             self.authenticated = true;
         } else if ra == SSH_AUTH_DENIED.rawValue {
-            ssh_disconnect(self.session);
+            self.disconnect(lock: false)
             throw SSHError.AUTH_DENIED;
         } else if ra == SSH_AUTH_ERROR.rawValue {
-            ssh_disconnect(self.session);
+            self.disconnect(lock: false)
             throw SSHError.AUTH_ERROR;
         } else {
-            ssh_disconnect(self.session);
+            self.disconnect(lock: false)
             throw SSHError.AUTH_ERROR_OTHER(ssh_auth_e(ra));
         }
     }
@@ -201,6 +225,7 @@ actor SSHConnection {
     }
     
     private func cleanUpChannel() {
+        self.channelRef += 1;
         if let channel = self.channel {
             self.channelLock.lock();
             defer {
@@ -216,11 +241,10 @@ actor SSHConnection {
                 ssh_channel_free(channel);
             }, timeout: .now() + 0.4)
             self.channel = nil;
-            self.channelRef += 1;
         }
     }
     
-    public func disconnect() {
+    public func disconnect(lock: Bool = true) {
         self.cleanUpChannel();
         
         try? self.doUnsafeTaskBlocking(task: {
@@ -230,7 +254,7 @@ actor SSHConnection {
         
         self.authenticated = false;
         
-        self.invalidateSession();
+        self.invalidateSession(lock: lock);
     }
     
     func exec(command: String) async throws -> SSHExecResult {
@@ -278,8 +302,6 @@ actor SSHConnection {
         let channel = self.channel!;
         let optionalChannel = self.channel;
         let currentChannelRef = self.channelRef;
-        let channelRefPtr: UnsafeMutablePointer<Int> = .init(&self.channelRef);
-        let channelLockPtr: UnsafeMutablePointer<NSLock> = .init(&self.channelLock);
                         
         try Task.checkCancellation()
                 
@@ -446,11 +468,14 @@ actor SSHConnection {
                 var readErrorsTimeout = 0
                 var readErrors = 0
                                     
-                while (ssh_channel_is_open(channel) > 0 && ssh_channel_is_eof(channel) != 1 && currentChannelRef == channelRefPtr.pointee) {
+                while (ssh_channel_is_open(channel) > 0 && ssh_channel_is_eof(channel) != 1 && currentChannelRef == self.channelRef) {
                     try Task.checkCancellation()
                     
                     let nbytesStdout = try await self.doUnsafeTask(task: {
-                        ssh_channel_read_nonblocking(channel, bufferStdout, UInt32(count * MemoryLayout<CChar>.size), 0);
+                        if currentChannelRef == self.channelRef {
+                            return Int(ssh_channel_read_nonblocking(channel, bufferStdout, UInt32(count * MemoryLayout<CChar>.size), 0));
+                        }
+                        return -1337
                     }, timeout: .now() + 0.8) ?? -1337;
                     
                     if nbytesStdout == -1337 {
@@ -462,7 +487,10 @@ actor SSHConnection {
                     try Task.checkCancellation()
                     
                     let nbytesStderr = try await self.doUnsafeTask(task: {
-                        ssh_channel_read_nonblocking(channel, bufferStderr, UInt32(count * MemoryLayout<CChar>.size), 1);
+                        if currentChannelRef == self.channelRef {
+                            return Int(ssh_channel_read_nonblocking(channel, bufferStderr, UInt32(count * MemoryLayout<CChar>.size), 1));
+                        }
+                        return -1337
                     }, timeout: .now() + 0.8) ?? -1337;
                                         
                     if nbytesStderr == -1337 {
@@ -478,7 +506,7 @@ actor SSHConnection {
                     }
                     
                     if nbytesStdout > 0 {
-                        let new = self.convertCharPointerToString(pointer: bufferStdout, bytesToCopy: nbytesStdout);
+                        let new = self.convertCharPointerToString(pointer: bufferStdout, bytesToCopy: Int32(nbytesStdout));
                         stdout += new;
                         if let delegate = delegate {
                             if let onStdout = delegate.onStdout {
@@ -489,7 +517,7 @@ actor SSHConnection {
                         }
                     }
                     if nbytesStderr > 0 {
-                        let new = self.convertCharPointerToString(pointer: bufferStderr, bytesToCopy: nbytesStderr);
+                        let new = self.convertCharPointerToString(pointer: bufferStderr, bytesToCopy: Int32(nbytesStderr));
                         stderr += new;
                         if let delegate = delegate {
                             if let onStderr = delegate.onStderr {
@@ -536,15 +564,15 @@ actor SSHConnection {
                 await exitHandler.setCanSendSignal(to: false);
                 let exitStatus = await exitHandler.exitStatus ?? -10;
                 let exitSignal = await exitHandler.exitSignal;
-                if await self.connected {
+                if self.connected {
                     LogSSH("+ ssh_channel_send_eof \( exitHandler.command)");
                     let _ = try? await self.doUnsafeTask(task: {
-                        channelLockPtr.pointee.lock()
-                        if channelRefPtr.pointee == currentChannelRef {
+                        self.channelLock.lock()
+                        if self.channelRef == currentChannelRef {
                             ssh_channel_send_eof(channel);
                         }
                     }, timeout: .now() + 1);
-                    channelLockPtr.pointee.unlock()
+                    self.channelLock.unlock()
                     LogSSH("- ssh_channel_send_eof \( exitHandler.command)");
                 }
                 return (exitStatus, exitSignal);
@@ -636,11 +664,9 @@ actor SSHConnection {
         
         return returnValue;
     }
-
     
     deinit {
         self.disconnect();
-        ssh_free(self.session);
     }
     
 }

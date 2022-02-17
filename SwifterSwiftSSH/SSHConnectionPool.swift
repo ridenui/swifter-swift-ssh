@@ -24,7 +24,7 @@ actor SSHConnectionPoolState {
         self.options = options;
     }
     
-    func getConnection() async throws -> (connection: SSHConnection, id: UUID)? {
+    func getConnection() async throws -> SSHConnectionPoolStateObject? {
         LogSSH("+ getConnection");
         if self.connections.filter({ $0.activeRuns == 0 }).count < 1, self.connections.count < self.maxConnections {
             connections.append(SSHConnectionPoolStateObject(activeRuns: 0, connection: try await SSHConnection(options: self.options), lastRun: .now()))
@@ -42,7 +42,7 @@ actor SSHConnectionPoolState {
         
         LogSSH("- getConnection \(connectionState.id) \(connectionState.activeRuns)");
         
-        return (connection: connectionState.connection, id: connectionState.id);
+        return connectionState;
     }
     
     func freeConnection(id: UUID) async {
@@ -56,11 +56,22 @@ actor SSHConnectionPoolState {
         while (self.connections.count > self.normalConnections && self.connections.filter({ $0.activeRuns == 0 && $0.lastRun < .now() - 5 }).count > 0) {
             let toBeKilledConnection = self.connections.first(where: { $0.activeRuns == 0 && $0.lastRun < .now() - 5 })!;
             
-            await toBeKilledConnection.connection.disconnect();
+            toBeKilledConnection.connection.disconnect()
             
             self.connections.removeAll(where: { $0.id == toBeKilledConnection.id });
         }
         LogSSH("- freeConnection");
+    }
+    
+    func removeConnection(id: UUID) async {
+        LogSSH("+ removeConnection");
+        
+        if let index = self.connections.firstIndex(where: { $0.id == id }) {
+            self.connections[index].connection.disconnect();
+            self.connections.remove(at: index);
+        }
+        
+        LogSSH("- removeConnection");
     }
     
     func closeOldestStuckConnection() async {
@@ -69,8 +80,7 @@ actor SSHConnectionPoolState {
         let connection = self.connections.sorted(by: { $0.activeRuns > $1.activeRuns && $0.lastRun > $1.lastRun }).first;
         
         if let connection = connection {
-            await connection.connection.disconnect();
-            await self.freeConnection(id: connection.id);
+            await self.removeConnection(id: connection.id);
         }
         
         LogSSH("- closeOldestStuckConnection");
@@ -79,7 +89,7 @@ actor SSHConnectionPoolState {
     func disconnect() async {
         LogSSH("+ disconnect");
         for connectionState in self.connections {
-            await connectionState.connection.disconnect();
+            connectionState.connection.disconnect();
         }
         self.connections.removeAll();
         LogSSH("- disconnect");
@@ -112,14 +122,14 @@ class SSHConnectionPool {
                 connectionState = try await self.pool.getConnection();
             }
         }
-        
+                
         let connection = connectionState!.connection;
         
         do {
             let result = try await Task<SSHExecResult, Error>.detached(priority: .background, operation: {
                 return try await connection.exec(command: command, delegate: delegate, notCancelable: notCancelable)
             }).value;
-            
+                        
             await self.pool.freeConnection(id: connectionState!.id);
             
             return result;

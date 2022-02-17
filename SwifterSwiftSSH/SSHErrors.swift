@@ -21,6 +21,7 @@ public enum SSHError: Error {
     case SSH_IO_ERROR
     case SSH_CONNECT_TIMEOUT
     case SSH_CHANNEL_TIMEOUT
+    case SSH_SESSION_INVALIDATED
     
     case GENERAL_UNSAFE_TASK_TIMEOUT
     
@@ -56,6 +57,8 @@ public enum SSHError: Error {
             return "General task timeout. This can happen when a call to libssh never returns. This error helps us to prevent a dead lock on the main thread"
         case .SOCKET_UNCONNECTED:
             return "ssh_socket_connect called on socket not unconnected"
+        case .SSH_SESSION_INVALIDATED:
+            return "ssh session was invalidated by some other thread"
         }
     }
 }
