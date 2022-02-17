@@ -86,21 +86,28 @@
     },
     {
       "file": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
-      "line": 25,
+      "line": 24,
+      "symbol": "SSHError.SSH_SESSION_INVALIDATED",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
+      "line": 26,
       "symbol": "SSHError.GENERAL_UNSAFE_TASK_TIMEOUT",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
-      "line": 27,
+      "line": 28,
       "symbol": "SSHError.SOCKET_UNCONNECTED",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
-      "line": 29,
+      "line": 30,
       "symbol": "SSHError.errorDescription",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
