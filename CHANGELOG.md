@@ -1,3 +1,10 @@
+## [1.1.13](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.12...1.1.13) (2022-02-18)
+
+
+### Bug Fixes
+
+* add a lock to every libssh call ([99eddce](https://github.com/ridenui/swifter-swift-ssh/commit/99eddce6e9117fc30478027b80f25a44414c55f8))
+
 ## [1.1.12](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.11...1.1.12) (2022-02-18)
 
 
