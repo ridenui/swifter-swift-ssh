@@ -196,12 +196,13 @@ class SSHConnection {
         
         self.sessionLock.lock();
         
-        guard let channel = ssh_channel_new(self.session) else {
+        defer {
             self.sessionLock.unlock();
-            throw SSHError.CAN_NOT_OPEN_CHANNEL;
         }
         
-        self.sessionLock.unlock();
+        guard let channel = ssh_channel_new(self.session) else {
+            throw SSHError.CAN_NOT_OPEN_CHANNEL;
+        }
         
         LogSSH("ssh_channel_open_session")
         
@@ -236,12 +237,12 @@ class SSHConnection {
     }
     
     private func cleanUpChannel() {
+        self.channelLock.lock();
+        defer {
+            self.channelLock.unlock();
+        }
         self.channelRef += 1;
         if let channel = self.channel {
-            self.channelLock.lock();
-            defer {
-                self.channelLock.unlock();
-            }
             let _ = try? self.doUnsafeTaskBlocking(task: {
                 LogSSH("Send QUIT")
                 ssh_channel_request_send_signal(channel, "QUIT");
