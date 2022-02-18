@@ -194,11 +194,22 @@ class SSHConnection {
         
         LogSSH("ssh_channel_new")
         
+        self.sessionLock.lock();
+        
         guard let channel = ssh_channel_new(self.session) else {
+            self.sessionLock.unlock();
             throw SSHError.CAN_NOT_OPEN_CHANNEL;
         }
         
+        self.sessionLock.unlock();
+        
         LogSSH("ssh_channel_open_session")
+        
+        self.channelLock.lock();
+        
+        defer {
+            self.channelLock.unlock();
+        }
         
         var rc = ssh_channel_open_session(channel);
         

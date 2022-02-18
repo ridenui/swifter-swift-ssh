@@ -108,8 +108,8 @@
             filePath = "SwifterSwiftSSH/SSHConnection.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "368"
-            endingLineNumber = "368"
+            startingLineNumber = "379"
+            endingLineNumber = "379"
             landmarkName = "exec(commandInput:delegate:notCancelable:)"
             landmarkType = "7">
             <Locations>
@@ -141,6 +141,21 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "368"
                   endingLineNumber = "368"
+                  offsetFromSymbolStart = "357">
+               </Location>
+               <Location
+                  uuid = "9136FE13-EEB7-4FBD-8F7C-05F6D38D3E01 - c677bacffd145fc9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.OpaquePointer&gt;, Swift.Optional&lt;Swift.OpaquePointer&gt;, Swift.Optional&lt;Swift.UnsafePointer&lt;Swift.Int8&gt;&gt;, Swift.Int32, Swift.Optional&lt;Swift.UnsafePointer&lt;Swift.Int8&gt;&gt;, Swift.Optional&lt;Swift.UnsafePointer&lt;Swift.Int8&gt;&gt;, Swift.Optional&lt;Swift.UnsafeMutableRawPointer&gt;) -&gt; () in SwifterSwiftSSH_macos.SSHConnection.exec(commandInput: Swift.String, delegate: Swift.Optional&lt;SwifterSwiftSSH_macos.SSHExecDelegate&gt;, notCancelable: Swift.Bool) async throws -&gt; SwifterSwiftSSH_macos.SSHExecResult"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/SSHConnection.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "379"
+                  endingLineNumber = "379"
                   offsetFromSymbolStart = "357">
                </Location>
             </Locations>
