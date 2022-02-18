@@ -418,8 +418,14 @@ class SSHConnection {
         cbs.size = MemoryLayout.size(ofValue: cbs);
         
         LogSSH("ssh_set_channel_callbacks")
+        
+        self.sessionLock.lock();
+        self.channelLock.lock();
                             
         ssh_set_channel_callbacks(channel, &cbs);
+        
+        self.sessionLock.unlock();
+        self.channelLock.unlock();
         
         defer {
             if optionalChannel != nil, currentChannelRef == self.channelRef {
@@ -430,13 +436,25 @@ class SSHConnection {
         LogSSH("ssh_channel_request_exec")
         
         var rc = try await self.doUnsafeTask(task: {
-            ssh_channel_request_exec(channel, command);
+            self.sessionLock.lock();
+            self.channelLock.lock();
+            defer {
+                self.sessionLock.unlock();
+                self.channelLock.unlock();
+            }
+            return ssh_channel_request_exec(channel, command);
         }, timeout: .now() + 3) ?? SSH_ERROR;
         
         while (rc == SSH_AGAIN) {
             try Task.checkCancellation()
             rc = try await self.doUnsafeTask(task: {
-                ssh_channel_request_exec(channel, command);
+                self.sessionLock.lock();
+                self.channelLock.lock();
+                defer {
+                    self.sessionLock.unlock();
+                    self.channelLock.unlock();
+                }
+                return ssh_channel_request_exec(channel, command);
             }, timeout: .now() + 3) ?? SSH_ERROR;
             try await Task.sleep(nanoseconds: 10000);
         }
@@ -479,12 +497,28 @@ class SSHConnection {
                 
                 var readErrorsTimeout = 0
                 var readErrors = 0
+                
+                func lock() -> Bool {
+                    self.sessionLock.lock();
+                    self.channelLock.lock();
+                    return true;
+                }
+                
+                func unlock() {
+                    self.sessionLock.unlock();
+                    self.channelLock.unlock();
+                }
                                     
-                while (ssh_channel_is_open(channel) > 0 && ssh_channel_is_eof(channel) != 1 && currentChannelRef == self.channelRef) {
+                while (lock() && ssh_channel_is_open(channel) > 0 && ssh_channel_is_eof(channel) != 1 && currentChannelRef == self.channelRef) {
+                    unlock();
                     try Task.checkCancellation()
                     
                     let nbytesStdout = try await self.doUnsafeTask(task: {
                         if currentChannelRef == self.channelRef {
+                            let _ = lock()
+                            defer {
+                                unlock()
+                            }
                             return Int(ssh_channel_read_nonblocking(channel, bufferStdout, UInt32(count * MemoryLayout<CChar>.size), 0));
                         }
                         return -1337
@@ -500,6 +534,10 @@ class SSHConnection {
                     
                     let nbytesStderr = try await self.doUnsafeTask(task: {
                         if currentChannelRef == self.channelRef {
+                            let _ = lock()
+                            defer {
+                                unlock()
+                            }
                             return Int(ssh_channel_read_nonblocking(channel, bufferStderr, UInt32(count * MemoryLayout<CChar>.size), 1));
                         }
                         return -1337
@@ -549,6 +587,8 @@ class SSHConnection {
                     try await Task.sleep(nanoseconds: 500000);
                 }
                 
+                unlock()
+                
                 try Task.checkCancellation()
                 
                 LogSSH("end std \(exitHandler.command)")
@@ -580,11 +620,15 @@ class SSHConnection {
                     LogSSH("+ ssh_channel_send_eof \( exitHandler.command)");
                     let _ = try? await self.doUnsafeTask(task: {
                         self.channelLock.lock()
+                        self.sessionLock.lock()
+                        defer {
+                            self.channelLock.unlock()
+                            self.sessionLock.unlock()
+                        }
                         if self.channelRef == currentChannelRef {
                             ssh_channel_send_eof(channel);
                         }
                     }, timeout: .now() + 1);
-                    self.channelLock.unlock()
                     LogSSH("- ssh_channel_send_eof \( exitHandler.command)");
                 }
                 return (exitStatus, exitSignal);
