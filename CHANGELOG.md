@@ -1,3 +1,10 @@
+## [1.1.12](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.11...1.1.12) (2022-02-18)
+
+
+### Bug Fixes
+
+* more EXC_BAD_ACCESS ([700798d](https://github.com/ridenui/swifter-swift-ssh/commit/700798deabfa330c797907a00e1776075edd947f))
+
 ## [1.1.11](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.10...1.1.11) (2022-02-18)
 
 
