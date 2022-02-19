@@ -1,3 +1,10 @@
+## [1.1.14](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.13...1.1.14) (2022-02-19)
+
+
+### Bug Fixes
+
+* make all libssh calls safe ([b6aad1b](https://github.com/ridenui/swifter-swift-ssh/commit/b6aad1bc0cc64dcacf9a2e5f4807f6188f56af5e))
+
 ## [1.1.13](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.12...1.1.13) (2022-02-18)
 
 
