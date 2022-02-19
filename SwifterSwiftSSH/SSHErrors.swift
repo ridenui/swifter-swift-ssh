@@ -22,6 +22,7 @@ public enum SSHError: Error {
     case SSH_CONNECT_TIMEOUT
     case SSH_CHANNEL_TIMEOUT
     case SSH_SESSION_INVALIDATED
+    case SSH_CHANNEL_INVALIDATED
     
     case GENERAL_UNSAFE_TASK_TIMEOUT
     
@@ -59,6 +60,8 @@ public enum SSHError: Error {
             return "ssh_socket_connect called on socket not unconnected"
         case .SSH_SESSION_INVALIDATED:
             return "ssh session was invalidated by some other thread"
+        case .SSH_CHANNEL_INVALIDATED:
+            return "ssh channel was invalidated by some other thread"
         }
     }
 }

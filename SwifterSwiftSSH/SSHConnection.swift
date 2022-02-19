@@ -419,42 +419,32 @@ class SSHConnection {
         
         LogSSH("ssh_set_channel_callbacks")
         
-        self.sessionLock.lock();
-        self.channelLock.lock();
-                            
-        ssh_set_channel_callbacks(channel, &cbs);
-        
-        self.sessionLock.unlock();
-        self.channelLock.unlock();
+        let _ = try self.runLibsshFunction({
+            ssh_set_channel_callbacks(channel, &cbs);
+        }, channelRef: currentChannelRef)
         
         defer {
             if optionalChannel != nil, currentChannelRef == self.channelRef {
-                ssh_remove_channel_callbacks(optionalChannel!, &cbs);
+                let _ = try? self.runLibsshFunction({
+                    ssh_remove_channel_callbacks(optionalChannel!, &cbs);
+                }, channelRef: currentChannelRef)
             }
         }
         
         LogSSH("ssh_channel_request_exec")
         
         var rc = try await self.doUnsafeTask(task: {
-            self.sessionLock.lock();
-            self.channelLock.lock();
-            defer {
-                self.sessionLock.unlock();
-                self.channelLock.unlock();
-            }
-            return ssh_channel_request_exec(channel, command);
+            return try self.runLibsshFunction({
+                ssh_channel_request_exec(channel, command)
+            }, channelRef: currentChannelRef);
         }, timeout: .now() + 3) ?? SSH_ERROR;
         
         while (rc == SSH_AGAIN) {
             try Task.checkCancellation()
             rc = try await self.doUnsafeTask(task: {
-                self.sessionLock.lock();
-                self.channelLock.lock();
-                defer {
-                    self.sessionLock.unlock();
-                    self.channelLock.unlock();
-                }
-                return ssh_channel_request_exec(channel, command);
+                return try self.runLibsshFunction({
+                    ssh_channel_request_exec(channel, command)
+                }, channelRef: currentChannelRef);
             }, timeout: .now() + 3) ?? SSH_ERROR;
             try await Task.sleep(nanoseconds: 10000);
         }
@@ -498,28 +488,27 @@ class SSHConnection {
                 var readErrorsTimeout = 0
                 var readErrors = 0
                 
-                func lock() -> Bool {
-                    self.sessionLock.lock();
-                    self.channelLock.lock();
-                    return true;
-                }
-                
-                func unlock() {
-                    self.sessionLock.unlock();
-                    self.channelLock.unlock();
+                func whileCondition() throws -> Bool {
+                    let conditions: [Bool] = [
+                        try self.runLibsshFunction({
+                            ssh_channel_is_open(channel)
+                        }, channelRef: currentChannelRef) > 0,
+                        try self.runLibsshFunction({
+                            ssh_channel_is_eof(channel)
+                        }, channelRef: currentChannelRef) != 1,
+                        currentChannelRef == self.channelRef
+                    ]
+                    return conditions.allSatisfy({ $0 })
                 }
                                     
-                while (lock() && ssh_channel_is_open(channel) > 0 && ssh_channel_is_eof(channel) != 1 && currentChannelRef == self.channelRef) {
-                    unlock();
+                while (try whileCondition()) {
                     try Task.checkCancellation()
                     
                     let nbytesStdout = try await self.doUnsafeTask(task: {
                         if currentChannelRef == self.channelRef {
-                            let _ = lock()
-                            defer {
-                                unlock()
-                            }
-                            return Int(ssh_channel_read_nonblocking(channel, bufferStdout, UInt32(count * MemoryLayout<CChar>.size), 0));
+                            return Int(try self.runLibsshFunction({
+                                ssh_channel_read_nonblocking(channel, bufferStdout, UInt32(count * MemoryLayout<CChar>.size), 0)
+                            }, channelRef: currentChannelRef));
                         }
                         return -1337
                     }, timeout: .now() + 0.8) ?? -1337;
@@ -534,11 +523,9 @@ class SSHConnection {
                     
                     let nbytesStderr = try await self.doUnsafeTask(task: {
                         if currentChannelRef == self.channelRef {
-                            let _ = lock()
-                            defer {
-                                unlock()
-                            }
-                            return Int(ssh_channel_read_nonblocking(channel, bufferStderr, UInt32(count * MemoryLayout<CChar>.size), 1));
+                            return Int(try self.runLibsshFunction({
+                                ssh_channel_read_nonblocking(channel, bufferStderr, UInt32(count * MemoryLayout<CChar>.size), 1)
+                            }, channelRef: currentChannelRef));
                         }
                         return -1337
                     }, timeout: .now() + 0.8) ?? -1337;
@@ -587,8 +574,6 @@ class SSHConnection {
                     try await Task.sleep(nanoseconds: 500000);
                 }
                 
-                unlock()
-                
                 try Task.checkCancellation()
                 
                 LogSSH("end std \(exitHandler.command)")
@@ -619,15 +604,9 @@ class SSHConnection {
                 if self.connected {
                     LogSSH("+ ssh_channel_send_eof \( exitHandler.command)");
                     let _ = try? await self.doUnsafeTask(task: {
-                        self.channelLock.lock()
-                        self.sessionLock.lock()
-                        defer {
-                            self.channelLock.unlock()
-                            self.sessionLock.unlock()
-                        }
-                        if self.channelRef == currentChannelRef {
+                        try self.runLibsshFunction({
                             ssh_channel_send_eof(channel);
-                        }
+                        }, channelRef: currentChannelRef)
                     }, timeout: .now() + 1);
                     LogSSH("- ssh_channel_send_eof \( exitHandler.command)");
                 }
@@ -646,6 +625,29 @@ class SSHConnection {
         let finalExitState = result.exitStatus;
         
         return SSHExecResult(stdout: std.stdout, stderr: std.stderr, exitCode: Int32(finalExitState.code), exitSignal: finalExitState.signal);
+    }
+    
+    private func runLibsshFunction<ReturnValue>(_ fun: () -> ReturnValue, channelRef: Int? = nil) throws -> ReturnValue {
+        self.channelLock.lock()
+        self.sessionLock.lock()
+        defer {
+            self.channelLock.unlock()
+            self.sessionLock.unlock()
+        }
+        guard let _ = session else {
+            throw SSHError.SSH_SESSION_INVALIDATED;
+        }
+        guard let _ = channel else {
+            throw SSHError.SSH_CHANNEL_INVALIDATED;
+        }
+        if channelRef != nil {
+            if self.channelRef != channelRef {
+                throw SSHError.SSH_CHANNEL_INVALIDATED;
+            }
+            return fun()
+        } else {
+            return fun()
+        }
     }
     
     /// Convert a unsafe pointer returned by a libssh function to a normal string with a specific amount of bytes.
@@ -681,10 +683,15 @@ class SSHConnection {
     /// Run a task on a separate thread and time out after a specific time
     /// This should help us prevent dead locks when we call libssh functions
     /// - Returns: return value of task
-    private nonisolated func doUnsafeTask<T>(task: @escaping () -> T, timeout: DispatchTime = .now() + 5) async throws -> T? {
+    private nonisolated func doUnsafeTask<T>(task: @escaping () throws -> T, timeout: DispatchTime = .now() + 5) async throws -> T? {
         var returnValue: T?;
+        var threadError: Error?;
         let thread = Thread.init {
-            returnValue = task();
+            do {
+                returnValue = try task();
+            } catch {
+                threadError = error;
+            }
         }
         thread.start()
         
@@ -696,17 +703,24 @@ class SSHConnection {
             }
             try await Task.sleep(nanoseconds: 10000);
         }
-        
+        if threadError != nil {
+            throw threadError!;
+        }
         return returnValue;
     }
     
     /// Run a task on a separate thread and time out after a specific time
     /// This should help us prevent dead locks when we call libssh functions
     /// - Returns: return value of task
-    private nonisolated func doUnsafeTaskBlocking<T>(task: @escaping () -> T, timeout: DispatchTime = .now() + 5) throws -> T? {
+    private nonisolated func doUnsafeTaskBlocking<T>(task: @escaping () throws -> T, timeout: DispatchTime = .now() + 5) throws -> T? {
         var returnValue: T?;
+        var threadError: Error?;
         let thread = Thread.init {
-            returnValue = task();
+            do {
+                returnValue = try task();
+            } catch {
+                threadError = error;
+            }
         }
         thread.start()
         
@@ -717,7 +731,9 @@ class SSHConnection {
                 throw SSHError.GENERAL_UNSAFE_TASK_TIMEOUT;
             }
         }
-        
+        if threadError != nil {
+            throw threadError!;
+        }
         return returnValue;
     }
     
