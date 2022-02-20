@@ -45,12 +45,15 @@ actor SSHConnectionPoolState {
         return connectionState;
     }
     
-    func freeConnection(id: UUID) async {
+    func freeConnection(id: UUID, invalidate: Bool = false) async {
         LogSSH("+ freeConnection");
         
         if let index = self.connections.firstIndex(where: { $0.id == id }) {
             self.connections[index].activeRuns -= 1;
             self.connections[index].lastRun = .now();
+            if invalidate {
+                self.connections.remove(at: index);
+            }
         }
         
         while (self.connections.count > self.normalConnections && self.connections.filter({ $0.activeRuns == 0 && $0.lastRun < .now() - 5 }).count > 0) {
@@ -134,7 +137,7 @@ class SSHConnectionPool {
             
             return result;
         } catch {
-            await self.pool.freeConnection(id: connectionState!.id);
+            await self.pool.freeConnection(id: connectionState!.id, invalidate: true);
             throw error;
         }
     }

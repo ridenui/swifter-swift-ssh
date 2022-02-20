@@ -45,29 +45,29 @@ actor SSHSession {
     private func createSession() throws {
         LogSSH("+ createSession()")
         
-        guard let session = ssh_new() else {
+        self.ssh_session = ssh_new();
+        
+        if self.ssh_session == nil {
             throw SSHError.CAN_NOT_OPEN_SESSION;
         }
         
         var port = options.port;
         
-        ssh_options_set(session, SSH_OPTIONS_HOST, options.host);
-        ssh_options_set(session, SSH_OPTIONS_PORT, &port);
-        ssh_options_set(session, SSH_OPTIONS_USER, options.username);
+        ssh_options_set(self.ssh_session, SSH_OPTIONS_HOST, options.host);
+        ssh_options_set(self.ssh_session, SSH_OPTIONS_PORT, &port);
+        ssh_options_set(self.ssh_session, SSH_OPTIONS_USER, options.username);
         var logLevel = SSH_LOG_FUNCTIONS;
-        ssh_options_set(session, SSH_OPTIONS_LOG_VERBOSITY, &logLevel);
-        ssh_set_blocking(session, 0);
+        ssh_options_set(self.ssh_session, SSH_OPTIONS_LOG_VERBOSITY, &logLevel);
+        ssh_set_blocking(self.ssh_session, 0);
         
         if let idRsaLocation = options.idRsaLocation {
-            ssh_options_set(session, SSH_OPTIONS_ADD_IDENTITY, idRsaLocation);
+            ssh_options_set(self.ssh_session, SSH_OPTIONS_ADD_IDENTITY, idRsaLocation);
         }
         
         if let knownHostFile = options.knownHostFile {
-            ssh_options_set(session, SSH_OPTIONS_KNOWNHOSTS, knownHostFile);
+            ssh_options_set(self.ssh_session, SSH_OPTIONS_KNOWNHOSTS, knownHostFile);
         }
-        
-        self.ssh_session = session;
-        
+                
         LogSSH("- createSession()")
     }
     
@@ -86,7 +86,7 @@ actor SSHSession {
         
         var isTimeOut = connectStarted < .now() - 5;
         
-        if self.connectionState != .AUTHENTICATED {
+        if self.connectionState != .AUTHENTICATED || ssh_is_connected(self.ssh_session) < 1 {
             LogSSH("ssh_connect");
             
             var rc = try await self.doUnsafeTask {
@@ -327,8 +327,7 @@ actor SSHSession {
 
         if self.callbackStruct != nil {
             var cbs = self.callbackStruct!;
-            
-            ssh_remove_channel_callbacks(self.ssh_channel, &cbs);
+            ssh_remove_channel_callbacks(ssh_channel, &cbs);
         }
         ssh_channel_free(ssh_channel);
         self.ssh_channel = nil;
