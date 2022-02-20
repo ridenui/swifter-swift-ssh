@@ -78,7 +78,7 @@ class Tests: XCTestCase {
         
         XCTAssert(result.stdout == "\(outputString)\n", "Result stdout should match output");
         
-        await ssh.disconnect();
+        try await ssh.disconnect();
     }
     
     func testHelloWorldCommand() async throws {

@@ -56,7 +56,7 @@ actor SSHConnectionPoolState {
         while (self.connections.count > self.normalConnections && self.connections.filter({ $0.activeRuns == 0 && $0.lastRun < .now() - 5 }).count > 0) {
             let toBeKilledConnection = self.connections.first(where: { $0.activeRuns == 0 && $0.lastRun < .now() - 5 })!;
             
-            toBeKilledConnection.connection.disconnect()
+            try? await toBeKilledConnection.connection.disconnect()
             
             self.connections.removeAll(where: { $0.id == toBeKilledConnection.id });
         }
@@ -67,7 +67,7 @@ actor SSHConnectionPoolState {
         LogSSH("+ removeConnection");
         
         if let index = self.connections.firstIndex(where: { $0.id == id }) {
-            self.connections[index].connection.disconnect();
+            try? await self.connections[index].connection.disconnect();
             self.connections.remove(at: index);
         }
         
@@ -89,7 +89,7 @@ actor SSHConnectionPoolState {
     func disconnect() async {
         LogSSH("+ disconnect");
         for connectionState in self.connections {
-            connectionState.connection.disconnect();
+            try? await connectionState.connection.disconnect();
         }
         self.connections.removeAll();
         LogSSH("- disconnect");
