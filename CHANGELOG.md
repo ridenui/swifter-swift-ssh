@@ -1,3 +1,10 @@
+## [1.1.16](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.15...1.1.16) (2022-02-20)
+
+
+### Bug Fixes
+
+* do not reuse a broken connection ([9314d4f](https://github.com/ridenui/swifter-swift-ssh/commit/9314d4fc9a4a3d7ce36b2bc7c9fc4cc4c246903e))
+
 ## [1.1.15](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.14...1.1.15) (2022-02-20)
 
 
