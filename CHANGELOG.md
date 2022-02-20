@@ -1,3 +1,10 @@
+## [1.1.15](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.14...1.1.15) (2022-02-20)
+
+
+### Bug Fixes
+
+* rewrite libssh backend connection to fix all EXC_BAD_ACCESS errors ([7001fa4](https://github.com/ridenui/swifter-swift-ssh/commit/7001fa432f09857faed205317a6f4b6fc5bd6573))
+
 ## [1.1.14](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.13...1.1.14) (2022-02-19)
 
 
