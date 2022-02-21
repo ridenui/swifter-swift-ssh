@@ -1,3 +1,10 @@
+## [1.1.17](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.16...1.1.17) (2022-02-21)
+
+
+### Bug Fixes
+
+* out of range error ([8df24f9](https://github.com/ridenui/swifter-swift-ssh/commit/8df24f9b6f8a3cf9436a47e66fbf1943e6b66129))
+
 ## [1.1.16](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.15...1.1.16) (2022-02-20)
 
 
