@@ -48,11 +48,11 @@ actor SSHConnectionPoolState {
     func freeConnection(id: UUID, invalidate: Bool = false) async {
         LogSSH("+ freeConnection");
         
-        if let index = self.connections.firstIndex(where: { $0.id == id }) {
-            self.connections[index].activeRuns -= 1;
-            self.connections[index].lastRun = .now();
+        if var connection = self.connections.first(where: { $0.id == id }) {
+            connection.activeRuns -= 1;
+            connection.lastRun = .now();
             if invalidate {
-                self.connections.remove(at: index);
+                self.connections.removeAll(where: { $0.id == id })
             }
         }
         
@@ -69,9 +69,9 @@ actor SSHConnectionPoolState {
     func removeConnection(id: UUID) async {
         LogSSH("+ removeConnection");
         
-        if let index = self.connections.firstIndex(where: { $0.id == id }) {
-            try? await self.connections[index].connection.disconnect();
-            self.connections.remove(at: index);
+        if let connection = self.connections.first(where: { $0.id == id }) {
+            try? await connection.connection.disconnect();
+            self.connections.removeAll(where: { $0.id == id })
         }
         
         LogSSH("- removeConnection");
