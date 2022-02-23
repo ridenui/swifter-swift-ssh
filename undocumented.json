@@ -1,166 +1,166 @@
 {
   "warnings": [
     {
-      "file": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
+      "file": "/Users/githubrunner/actions-runner/_work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
       "line": 10,
       "symbol": "SSHError",
       "symbol_kind": "source.lang.swift.decl.enum",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
+      "file": "/Users/githubrunner/actions-runner/_work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
       "line": 11,
       "symbol": "SSHError.CAN_NOT_OPEN_SESSION",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
+      "file": "/Users/githubrunner/actions-runner/_work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
       "line": 12,
       "symbol": "SSHError.CAN_NOT_OPEN_CHANNEL",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
+      "file": "/Users/githubrunner/actions-runner/_work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
       "line": 13,
       "symbol": "SSHError.CAN_NOT_OPEN_CHANNEL_SESSION(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
+      "file": "/Users/githubrunner/actions-runner/_work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
       "line": 14,
       "symbol": "SSHError.CONNECTION_ERROR(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
+      "file": "/Users/githubrunner/actions-runner/_work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
       "line": 15,
       "symbol": "SSHError.AUTH_DENIED",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
+      "file": "/Users/githubrunner/actions-runner/_work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
       "line": 16,
       "symbol": "SSHError.AUTH_ERROR",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
+      "file": "/Users/githubrunner/actions-runner/_work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
       "line": 17,
       "symbol": "SSHError.AUTH_ERROR_OTHER(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
+      "file": "/Users/githubrunner/actions-runner/_work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
       "line": 18,
       "symbol": "SSHError.REQUEST_EXEC_ERROR(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
+      "file": "/Users/githubrunner/actions-runner/_work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
       "line": 21,
       "symbol": "SSHError.SSH_IO_ERROR",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
+      "file": "/Users/githubrunner/actions-runner/_work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
       "line": 22,
       "symbol": "SSHError.SSH_CONNECT_TIMEOUT",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
+      "file": "/Users/githubrunner/actions-runner/_work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
       "line": 23,
       "symbol": "SSHError.SSH_CHANNEL_TIMEOUT",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
+      "file": "/Users/githubrunner/actions-runner/_work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
       "line": 24,
       "symbol": "SSHError.SSH_SESSION_INVALIDATED",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
+      "file": "/Users/githubrunner/actions-runner/_work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
       "line": 25,
       "symbol": "SSHError.SSH_CHANNEL_INVALIDATED",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
+      "file": "/Users/githubrunner/actions-runner/_work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
       "line": 27,
       "symbol": "SSHError.GENERAL_UNSAFE_TASK_TIMEOUT",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
+      "file": "/Users/githubrunner/actions-runner/_work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
       "line": 29,
       "symbol": "SSHError.SOCKET_UNCONNECTED",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
+      "file": "/Users/githubrunner/actions-runner/_work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
       "line": 31,
       "symbol": "SSHError.errorDescription",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHOptions.swift",
+      "file": "/Users/githubrunner/actions-runner/_work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHOptions.swift",
       "line": 39,
       "symbol": "SSHOption.idRsaLocation",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHResult.swift",
+      "file": "/Users/githubrunner/actions-runner/_work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHResult.swift",
       "line": 10,
       "symbol": "SSHExecResult",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHResult.swift",
+      "file": "/Users/githubrunner/actions-runner/_work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHResult.swift",
       "line": 11,
       "symbol": "SSHExecResult.stdout",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHResult.swift",
+      "file": "/Users/githubrunner/actions-runner/_work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHResult.swift",
       "line": 12,
       "symbol": "SSHExecResult.stderr",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHResult.swift",
+      "file": "/Users/githubrunner/actions-runner/_work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHResult.swift",
       "line": 13,
       "symbol": "SSHExecResult.exitCode",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHResult.swift",
+      "file": "/Users/githubrunner/actions-runner/_work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHResult.swift",
       "line": 14,
       "symbol": "SSHExecResult.exitSignal",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     }
   ],
-  "source_directory": "/Users/runner/work/swifter-swift-ssh/swifter-swift-ssh"
+  "source_directory": "/Users/githubrunner/actions-runner/_work/swifter-swift-ssh/swifter-swift-ssh"
 }
