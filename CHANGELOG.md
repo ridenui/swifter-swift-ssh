@@ -1,3 +1,15 @@
+# [1.2.0](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.18...1.2.0) (2022-02-23)
+
+
+### Bug Fixes
+
+* more errors ([46611ea](https://github.com/ridenui/swifter-swift-ssh/commit/46611ea13678bfc2a9cfff37a9d710eadc3f5701))
+
+
+### Features
+
+* add debug build of libssh to ios ([3152149](https://github.com/ridenui/swifter-swift-ssh/commit/315214968f4c12e24cf50c6702aab0fba79e0777))
+
 ## [1.1.18](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.17...1.1.18) (2022-02-23)
 
 ## [1.1.17](https://github.com/ridenui/swifter-swift-ssh/compare/1.1.16...1.1.17) (2022-02-21)
