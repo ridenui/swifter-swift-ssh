@@ -44,8 +44,8 @@ jobs:
             - name: Get swift version
               run: swift --version
 
-            - name: Install Cocoapods
-              run: gem install cocoapods
+            - name: Install Cocoapods & jazzy
+              run: gem install cocoapods jazzy
 
             - name: Build lib
               run: pod lib lint --allow-warnings --use-libraries --verbose
