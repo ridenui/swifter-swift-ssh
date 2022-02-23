@@ -49,3 +49,6 @@ jobs:
 
             - name: Build lib
               run: pod lib lint --allow-warnings --use-libraries --verbose
+
+            - name: Generate docs
+              run: jazzy --module SwifterSwiftSSH --copyright "This project is licensed under the [MIT License](https://github.com/ridenui/swifter-swift-ssh/blob/main/LICENSE)."
