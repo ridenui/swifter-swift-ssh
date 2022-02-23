@@ -231,6 +231,32 @@ class Tests: XCTestCase {
         await ssh.disconnect();
     }
     
+    func testParallelTask() async throws {
+        guard let sshConfig = sshConfig else {
+            throw TestErrors.CONFIG_IS_NIL
+        }
+
+        let ssh = SSH(options: sshConfig);
+        
+        let resulst = try await withThrowingTaskGroup(of: SSHExecResult.self, body: { taskGroup -> [SSHExecResult] in
+            var results = [SSHExecResult]();
+            
+            for _ in 0..<4 {
+                taskGroup.addTask {
+                    return try await ssh.exec(command: "date && sleep 1");
+                }
+            }
+            
+            for try await result in taskGroup {
+                results.append(result);
+            }
+            
+            return results
+        })
+        
+        print(resulst)
+    }
+    
     func testMultipleCommandsInARowParallel() async throws {
         
         guard let sshConfig = sshConfig else {

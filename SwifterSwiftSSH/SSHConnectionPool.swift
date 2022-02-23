@@ -29,7 +29,7 @@ actor SSHConnectionPoolState {
         if self.connections.filter({ $0.activeRuns == 0 }).count < 1, self.connections.count < self.maxConnections {
             connections.append(SSHConnectionPoolStateObject(activeRuns: 0, connection: try await SSHConnection(options: self.options), lastRun: .now()))
         }
-        
+                
         var connectionState = self.connections.sorted(by: { $0.activeRuns < $1.activeRuns }).first!;
         
         if connectionState.activeRuns > 0 {
@@ -51,6 +51,7 @@ actor SSHConnectionPoolState {
         if var connection = self.connections.first(where: { $0.id == id }) {
             connection.activeRuns -= 1;
             connection.lastRun = .now();
+            self.connections = self.connections.map({ $0.id == connection.id ? connection : $0 });
             if invalidate {
                 self.connections.removeAll(where: { $0.id == id })
             }
@@ -116,8 +117,10 @@ class SSHConnectionPool {
         if connectionState == nil {
             let startWaitForConnection: DispatchTime = .now();
             
+            LogSSH("No connection available. Wait for one")
+            
             while (connectionState == nil) {
-                if startWaitForConnection < .now() - 3 {
+                if startWaitForConnection < .now() - 6 {
                     await self.pool.closeOldestStuckConnection();
                 }
                 
@@ -127,6 +130,8 @@ class SSHConnectionPool {
         }
                 
         let connection = connectionState!.connection;
+        
+        LogSSH("exec \(command)")
         
         do {
             let result = try await Task<SSHExecResult, Error>.detached(priority: .background, operation: {

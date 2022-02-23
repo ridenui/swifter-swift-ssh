@@ -23,6 +23,8 @@ class UserData {
     public var channel_exit_status_function: ExitStatusCallback?;
 }
 
+var globalId = 0;
+
 actor SSHSession {
 
     private var ssh_session: ssh_session?;
@@ -31,6 +33,8 @@ actor SSHSession {
     private var options: SSHOption;
     private var connectionState: ConnectionState = .NOT_CONNECTED;
     private var userData: UserData = UserData();
+    private var id: UUID = UUID();
+    private var sessionLock = NSLock();
     
     public var connected: Bool {
         self.connectionState == .CHANNEL_OPEN;
@@ -43,7 +47,7 @@ actor SSHSession {
     }
     
     private func createSession() throws {
-        LogSSH("+ createSession()")
+        LogSSH("+ createSession() (\(self.id))")
         
         self.ssh_session = ssh_new();
         
@@ -56,8 +60,8 @@ actor SSHSession {
         ssh_options_set(self.ssh_session, SSH_OPTIONS_HOST, options.host);
         ssh_options_set(self.ssh_session, SSH_OPTIONS_PORT, &port);
         ssh_options_set(self.ssh_session, SSH_OPTIONS_USER, options.username);
-        var logLevel = SSH_LOG_FUNCTIONS;
-        ssh_options_set(self.ssh_session, SSH_OPTIONS_LOG_VERBOSITY, &logLevel);
+        //var logLevel = SSH_LOG_FUNCTIONS;
+        //ssh_options_set(self.ssh_session, SSH_OPTIONS_LOG_VERBOSITY, &logLevel);
         ssh_set_blocking(self.ssh_session, 0);
         
         if let idRsaLocation = options.idRsaLocation {
@@ -68,7 +72,7 @@ actor SSHSession {
             ssh_options_set(self.ssh_session, SSH_OPTIONS_KNOWNHOSTS, knownHostFile);
         }
                 
-        LogSSH("- createSession()")
+        LogSSH("- createSession() (\(self.id))")
     }
     
     public func connect() async throws {
@@ -76,7 +80,7 @@ actor SSHSession {
             try self.createSession();
         }
         
-        if (ssh_is_connected(self.ssh_session) > 0 || self.connectionState == .CHANNEL_OPEN), self.connectionState != .AUTHENTICATED {
+        if (self.connectionState != .AUTHENTICATED || self.connectionState == .CHANNEL_OPEN), ssh_is_connected(self.ssh_session) > 0 {
             return
         }
         
@@ -87,17 +91,13 @@ actor SSHSession {
         var isTimeOut = connectStarted < .now() - 5;
         
         if self.connectionState != .AUTHENTICATED || ssh_is_connected(self.ssh_session) < 1 {
-            LogSSH("ssh_connect");
+            LogSSH("ssh_connect (\(self.id))");
             
-            var rc = try await self.doUnsafeTask {
-                ssh_connect(self.ssh_session);
-            };
+            var rc = ssh_connect(self.ssh_session)
             
             while (rc == SSH_AGAIN && !(connectStarted < .now() - 5)) {
                 try Task.checkCancellation()
-                rc = try await self.doUnsafeTask {
-                    ssh_connect(self.ssh_session);
-                };
+                rc = ssh_connect(self.ssh_session)
                 try await Task.sleep(nanoseconds: 10000);
             }
             
@@ -120,23 +120,19 @@ actor SSHSession {
             
             self.connectionState = .CONNECTED;
             
-            LogSSH("connectionState = .CONNECTED")
+            LogSSH("connectionState = .CONNECTED (\(self.id))")
             
-            var ra: Int32 = try await self.doUnsafeTask {
-                ssh_userauth_password(self.ssh_session, self.options.username, self.options.password)
-            };
+            var ra: Int32 = ssh_userauth_password(self.ssh_session, self.options.username, self.options.password);
             
             while (ra == SSH_AUTH_AGAIN.rawValue) {
                 try Task.checkCancellation()
-                ra = try await self.doUnsafeTask {
-                    ssh_userauth_password(self.ssh_session, self.options.username, self.options.password)
-                };
+                ra = ssh_userauth_password(self.ssh_session, self.options.username, self.options.password);
                 try await Task.sleep(nanoseconds: 10000);
             }
             
             if ra == SSH_AUTH_SUCCESS.rawValue {
                 self.connectionState = .AUTHENTICATED;
-                LogSSH("connectionState = .AUTHENTICATED")
+                LogSSH("connectionState = .AUTHENTICATED (\(self.id))")
             } else if ra == SSH_AUTH_DENIED.rawValue {
                 throw SSHError.AUTH_DENIED;
             } else if ra == SSH_AUTH_ERROR.rawValue {
@@ -164,7 +160,7 @@ actor SSHSession {
         
         if rc == SSH_OK {
             self.connectionState = .CHANNEL_OPEN;
-            LogSSH("connectionState = .CHANNEL_OPEN")
+            LogSSH("connectionState = .CHANNEL_OPEN (\(self.id))")
             self.ssh_channel = channel;
         } else {
             ssh_channel_free(channel);
@@ -231,15 +227,13 @@ actor SSHSession {
     }
     
     public func disconnect() async throws {
-        LogSSH("disconnect")
+        LogSSH("+(\(self.id)) disconnect")
         if self.ssh_session == nil || self.connectionState == .NOT_CONNECTED {
             return;
         }
         
-        if self.connectionState == .CHANNEL_OPEN {
-            let _ = try await self.doUnsafeTask(task: {
-                ssh_channel_send_eof(self.ssh_channel);
-            })
+        if self.connectionState == .CHANNEL_OPEN || self.ssh_channel != nil {
+            ssh_channel_send_eof(self.ssh_channel);
             if self.callbackStruct != nil {
                 var cbs = self.callbackStruct!;
                 
@@ -250,27 +244,25 @@ actor SSHSession {
             self.connectionState = .AUTHENTICATED;
         }
         
-        let _ = try await self.doUnsafeTask(task: {
+        if ssh_is_connected(self.ssh_session) > 0 {
+            LogSSH("ssh_disconnect for (\(self.id))")
             ssh_disconnect(self.ssh_session);
-        });
-        
+        }
+                
         ssh_free(self.ssh_session);
         self.ssh_session = nil;
         self.connectionState = .NOT_CONNECTED;
+        LogSSH("-(\(self.id)) disconnect")
     }
     
     public func requestExec(command: String) async throws {
         var rc = try await self.runLibsshFunctionAsync { channel in
-            return try await self.doUnsafeTask {
-                return ssh_channel_request_exec(channel, command)
-            }
+            ssh_channel_request_exec(channel, command)
         };
         
         while (rc == SSH_AGAIN) {
             rc = try await self.runLibsshFunctionAsync { channel in
-                return try await self.doUnsafeTask {
-                    return ssh_channel_request_exec(channel, command)
-                }
+                ssh_channel_request_exec(channel, command)
             };
             try await Task.sleep(nanoseconds: 10000);
         }
@@ -315,7 +307,7 @@ actor SSHSession {
     
     /// Teardown all libssh related structures
     public func teardown() {
-        LogSSH("teardown")
+        LogSSH("+(\(self.id)) teardown")
         guard let ssh_session = ssh_session else {
             return
         }
@@ -333,13 +325,13 @@ actor SSHSession {
         self.ssh_channel = nil;
         ssh_free(ssh_session);
         self.ssh_session = nil;
+        LogSSH("-(\(self.id)) teardown")
     }
     
     private func runLibsshFunction<T>(task: @escaping (_ channel: ssh_channel) throws -> T) async throws -> T {
         if self.connectionState != .CHANNEL_OPEN || self.ssh_channel == nil || self.ssh_session == nil {
             throw SSHError.SSH_SESSION_INVALIDATED;
         }
-        try await self.connect();
         return try task(self.ssh_channel!);
     }
     
@@ -347,7 +339,6 @@ actor SSHSession {
         if self.connectionState != .CHANNEL_OPEN || self.ssh_channel == nil || self.ssh_session == nil {
             throw SSHError.SSH_SESSION_INVALIDATED;
         }
-        try await self.connect();
         return try await task(self.ssh_channel!);
     }
     

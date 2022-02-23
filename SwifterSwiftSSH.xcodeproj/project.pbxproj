@@ -88,6 +88,7 @@
 /* Begin PBXFileReference section */
 		FB1DCD37276D593C00B40636 /* SSHErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHErrors.swift; sourceTree = "<group>"; };
 		FB1DCD3A276D651F00B40636 /* SSHResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHResult.swift; sourceTree = "<group>"; };
+		FB2DD34E27C69F25001318F7 /* .github */ = {isa = PBXFileReference; lastKnownFileType = folder; path = .github; sourceTree = "<group>"; };
 		FB51F8E3276D12DD00D8C262 /* libSwifterSwiftSSH.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSwifterSwiftSSH.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB51F8E6276D12DD00D8C262 /* SSH.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSH.swift; sourceTree = "<group>"; };
 		FB51F8ED276D134D00D8C262 /* SwifterSwiftSSH.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; path = SwifterSwiftSSH.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -164,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				FBBB49282772AB6200D07904 /* README.md */,
+				FB2DD34E27C69F25001318F7 /* .github */,
 				FB51F8F2276D326100D8C262 /* Libraries */,
 				FB51F8EE276D30A100D8C262 /* Libraries-iOS */,
 				FB51F8ED276D134D00D8C262 /* SwifterSwiftSSH.podspec */,

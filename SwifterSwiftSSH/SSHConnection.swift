@@ -9,6 +9,20 @@ import Foundation
 
 var cmdId: Int = 0;
 
+actor AsyncSemaphore {
+    private var dispatched = false;
+    
+    func signal() {
+        dispatched = true;
+    }
+    
+    /// Doesn't actually wait
+    /// Just indicates, if signal was called
+    func wait() -> Bool {
+        return dispatched
+    }
+}
+
 class SSHConnection {
     private let options: SSHOption;
     private var session: SSHSession;
@@ -61,9 +75,9 @@ class SSHConnection {
         }
         try await self.session.connect();
         
-        let semaphoreExit = DispatchSemaphore(value: 0);
-        let semaphoreExitSignal = DispatchSemaphore(value: 0);
-        let semaphoreStd = DispatchSemaphore(value: 0);
+        let semaphoreExit = AsyncSemaphore();
+        let semaphoreExitSignal = AsyncSemaphore();
+        let semaphoreStd = AsyncSemaphore();
         
         var exitStatusResult: Int?;
         var exitSignalResult: String?;
@@ -71,12 +85,16 @@ class SSHConnection {
         await self.session.setCallbacks { exitStatus in
             LogSSH("Received exitStatus \(exitStatus)")
             exitStatusResult = Int(exitStatus);
-            semaphoreExit.signal();
+            Task.detached {
+                await semaphoreExit.signal()
+            }
         } exitSignal: { signal, core, errmsg in
             LogSSH("Received exitSignal \(signal)")
             exitSignalResult = signal;
-            semaphoreExitSignal.signal();
-            semaphoreExit.signal()
+            Task.detached {
+                await semaphoreExitSignal.signal();
+                await semaphoreExit.signal();
+            }
         }
 
         try await self.session.requestExec(command: command);
@@ -129,7 +147,7 @@ class SSHConnection {
                         break;
                     }
                     
-                    try await Task.sleep(nanoseconds: 500000);
+                    try await Task.sleep(nanoseconds: 5000);
                     
                     readStd = try await self.session.readNonBlocking();
                     readErr = try await self.session.readNonBlocking(stderr: true);
@@ -137,23 +155,23 @@ class SSHConnection {
                             
                 LogSSH("Std read finished")
                 
-                semaphoreStd.signal();
+                await semaphoreStd.signal();
                 
                 return (out: std.std, err: std.err);
             }
             
             taskGroup.addTask {
-                while (semaphoreExit.wait(timeout: .now() + 0.0000001) == .timedOut) {
-                    try await Task.sleep(nanoseconds: 10000000);
+                while (!(await semaphoreExit.wait())) {
+                    try await Task.sleep(nanoseconds: 10000);
                 }
                 LogSSH("semaphoreExit finished")
-                while (semaphoreStd.wait(timeout: .now() + 0.0000001) == .timedOut) {
-                    try await Task.sleep(nanoseconds: 10000000);
+                while (!(await semaphoreStd.wait())) {
+                    try await Task.sleep(nanoseconds: 10000);
                 }
                 LogSSH("semaphoreStd finished")
-                let end: DispatchTime = .now() + 0.3;
-                while (semaphoreExitSignal.wait(timeout: .now() + 0.00000001) == .timedOut && end > .now()) {
-                    try await Task.sleep(nanoseconds: 10000000);
+                let end: DispatchTime = .now() + 0.1;
+                while (!(await semaphoreExitSignal.wait()) && end > .now()) {
+                    try await Task.sleep(nanoseconds: 10000);
                 }
                 LogSSH("Semaphores finished")
                 return 0;
