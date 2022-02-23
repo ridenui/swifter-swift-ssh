@@ -15,9 +15,25 @@ jobs:
               run: gem install jazzy
             - name: Generate docs
               run: jazzy --module SwifterSwiftSSH --copyright "This project is licensed under the [MIT License](https://github.com/ridenui/swifter-swift-ssh/blob/main/LICENSE)."
-            - name: Publish generated content to GitHub Pages
-              uses: tsunematsu21/actions-publish-gh-pages@v1.0.2
+            - name: Upload Artifacts
+              uses: actions/upload-artifact@v1
               with:
-                  dir: docs
+                  name: docs
+                  path: docs
+    deploy:
+        concurrency: ci-${{ github.ref }}
+        needs: [build]
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout 🛎️
+              uses: actions/checkout@v2
+            - name: Download Artifacts
+              uses: actions/download-artifact@v1
+              with:
+                  name: docs
+            - name: Publish generated content to GitHub Pages
+              uses: JamesIves/github-pages-deploy-action@v4.2.5
+              with:
+                  folder: docs
                   branch: gh-pages
                   token: ${{ secrets.ACCESS_TOKEN }}
