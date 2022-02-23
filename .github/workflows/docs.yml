@@ -7,10 +7,12 @@ on:
 
 jobs:
     build:
-        runs-on: macos-latest
+        runs-on: self-hosted
         timeout-minutes: 5
         steps:
             - uses: actions/checkout@v2
+            - name: Install jazzy
+              run: gem install jazzy
             - name: Generate docs
               run: jazzy --module SwifterSwiftSSH --copyright "This project is licensed under the [MIT License](https://github.com/ridenui/swifter-swift-ssh/blob/main/LICENSE)."
             - name: Publish generated content to GitHub Pages
