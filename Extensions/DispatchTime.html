@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>SSHExecDelegate Protocol Reference</title>
+    <title>DispatchTime Extension Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -13,8 +13,8 @@
     <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
-    <a name="//apple_ref/swift/Protocol/SSHExecDelegate" class="dashAnchor"></a>
-    <a title="SSHExecDelegate Protocol Reference"></a>
+    <a name="//apple_ref/swift/Extension/DispatchTime" class="dashAnchor"></a>
+    <a title="DispatchTime Extension Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">SwifterSwiftSSH 1.2.1 Docs</a> (50% documented)</p>
@@ -29,7 +29,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">SwifterSwiftSSH Reference</a>
         <img id="carat" src="../img/carat.png" alt=""/>
-        SSHExecDelegate Protocol Reference
+        DispatchTime Extension Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -94,16 +94,15 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>SSHExecDelegate</h1>
+            <h1>DispatchTime</h1>
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">SSHExecDelegate</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">extension</span> <span class="kt">DispatchTime</span></code></pre>
 
                 </div>
               </div>
-            <p>This protocol enables realtime features for remote command execution</p>
-
+            
           </section>
           <section class="section task-group-section">
             <div class="task-group">
@@ -111,9 +110,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:15SwifterSwiftSSH15SSHExecDelegateP8onStdoutySScSgvp"></a>
-                    <a name="//apple_ref/swift/Property/onStdout" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15SwifterSwiftSSH15SSHExecDelegateP8onStdoutySScSgvp">onStdout</a>
+                    <a name="/s:8Dispatch0A4TimeV15SwifterSwiftSSHE6toDate10Foundation0G0VyF"></a>
+                    <a name="//apple_ref/swift/Method/toDate()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:8Dispatch0A4TimeV15SwifterSwiftSSHE6toDate10Foundation0G0VyF">toDate()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -121,83 +120,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Gets called if new data on stdout is available.</p>
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    This is not per line
-
-</div>
+                        <p>Undocumented</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">onStdout</span><span class="p">:</span> <span class="p">((</span><span class="n">_</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:15SwifterSwiftSSH15SSHExecDelegateP8onStderrySScSgvp"></a>
-                    <a name="//apple_ref/swift/Property/onStderr" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15SwifterSwiftSSH15SSHExecDelegateP8onStderrySScSgvp">onStderr</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Gets called if new data on stderr is available.</p>
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    This is not per line
-
-</div>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">onStderr</span><span class="p">:</span> <span class="p">((</span><span class="n">_</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:15SwifterSwiftSSH15SSHExecDelegateP14cancelFunctionySScSgvp"></a>
-                    <a name="//apple_ref/swift/Property/cancelFunction" class="dashAnchor"></a>
-                    <a class="token" href="#/s:15SwifterSwiftSSH15SSHExecDelegateP14cancelFunctionySScSgvp">cancelFunction</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Gets called if the id required for <code>SSH.cancel</code> is available</p>
-<div class="aside aside-warning">
-    <p class="aside-title">Warning</p>
-    There is a chance this never gets called
-
-</div>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">cancelFunction</span><span class="p">:</span> <span class="p">((</span><span class="n">_</span> <span class="nv">cancelId</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">toDate</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Date</span></code></pre>
 
                         </div>
                       </div>

@@ -1,6 +1,13 @@
 {
   "warnings": [
     {
+      "file": "/Users/githubrunner/actions-runner/_work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/DispatchTime+toDate.swift",
+      "line": 13,
+      "symbol": "DispatchTime.toDate()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/githubrunner/actions-runner/_work/swifter-swift-ssh/swifter-swift-ssh/SwifterSwiftSSH/SSHErrors.swift",
       "line": 10,
       "symbol": "SSHError",
