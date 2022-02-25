@@ -76,6 +76,11 @@ actor SSHSession {
     }
     
     public func connect() async throws {
+        self.sessionLock.lock()
+        defer {
+            self.sessionLock.unlock()
+        }
+        
         if self.ssh_session == nil {
             try self.createSession();
         }
@@ -228,6 +233,21 @@ actor SSHSession {
     
     public func disconnect() async throws {
         LogSSH("+(\(self.id)) disconnect")
+        
+        let lockBefore = DispatchTime.now() + 5;
+        
+        let lockResult = self.sessionLock.lock(before: lockBefore.toDate());
+        
+        defer {
+            if lockResult {
+                self.sessionLock.unlock();
+            }
+        }
+        
+        if !lockResult {
+            LogSSH("+(\(self.id)) Warning bypass sessionLock for disconnect")
+        }
+        
         if self.ssh_session == nil || self.connectionState == .NOT_CONNECTED {
             return;
         }
