@@ -50,6 +50,9 @@ jobs:
             - uses: actions/setup-node@v2
               with:
                   node-version: "16"
+                  
+            - name: Install yarn
+              run: npm i yarn --global
 
             - name: Get yarn cache directory path
               id: yarn-cache-dir-path
