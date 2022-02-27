@@ -365,7 +365,7 @@ it?
         let outputString1 = "Hello world!"
         let outputStderr1 = "Error world!"
         let exitCode1 = 15;
-        let runCount1 = 5;
+        let runCount1 = 10;
 
         await withThrowingTaskGroup(of: Void.self, returning: Void.self) { taskGroup in
             for _ in 0..<11 {

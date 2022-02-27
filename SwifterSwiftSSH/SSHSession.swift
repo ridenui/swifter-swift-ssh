@@ -349,6 +349,10 @@ actor SSHSession {
     }
     
     private func runLibsshFunction<T>(task: @escaping (_ channel: ssh_channel) throws -> T) async throws -> T {
+        self.sessionLock.lock()
+        defer {
+            self.sessionLock.unlock()
+        }
         if self.connectionState != .CHANNEL_OPEN || self.ssh_channel == nil || self.ssh_session == nil {
             throw SSHError.SSH_SESSION_INVALIDATED;
         }
@@ -356,6 +360,10 @@ actor SSHSession {
     }
     
     private func runLibsshFunctionAsync<T>(task: @escaping (_ channel: ssh_channel) async throws -> T) async throws -> T {
+        self.sessionLock.lock()
+        defer {
+            self.sessionLock.unlock()
+        }
         if self.connectionState != .CHANNEL_OPEN || self.ssh_channel == nil || self.ssh_session == nil {
             throw SSHError.SSH_SESSION_INVALIDATED;
         }
