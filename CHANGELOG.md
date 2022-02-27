@@ -1,3 +1,10 @@
+## [1.2.3](https://github.com/ridenui/swifter-swift-ssh/compare/1.2.2...1.2.3) (2022-02-27)
+
+
+### Bug Fixes
+
+* auto close connection ([f645fb8](https://github.com/ridenui/swifter-swift-ssh/commit/f645fb8e260cf8d95065e314fa9cc5614e061095))
+
 ## [1.2.2](https://github.com/ridenui/swifter-swift-ssh/compare/1.2.1...1.2.2) (2022-02-25)
 
 
