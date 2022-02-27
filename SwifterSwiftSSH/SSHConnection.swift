@@ -185,6 +185,8 @@ class SSHConnection {
         
         await self.session.closeChannel();
         
+//        try await self.session.disconnect();
+        
         return SSHExecResult(stdout: result.out, stderr: result.err, exitCode: Int32(exitStatusResult ?? -15), exitSignal: exitSignalResult);
     }
 }

@@ -150,14 +150,26 @@ actor SSHSession {
         guard let channel = ssh_channel_new(self.ssh_session) else {
             throw SSHError.CAN_NOT_OPEN_CHANNEL;
         }
+                
         
-        rc = ssh_channel_open_session(channel);
+        if self.ssh_session == nil || ssh_is_connected(self.ssh_session) < 1 {
+            LogSSH("SSH Error for ssh_channel_open_session")
+            rc = SSH_ERROR;
+        } else {
+            rc = ssh_channel_open_session(channel);
+        }
         
         connectStarted = .now();
         
         while (rc == SSH_AGAIN && !(connectStarted < .now() - 5)) {
             try Task.checkCancellation()
-            rc = ssh_channel_open_session(channel);
+            if self.ssh_session == nil || ssh_is_connected(self.ssh_session) < 1 {
+                LogSSH("SSH Error for ssh_channel_open_session")
+                rc = SSH_ERROR;
+            } else {
+                rc = ssh_channel_open_session(channel);
+            }
+            
             try await Task.sleep(nanoseconds: 10000);
         }
         
@@ -168,7 +180,9 @@ actor SSHSession {
             LogSSH("connectionState = .CHANNEL_OPEN (\(self.id))")
             self.ssh_channel = channel;
         } else {
-            ssh_channel_free(channel);
+            if self.ssh_session != nil {
+                ssh_channel_free(channel);
+            }
             if isTimeOut {
                 throw SSHError.SSH_CHANNEL_TIMEOUT;
             }
@@ -253,14 +267,7 @@ actor SSHSession {
         }
         
         if self.connectionState == .CHANNEL_OPEN || self.ssh_channel != nil {
-            ssh_channel_send_eof(self.ssh_channel);
-            if self.callbackStruct != nil {
-                var cbs = self.callbackStruct!;
-                
-                ssh_remove_channel_callbacks(self.ssh_channel, &cbs);
-            }
-            ssh_channel_free(self.ssh_channel);
-            self.ssh_channel = nil;
+            self.closeChannel()
             self.connectionState = .AUTHENTICATED;
         }
         
@@ -299,7 +306,8 @@ actor SSHSession {
             ssh_remove_channel_callbacks(self.ssh_channel, &cbs);
         }
         if ssh_channel != nil {
-            ssh_channel_free(ssh_channel);
+            ssh_channel_send_eof(self.ssh_channel);
+            ssh_channel_free(self.ssh_channel);
             self.ssh_channel = nil;
         }
         self.connectionState = .AUTHENTICATED;
