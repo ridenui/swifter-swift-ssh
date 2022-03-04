@@ -1,3 +1,10 @@
+## [1.2.5](https://github.com/ridenui/swifter-swift-ssh/compare/1.2.4...1.2.5) (2022-03-04)
+
+
+### Bug Fixes
+
+* use signa_recovery to prevent further crashes ([007d2a1](https://github.com/ridenui/swifter-swift-ssh/commit/007d2a1dee1f1800c565d424c6fbbb18176fe5e2))
+
 ## [1.2.4](https://github.com/ridenui/swifter-swift-ssh/compare/1.2.3...1.2.4) (2022-02-27)
 
 
