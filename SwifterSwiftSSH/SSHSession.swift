@@ -35,6 +35,7 @@ actor SSHSession {
     private var userData: UserData = UserData();
     private var id: UUID = UUID();
     private var sessionLock = NSLock();
+    private var exceptionHandler = ExceptionHandler();
     
     public var connected: Bool {
         self.connectionState == .CHANNEL_OPEN;
@@ -97,12 +98,16 @@ actor SSHSession {
         
         if self.connectionState != .AUTHENTICATED || ssh_is_connected(self.ssh_session) < 1 {
             LogSSH("ssh_connect (\(self.id))");
-            
-            var rc = ssh_connect(self.ssh_session)
+                        
+            try self.exceptionHandler.execute({
+                rc = ssh_connect(self.ssh_session)
+            });
             
             while (rc == SSH_AGAIN && !(connectStarted < .now() - 5)) {
                 try Task.checkCancellation()
-                rc = ssh_connect(self.ssh_session)
+                try self.exceptionHandler.execute({
+                    rc = ssh_connect(self.ssh_session)
+                });
                 try await Task.sleep(nanoseconds: 10000);
             }
             
@@ -127,11 +132,17 @@ actor SSHSession {
             
             LogSSH("connectionState = .CONNECTED (\(self.id))")
             
-            var ra: Int32 = ssh_userauth_password(self.ssh_session, self.options.username, self.options.password);
+            var ra: Int32 = SSH_ERROR;
+            
+            try self.exceptionHandler.execute({
+                ra = ssh_userauth_password(self.ssh_session, self.options.username, self.options.password);
+            });
             
             while (ra == SSH_AUTH_AGAIN.rawValue) {
                 try Task.checkCancellation()
-                ra = ssh_userauth_password(self.ssh_session, self.options.username, self.options.password);
+                try self.exceptionHandler.execute({
+                    ra = ssh_userauth_password(self.ssh_session, self.options.username, self.options.password);
+                })
                 try await Task.sleep(nanoseconds: 10000);
             }
             
@@ -150,13 +161,14 @@ actor SSHSession {
         guard let channel = ssh_channel_new(self.ssh_session) else {
             throw SSHError.CAN_NOT_OPEN_CHANNEL;
         }
-                
         
         if self.ssh_session == nil || ssh_is_connected(self.ssh_session) < 1 {
             LogSSH("SSH Error for ssh_channel_open_session")
             rc = SSH_ERROR;
         } else {
-            rc = ssh_channel_open_session(channel);
+            try self.exceptionHandler.execute({
+                rc = ssh_channel_open_session(channel);
+            });
         }
         
         connectStarted = .now();
@@ -167,7 +179,9 @@ actor SSHSession {
                 LogSSH("SSH Error for ssh_channel_open_session")
                 rc = SSH_ERROR;
             } else {
-                rc = ssh_channel_open_session(channel);
+                try self.exceptionHandler.execute({
+                    rc = ssh_channel_open_session(channel);
+                });
             }
             
             try await Task.sleep(nanoseconds: 10000);
@@ -181,7 +195,9 @@ actor SSHSession {
             self.ssh_channel = channel;
         } else {
             if self.ssh_session != nil {
-                ssh_channel_free(channel);
+                try self.exceptionHandler.execute({
+                    ssh_channel_free(channel);
+                });
             }
             if isTimeOut {
                 throw SSHError.SSH_CHANNEL_TIMEOUT;
@@ -242,7 +258,9 @@ actor SSHSession {
                 
         self.callbackStruct!.size = MemoryLayout.size(ofValue: self.callbackStruct!);
         
-        ssh_set_channel_callbacks(self.ssh_channel, &self.callbackStruct!);
+        let _ = try self.exceptionHandler.execute({
+            ssh_set_channel_callbacks(self.ssh_channel, &self.callbackStruct!);
+        })
     }
     
     public func disconnect() async throws {
@@ -267,29 +285,39 @@ actor SSHSession {
         }
         
         if self.connectionState == .CHANNEL_OPEN || self.ssh_channel != nil {
-            self.closeChannel()
+            try self.closeChannel()
             self.connectionState = .AUTHENTICATED;
         }
         
         if ssh_is_connected(self.ssh_session) > 0 {
             LogSSH("ssh_disconnect for (\(self.id))")
-            ssh_disconnect(self.ssh_session);
+            try self.exceptionHandler.execute({
+                ssh_disconnect(self.ssh_session);
+            })
         }
                 
-        ssh_free(self.ssh_session);
+        try self.exceptionHandler.execute({
+            ssh_free(self.ssh_session);
+        })
         self.ssh_session = nil;
         self.connectionState = .NOT_CONNECTED;
         LogSSH("-(\(self.id)) disconnect")
     }
     
     public func requestExec(command: String) async throws {
-        var rc = try await self.runLibsshFunctionAsync { channel in
-            ssh_channel_request_exec(channel, command)
+        var rc: Int32 = SSH_ERROR;
+        
+        try await self.runLibsshFunctionAsync { channel in
+            return try self.exceptionHandler.execute({
+                rc = ssh_channel_request_exec(channel, command)
+            });
         };
         
         while (rc == SSH_AGAIN) {
-            rc = try await self.runLibsshFunctionAsync { channel in
-                ssh_channel_request_exec(channel, command)
+            try await self.runLibsshFunctionAsync { channel in
+                return try self.exceptionHandler.execute({
+                    rc = ssh_channel_request_exec(channel, command)
+                });
             };
             try await Task.sleep(nanoseconds: 10000);
         }
@@ -299,15 +327,19 @@ actor SSHSession {
         }
     }
     
-    public func closeChannel() {
+    public func closeChannel() throws {
         if self.callbackStruct != nil, self.ssh_channel != nil {
             var cbs = self.callbackStruct!;
             
-            ssh_remove_channel_callbacks(self.ssh_channel, &cbs);
+            try self.exceptionHandler.execute({
+                ssh_remove_channel_callbacks(self.ssh_channel, &cbs);
+            })
         }
         if ssh_channel != nil {
-            ssh_channel_send_eof(self.ssh_channel);
-            ssh_channel_free(self.ssh_channel);
+            try self.exceptionHandler.execute({
+                ssh_channel_send_eof(self.ssh_channel);
+                ssh_channel_free(self.ssh_channel);
+            })
             self.ssh_channel = nil;
         }
         self.connectionState = .AUTHENTICATED;
@@ -316,10 +348,16 @@ actor SSHSession {
     public func readNonBlocking(stderr: Bool = false) async throws -> (read: Int32, std: String?) {
         let count = 65536
         let buffer = UnsafeMutablePointer<CChar>.allocate(capacity: count);
-        let read = try await self.runLibsshFunction(task: { channel -> Int32 in
+        defer {
+            buffer.deallocate();
+        }
+        var read: Int32 = 0;
+        let _ = try await self.runLibsshFunction(task: { channel in
             let stdType = Int32(stderr ? 1 : 0);
             let size = UInt32(count * MemoryLayout<CChar>.size);
-            return ssh_channel_read_nonblocking(channel, buffer, size, stdType);
+            try self.exceptionHandler.execute({
+                read = ssh_channel_read_nonblocking(channel, buffer, size, stdType);
+            });
         });
         var readString: String?;
         if read > 0 {
@@ -334,24 +372,32 @@ actor SSHSession {
     }
     
     /// Teardown all libssh related structures
-    public func teardown() {
+    public func teardown() throws {
         LogSSH("+(\(self.id)) teardown")
         guard let ssh_session = ssh_session else {
             return
         }
         
         guard let ssh_channel = ssh_channel else {
-            ssh_free(ssh_session);
+            try self.exceptionHandler.execute({
+                ssh_free(ssh_session);
+            })
             return
         }
 
         if self.callbackStruct != nil {
             var cbs = self.callbackStruct!;
-            ssh_remove_channel_callbacks(ssh_channel, &cbs);
+            let _ = try self.exceptionHandler.execute({
+                ssh_remove_channel_callbacks(ssh_channel, &cbs);
+            })
         }
-        ssh_channel_free(ssh_channel);
+        try self.exceptionHandler.execute({
+            ssh_channel_free(ssh_channel);
+        })
         self.ssh_channel = nil;
-        ssh_free(ssh_session);
+        try self.exceptionHandler.execute({
+            ssh_free(ssh_session);
+        })
         self.ssh_session = nil;
         LogSSH("-(\(self.id)) teardown")
     }
@@ -438,6 +484,6 @@ actor SSHSession {
     }
     
     deinit {
-        self.teardown();
+        try? self.teardown();
     }
 }

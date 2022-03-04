@@ -5,3 +5,5 @@
 
 #import <libssh/libssh.h>
 #import <libssh/callbacks.h>
+#import <signal_recovery.h>
+

@@ -14,6 +14,10 @@
 		FB51F90E276D355D00D8C262 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB51F90B276D355D00D8C262 /* libssl.a */; };
 		FB51F919276D3B9400D8C262 /* bridge.m in Sources */ = {isa = PBXBuildFile; fileRef = FB51F918276D3B9400D8C262 /* bridge.m */; };
 		FB51F91C276D3F1900D8C262 /* SSHOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51F91B276D3F1900D8C262 /* SSHOptions.swift */; };
+		FB8C634627CBE69E0020B604 /* ExceptionsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8C634527CBE69E0020B604 /* ExceptionsHandler.swift */; };
+		FB8C634727CBE69E0020B604 /* ExceptionsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8C634527CBE69E0020B604 /* ExceptionsHandler.swift */; };
+		FB8C634927CBEE4D0020B604 /* signal_recovery.c in Sources */ = {isa = PBXBuildFile; fileRef = FB8C634827CBEE4D0020B604 /* signal_recovery.c */; };
+		FB8C634A27CBEE4E0020B604 /* signal_recovery.c in Sources */ = {isa = PBXBuildFile; fileRef = FB8C634827CBEE4D0020B604 /* signal_recovery.c */; };
 		FB996E0B276FAD7800F87614 /* bridge.m in Sources */ = {isa = PBXBuildFile; fileRef = FB51F918276D3B9400D8C262 /* bridge.m */; };
 		FB996E0C276FAD7800F87614 /* SSHErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1DCD37276D593C00B40636 /* SSHErrors.swift */; };
 		FB996E0D276FAD7800F87614 /* SSHResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1DCD3A276D651F00B40636 /* SSHResult.swift */; };
@@ -106,6 +110,8 @@
 		FB51F90C276D355D00D8C262 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "Libraries-iOS/lib/libcrypto.a"; sourceTree = "<group>"; };
 		FB51F918276D3B9400D8C262 /* bridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = bridge.m; sourceTree = "<group>"; };
 		FB51F91B276D3F1900D8C262 /* SSHOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHOptions.swift; sourceTree = "<group>"; };
+		FB8C634527CBE69E0020B604 /* ExceptionsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExceptionsHandler.swift; sourceTree = "<group>"; };
+		FB8C634827CBEE4D0020B604 /* signal_recovery.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = signal_recovery.c; sourceTree = "<group>"; };
 		FB996E17276FAD7800F87614 /* libSwifterSwiftSSH-macos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libSwifterSwiftSSH-macos.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB996E1E276FAE5200F87614 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB996E20276FAE5200F87614 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
@@ -193,6 +199,8 @@
 		FB51F8E5276D12DD00D8C262 /* SwifterSwiftSSH */ = {
 			isa = PBXGroup;
 			children = (
+				FB8C634827CBEE4D0020B604 /* signal_recovery.c */,
+				FB8C634527CBE69E0020B604 /* ExceptionsHandler.swift */,
 				FB51F8E6276D12DD00D8C262 /* SSH.swift */,
 				FB51F91B276D3F1900D8C262 /* SSHOptions.swift */,
 				FB1DCD37276D593C00B40636 /* SSHErrors.swift */,
@@ -395,6 +403,7 @@
 				FBA5F70227C96B1F00938E3B /* DispatchTime+toDate.swift in Sources */,
 				FBF87B8127711D6900D9D8E2 /* SSHConnection.swift in Sources */,
 				FB1DCD3B276D651F00B40636 /* SSHResult.swift in Sources */,
+				FB8C634627CBE69E0020B604 /* ExceptionsHandler.swift in Sources */,
 				FBF319C827C26BB4007FBA4F /* SSHSession.swift in Sources */,
 				FBAE5ADE277148B400A591F0 /* DispatchQueue+currentLabel.swift in Sources */,
 				FB51F91C276D3F1900D8C262 /* SSHOptions.swift in Sources */,
@@ -402,6 +411,7 @@
 				FB51F8E7276D12DD00D8C262 /* SSH.swift in Sources */,
 				FBAE5AE1277148D000A591F0 /* SSHLog.swift in Sources */,
 				FBB5FFF92773CCCE00DC24FA /* KeyUtility.swift in Sources */,
+				FB8C634927CBEE4D0020B604 /* signal_recovery.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -415,6 +425,7 @@
 				FBA5F70327C96B1F00938E3B /* DispatchTime+toDate.swift in Sources */,
 				FBF87B8227711D6900D9D8E2 /* SSHConnection.swift in Sources */,
 				FB996E0D276FAD7800F87614 /* SSHResult.swift in Sources */,
+				FB8C634727CBE69E0020B604 /* ExceptionsHandler.swift in Sources */,
 				FBF319C927C26E56007FBA4F /* SSHSession.swift in Sources */,
 				FBAE5ADF277148C300A591F0 /* DispatchQueue+currentLabel.swift in Sources */,
 				FB996E0E276FAD7800F87614 /* SSHOptions.swift in Sources */,
@@ -422,6 +433,7 @@
 				FB996E0F276FAD7800F87614 /* SSH.swift in Sources */,
 				FBAE5AE22771492E00A591F0 /* SSHLog.swift in Sources */,
 				FBB5FFFC2773F6D000DC24FA /* KeyUtility.swift in Sources */,
+				FB8C634A27CBEE4E0020B604 /* signal_recovery.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

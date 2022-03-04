@@ -66,7 +66,7 @@ class Tests: XCTestCase {
             throw TestErrors.CONFIG_IS_NIL
         }
         
-        let ssh = await try SSHConnection(options: sshConfig);
+        let ssh = try await SSHConnection(options: sshConfig);
         
         let outputString = "Hello world!"
         

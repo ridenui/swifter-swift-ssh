@@ -183,10 +183,8 @@ class SSHConnection {
             return stdResult as! ReturningType;
         });
         
-        await self.session.closeChannel();
-        
-//        try await self.session.disconnect();
-        
+        try await self.session.closeChannel();
+                
         return SSHExecResult(stdout: result.out, stderr: result.err, exitCode: Int32(exitStatusResult ?? -15), exitSignal: exitSignalResult);
     }
 }
