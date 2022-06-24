@@ -1,3 +1,10 @@
+## [1.2.6](https://github.com/ridenui/swifter-swift-ssh/compare/1.2.5...1.2.6) (2022-06-24)
+
+
+### Bug Fixes
+
+* race condition which results in the cancelation of std buffer read if stderr finishes first ([1c30001](https://github.com/ridenui/swifter-swift-ssh/commit/1c3000130e9d0afcf7ed82eb0cd7528e541638fb))
+
 ## [1.2.5](https://github.com/ridenui/swifter-swift-ssh/compare/1.2.4...1.2.5) (2022-03-04)
 
 
