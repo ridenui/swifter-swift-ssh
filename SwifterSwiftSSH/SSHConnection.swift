@@ -121,7 +121,7 @@ class SSHConnection {
                 var std: (std: String, err: String) = ("", "");
                 
                 while ((readErr.read >= 0 && readStd.read >= 0) || readErrors > 0) {
-                    if readStd.read < 0 || readErr.read < 0 {
+                    if (readStd.read < 0 && readStd.read != SSH_EOF) || (readErr.read < 0 && readErr.read != SSH_EOF) {
                         readErrors -= 1;
                     }
                     
