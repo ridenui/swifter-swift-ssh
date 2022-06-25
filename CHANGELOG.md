@@ -1,3 +1,19 @@
+# [1.3.0](https://github.com/ridenui/swifter-swift-ssh/compare/1.2.7...1.3.0) (2022-06-25)
+
+
+### Bug Fixes
+
+* **ci:** ruby bundle install issue ([8fb7fd0](https://github.com/ridenui/swifter-swift-ssh/commit/8fb7fd0d176c8e0def72fc162c56d0213ec9270e))
+* **ci:** use newer xcode version ([3dcf1bc](https://github.com/ridenui/swifter-swift-ssh/commit/3dcf1bce8404caee7a2e5d71a4ec6bc8a36eb7c8))
+* **ci:** use older macos version ([7ce3943](https://github.com/ridenui/swifter-swift-ssh/commit/7ce39432ae9325577f323971bdf24514d20d7a8c))
+* **ci:** use older xcode version ([646fbab](https://github.com/ridenui/swifter-swift-ssh/commit/646fbabe826faf140e1365000e0497f4e1800df2))
+* docs docs building and pod validation ([f2006d2](https://github.com/ridenui/swifter-swift-ssh/commit/f2006d2bab8f5a0e068421acb7b2594178102755))
+
+
+### Features
+
+* rewrite logging and fix some more encoding bugs ([0be3b21](https://github.com/ridenui/swifter-swift-ssh/commit/0be3b216cd7d29b980585a0bfc5bff83c004676b))
+
 ## [1.2.7](https://github.com/ridenui/swifter-swift-ssh/compare/1.2.6...1.2.7) (2022-06-25)
 
 
