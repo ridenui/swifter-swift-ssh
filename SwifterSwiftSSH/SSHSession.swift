@@ -354,7 +354,7 @@ actor SSHSession {
         var read: Int32 = 0;
         let _ = try await self.runLibsshFunction(task: { channel in
             let stdType = Int32(stderr ? 1 : 0);
-            let size = UInt32(count * MemoryLayout<CChar>.size);
+            let size = UInt32(count * MemoryLayout<CChar>.stride);
             try self.exceptionHandler.execute({
                 read = ssh_channel_read_nonblocking(channel, buffer, size, stdType);
             });
@@ -459,13 +459,9 @@ actor SSHSession {
     /// - parameter bytesToCopy: The amount of bytes to copy
     /// - returns: String copied from the pointer
     static func convertCharPointerToString(pointer: UnsafeMutablePointer<CChar>, bytesToCopy: Int32) -> String {
-        var charDataArray: [UInt8] = [];
-        for i in 0..<Int(bytesToCopy) {
-            charDataArray.append((pointer + i).pointee.magnitude);
+        return pointer.withMemoryRebound(to: UInt8.self, capacity: Int(bytesToCopy)) {
+            String(cString: $0)
         }
-        let data = Data(charDataArray);
-        
-        return String(data: data, encoding: .utf8) ?? "";
     }
     
     static func convertCharPointerToString(pointer: UnsafePointer<CChar>) -> String {
