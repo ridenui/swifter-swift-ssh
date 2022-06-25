@@ -1,3 +1,10 @@
+## [1.2.7](https://github.com/ridenui/swifter-swift-ssh/compare/1.2.6...1.2.7) (2022-06-25)
+
+
+### Bug Fixes
+
+* data reading issue which can result in corrupt data ([77f1513](https://github.com/ridenui/swifter-swift-ssh/commit/77f151377004f3011c1ab1d554012cd87a5a7ece))
+
 ## [1.2.6](https://github.com/ridenui/swifter-swift-ssh/compare/1.2.5...1.2.6) (2022-06-24)
 
 
