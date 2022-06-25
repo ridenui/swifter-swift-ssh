@@ -28,7 +28,7 @@
 		"publish": false
 	},
 	"hooks": {
-		"before:init": "pod lib lint --allow-warnings --use-libraries --verbose",
-		"after:git:release": "pod trunk push --allow-warnings --use-libraries"
+		"before:init": "bundle exec pod lib lint --allow-warnings --use-libraries --verbose",
+		"after:git:release": "bundle exec pod trunk push --allow-warnings --use-libraries"
 	}
 }

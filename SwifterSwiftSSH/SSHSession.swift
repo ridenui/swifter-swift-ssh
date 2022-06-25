@@ -280,9 +280,7 @@ actor SSHSession {
             let exitStatus = exit_status;
             
             SSHLogger.shared.midLog("channel_exit_status_function", attributes: ["msg": "Got with exitStatus", "exitStatus": "\(exitStatus)"], taskId: taskId);
-            
-            let localUserData = Unmanaged<UserData>.fromOpaque(userdata).takeUnretainedValue()
-                        
+                                    
             guard let channel_exit_status_function = localUserData.channel_exit_status_function else {
                 return;
             }

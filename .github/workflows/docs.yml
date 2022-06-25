@@ -11,10 +11,14 @@ jobs:
         timeout-minutes: 5
         steps:
             - uses: actions/checkout@v2
-            - name: Install jazzy
-              run: gem install jazzy
+            - uses: ruby/setup-ruby@v1
+              env:
+                ImageOS: macos11
+              with:
+                ruby-version: 2.7.2
+                bundler-cache: true # runs 'bundle install' and caches installed gems automatically
             - name: Generate docs
-              run: jazzy --module SwifterSwiftSSH --copyright "This project is licensed under the [MIT License](https://github.com/ridenui/swifter-swift-ssh/blob/main/LICENSE)."
+              run: bundle exec jazzy --module SwifterSwiftSSH --copyright "This project is licensed under the [MIT License](https://github.com/ridenui/swifter-swift-ssh/blob/main/LICENSE)."
             - name: Upload Artifacts
               uses: actions/upload-artifact@v1
               with:

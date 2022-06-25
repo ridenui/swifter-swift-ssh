@@ -127,7 +127,15 @@ class SSHConnection {
         typealias ReturningType = (out: String, err: String);
         
         let result = try await withThrowingTaskGroup(of: Void.self, returning: ReturningType.self, body: { taskGroup in
-            var stdResult: ReturningType? = nil;
+            actor LocalStdResult {
+                var stdResult: ReturningType? = nil;
+                
+                func setStdResult(to newResult: ReturningType) {
+                    self.stdResult = newResult;
+                }
+            }
+            
+            let stdActor = LocalStdResult()
             
             taskGroup.addTask {
                 SSHLogger.shared.openLog("SSHConnectionReadStdData")
@@ -183,7 +191,7 @@ class SSHConnection {
                                 
                 await semaphoreStd.signal();
                 
-                stdResult = (out: std.std, err: std.err);
+                await stdActor.setStdResult(to: (out: std.std, err: std.err))
             }
             
             taskGroup.addTask {
@@ -207,7 +215,7 @@ class SSHConnection {
             
             try await taskGroup.waitForAll()
             
-            return stdResult!;
+            return await stdActor.stdResult!;
         });
         
         try await self.session.closeChannel();

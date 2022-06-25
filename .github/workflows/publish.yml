@@ -43,9 +43,13 @@ jobs:
 
             - name: Get swift version
               run: swift --version
-
-            - name: Install Cocoapods
-              run: gem install cocoapods
+              
+            - uses: ruby/setup-ruby@v1
+              env:
+                ImageOS: macos11
+              with:
+                ruby-version: 2.7.2
+                bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
             - uses: actions/setup-node@v2
               with:
