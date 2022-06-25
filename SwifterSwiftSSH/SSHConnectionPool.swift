@@ -26,11 +26,14 @@ class SSHConnectionPoolState {
     }
     
     func getConnection() async throws -> SSHConnectionPoolStateObject? {
+        SSHLogger.shared.openLog("SSHConnectionPoolStateGetConnection", attributes: ["count": self.connections.count])
+        defer {
+            SSHLogger.shared.closeLog("SSHConnectionPoolStateGetConnection", attributes: ["count": self.connections.count])
+        }
         self.lock.lock();
         defer {
             self.lock.unlock()
         }
-        LogSSH("+ getConnection (self.connections.count=\(self.connections.count))");
         if self.connections.filter({ $0.activeRuns == 0 }).count < 1, self.connections.count < self.maxConnections {
             connections.append(SSHConnectionPoolStateObject(activeRuns: 0, connection: try await SSHConnection(options: self.options), lastRun: .now()))
         }
@@ -45,17 +48,18 @@ class SSHConnectionPoolState {
         
         self.connections = self.connections.map({ $0.id == connectionState.id ? connectionState : $0 });
         
-        LogSSH("- getConnection \(connectionState.id) \(connectionState.activeRuns) (self.connections.count=\(self.connections.count)");
-        
+        SSHLogger.shared.midLog("SSHConnectionPoolStateGetConnection", attributes: ["id": connectionState.id, "activeRuns": connectionState.activeRuns, "count": self.connections.count])
+                
         return connectionState;
     }
     
     func freeConnection(id: UUID, invalidate: Bool = false) async {
+        SSHLogger.shared.openLog("SSHConnectionPoolStateFreeConnection", attributes: ["id": id, "invalidate": invalidate])
         self.lock.lock();
         defer {
+            SSHLogger.shared.closeLog("SSHConnectionPoolStateFreeConnection")
             self.lock.unlock()
         }
-        LogSSH("+ freeConnection");
         
         if var connection = self.connections.first(where: { $0.id == id }) {
             connection.activeRuns -= 1;
@@ -73,55 +77,52 @@ class SSHConnectionPoolState {
             
             self.connections.removeAll(where: { $0.id == toBeKilledConnection.id });
         }
-        LogSSH("- freeConnection");
     }
     
     func removeConnection(id: UUID, lock: Bool = true) async {
+        SSHLogger.shared.openLog("SSHConnectionPoolStateRemoveConnection", attributes: ["id": id, "lock": lock])
         if lock {
             self.lock.lock();
         }
         defer {
+            SSHLogger.shared.closeLog("SSHConnectionPoolStateRemoveConnection")
             if lock {
                 self.lock.unlock()
             }
         }
-        LogSSH("+ removeConnection");
         
         if let connection = self.connections.first(where: { $0.id == id }) {
             try? await connection.connection.disconnect();
             self.connections.removeAll(where: { $0.id == id })
         }
-        
-        LogSSH("- removeConnection");
     }
     
     func closeOldestStuckConnection() async {
+        SSHLogger.shared.openLog("SSHConnectionPoolStateCloseOldestStuckConnection")
         self.lock.lock();
         defer {
+            SSHLogger.shared.closeLog("SSHConnectionPoolStateCloseOldestStuckConnection")
             self.lock.unlock()
         }
-        LogSSH("+ closeOldestStuckConnection");
         
         let connection = self.connections.sorted(by: { $0.activeRuns > $1.activeRuns && $0.lastRun > $1.lastRun }).first;
         
         if let connection = connection {
             await self.removeConnection(id: connection.id, lock: false);
         }
-        
-        LogSSH("- closeOldestStuckConnection");
     }
     
     func disconnect() async {
+        SSHLogger.shared.openLog("SSHConnectionPoolStateDisconnect")
         self.lock.lock();
         defer {
+            SSHLogger.shared.closeLog("SSHConnectionPoolStateDisconnect")
             self.lock.unlock()
         }
-        LogSSH("+ disconnect");
         for connectionState in self.connections {
             try? await connectionState.connection.disconnect();
         }
         self.connections.removeAll();
-        LogSSH("- disconnect");
     }
 }
 
@@ -137,13 +138,18 @@ class SSHConnectionPool {
     }
     
     public func exec(command: String, delegate: SSHExecDelegate?, notCancelable: Bool = false) async throws -> SSHExecResult {
+        SSHLogger.shared.openLog("SSHConnectionPoolExec", attributes: ["cmd": command])
+        defer {
+            SSHLogger.shared.closeLog("SSHConnectionPoolExec", attributes: ["cmd": command])
+        }
+        
         var connectionState = try await self.pool.getConnection()
         
         if connectionState == nil {
             let startWaitForConnection: DispatchTime = .now();
             
-            LogSSH("No connection available. Wait for one")
-            
+            SSHLogger.shared.midLog("SSHConnectionPoolExec", attributes: ["msg": "No connection available. Wait for one", "cmd": command])
+                        
             while (connectionState == nil) {
                 if startWaitForConnection < .now() - 6 {
                     await self.pool.closeOldestStuckConnection();
@@ -156,11 +162,14 @@ class SSHConnectionPool {
                 
         let connection = connectionState!.connection;
         
-        LogSSH("exec \(command)")
-        
+        SSHLogger.shared.midLog("SSHConnectionPoolExec", attributes: ["msg": "Exec now", "cmd": command])
+                
         do {
+            let taskId = SSHLogger.shared.getTaskId();
             let result = try await Task<SSHExecResult, Error>.detached(priority: .background, operation: {
-                return try await connection.exec(command: command, delegate: delegate, notCancelable: notCancelable)
+                return try await SSHLogger.$taskId.withValue(taskId, operation: {
+                    return try await connection.exec(command: command, delegate: delegate, notCancelable: notCancelable)
+                })
             }).value;
                         
             await self.pool.freeConnection(id: connectionState!.id);
@@ -173,6 +182,10 @@ class SSHConnectionPool {
     }
     
     public func disconnect() async {
+        SSHLogger.shared.openLog("SSHConnectionPoolDisconnect")
+        defer {
+            SSHLogger.shared.closeLog("SSHConnectionPoolDisconnect")
+        }
         await self.pool.disconnect();
     }
 }

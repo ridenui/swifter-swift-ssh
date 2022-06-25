@@ -66,19 +66,21 @@ class Tests: XCTestCase {
             throw TestErrors.CONFIG_IS_NIL
         }
         
-        let ssh = try await SSHConnection(options: sshConfig);
-        
-        let outputString = "Hello world!"
-        
-        let result = try await ssh.exec(command: "echo \"\(outputString)\"");
-        
-        print(result);
-                
-        XCTAssert(result.exitCode == 0, "Return code should be 0");
-        
-        XCTAssert(result.stdout == "\(outputString)\n", "Result stdout should match output");
-        
-        try await ssh.disconnect();
+        try await SSHLogger.shared.startNewLoggingContext {
+            let ssh = try await SSHConnection(options: sshConfig);
+                    
+            let outputString = "Hello world!"
+            
+            let result = try await ssh.exec(command: "echo \"\(outputString)\"");
+            
+            print(result);
+                    
+            XCTAssert(result.exitCode == 0, "Return code should be 0");
+            
+            XCTAssert(result.stdout == "\(outputString)\n", "Result stdout should match output");
+            
+            try await ssh.disconnect();
+        }
     }
     
     func testHelloWorldCommand() async throws {
@@ -166,6 +168,34 @@ class Tests: XCTestCase {
         await ssh.disconnect();
     }
     
+    func testLog() async throws  {
+        try await withThrowingTaskGroup(of: Void.self) { taskGroup in
+            taskGroup.addTask {
+                await SSHLogger.shared.startNewLoggingContext {
+                    SSHLogger.shared.openLog("Hello")
+                    defer {
+                        SSHLogger.shared.closeLog("Hello")
+                    }
+                    SSHLogger.shared.openLog("Test", attributes: ["taskId": SSHLogger.shared.getTaskId()])
+                    
+                    SSHLogger.shared.closeLog("Test")
+                }
+            }
+            taskGroup.addTask {
+                await SSHLogger.shared.startNewLoggingContext {
+                    SSHLogger.shared.openLog("Hello2")
+                    defer {
+                        SSHLogger.shared.closeLog("Hello2")
+                    }
+                    SSHLogger.shared.openLog("Test", attributes: ["taskId": SSHLogger.shared.getTaskId()])
+                    
+                    SSHLogger.shared.closeLog("Test")
+                }
+            }
+            try await taskGroup.waitForAll()
+        }
+    }
+    
     func testCancelAndDelegate() async throws {
         guard let sshConfig = sshConfig else {
             throw TestErrors.CONFIG_IS_NIL
@@ -204,6 +234,8 @@ class Tests: XCTestCase {
         while (await canceled.canceled == false) {
             try await Task.sleep(nanoseconds: 10000);
         }
+        
+        print("hello: \(command)")
         
         XCTAssert(command.stdout == "\(uuid)\n")
         XCTAssertNotNil(command.exitSignal);

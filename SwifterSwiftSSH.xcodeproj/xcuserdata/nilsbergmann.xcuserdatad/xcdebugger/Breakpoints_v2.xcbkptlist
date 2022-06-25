@@ -14,10 +14,208 @@
             filePath = "SwifterSwiftSSH/SSHSession.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "344"
-            endingLineNumber = "344"
+            startingLineNumber = "383"
+            endingLineNumber = "383"
             landmarkName = "closeChannel()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "321E4213-87F5-4AE6-B7B5-9E5FA3C80E81"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SwifterSwiftSSH/NewLogger.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
+            landmarkName = "startNewLoggingContext(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "321E4213-87F5-4AE6-B7B5-9E5FA3C80E81 - ced7a8ed53765c69"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for Tests.SSHLogger.startNewLoggingContext&lt;&#x3c4;_0_0&gt;(() async throws -&gt; &#x3c4;_0_0) async throws -&gt; &#x3c4;_0_0"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/NewLogger.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "63"
+                  endingLineNumber = "63"
+                  offsetFromSymbolStart = "963">
+               </Location>
+               <Location
+                  uuid = "321E4213-87F5-4AE6-B7B5-9E5FA3C80E81 - 8f327444ffa82aba"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for Tests.SSHLogger.startNewLoggingContext&lt;&#x3c4;_0_0&gt;(() async throws -&gt; &#x3c4;_0_0) async throws -&gt; &#x3c4;_0_0"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/NewLogger.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "63"
+                  endingLineNumber = "63"
+                  offsetFromSymbolStart = "54">
+               </Location>
+               <Location
+                  uuid = "321E4213-87F5-4AE6-B7B5-9E5FA3C80E81 - 99ae2853b27419ab"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for Tests.SSHLogger.startNewLoggingContext&lt;&#x3c4;_0_0&gt;(() async throws -&gt; &#x3c4;_0_0) async throws -&gt; &#x3c4;_0_0"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/NewLogger.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "63"
+                  endingLineNumber = "63"
+                  offsetFromSymbolStart = "99">
+               </Location>
+               <Location
+                  uuid = "321E4213-87F5-4AE6-B7B5-9E5FA3C80E81 - f2699b45f3f78a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for Tests.SSHLogger.startNewLoggingContext&lt;&#x3c4;_0_0&gt;(() async throws -&gt; &#x3c4;_0_0) async throws -&gt; &#x3c4;_0_0"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/NewLogger.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "63"
+                  endingLineNumber = "63"
+                  offsetFromSymbolStart = "64">
+               </Location>
+               <Location
+                  uuid = "321E4213-87F5-4AE6-B7B5-9E5FA3C80E81 - 12f2e29707076768"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () async throws -&gt; &#x3c4;_0_0 in Tests.SSHLogger.startNewLoggingContext&lt;&#x3c4;_0_0&gt;(() async throws -&gt; &#x3c4;_0_0) async throws -&gt; &#x3c4;_0_0"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/NewLogger.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "64"
+                  endingLineNumber = "64"
+                  offsetFromSymbolStart = "199">
+               </Location>
+               <Location
+                  uuid = "321E4213-87F5-4AE6-B7B5-9E5FA3C80E81 - 5e5569f4cfd38000"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for SwifterSwiftSSH_macos.SSHLogger.startNewLoggingContext&lt;&#x3c4;_0_0&gt;(() async throws -&gt; &#x3c4;_0_0) async throws -&gt; &#x3c4;_0_0"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/NewLogger.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "63"
+                  endingLineNumber = "63"
+                  offsetFromSymbolStart = "963">
+               </Location>
+               <Location
+                  uuid = "321E4213-87F5-4AE6-B7B5-9E5FA3C80E81 - 5f2cdf6cae840604"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for SwifterSwiftSSH_macos.SSHLogger.startNewLoggingContext&lt;&#x3c4;_0_0&gt;(() async throws -&gt; &#x3c4;_0_0) async throws -&gt; &#x3c4;_0_0"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/NewLogger.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "63"
+                  endingLineNumber = "63"
+                  offsetFromSymbolStart = "54">
+               </Location>
+               <Location
+                  uuid = "321E4213-87F5-4AE6-B7B5-9E5FA3C80E81 - ad99aa8f124afc02"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for SwifterSwiftSSH_macos.SSHLogger.startNewLoggingContext&lt;&#x3c4;_0_0&gt;(() async throws -&gt; &#x3c4;_0_0) async throws -&gt; &#x3c4;_0_0"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/NewLogger.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "63"
+                  endingLineNumber = "63"
+                  offsetFromSymbolStart = "99">
+               </Location>
+               <Location
+                  uuid = "321E4213-87F5-4AE6-B7B5-9E5FA3C80E81 - db478a0c877d9a1d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for SwifterSwiftSSH_macos.SSHLogger.startNewLoggingContext&lt;&#x3c4;_0_0&gt;(() async throws -&gt; &#x3c4;_0_0) async throws -&gt; &#x3c4;_0_0"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/NewLogger.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "63"
+                  endingLineNumber = "63"
+                  offsetFromSymbolStart = "64">
+               </Location>
+               <Location
+                  uuid = "321E4213-87F5-4AE6-B7B5-9E5FA3C80E81 - 57e06860ee0f981e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () async throws -&gt; &#x3c4;_0_0 in SwifterSwiftSSH_macos.SSHLogger.startNewLoggingContext&lt;&#x3c4;_0_0&gt;(() async throws -&gt; &#x3c4;_0_0) async throws -&gt; &#x3c4;_0_0"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/NewLogger.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "64"
+                  endingLineNumber = "64"
+                  offsetFromSymbolStart = "199">
+               </Location>
+               <Location
+                  uuid = "321E4213-87F5-4AE6-B7B5-9E5FA3C80E81 - ced7a8ed53765c48"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for Tests.SSHLogger.startNewLoggingContext&lt;&#x3c4;_0_0&gt;(() async throws -&gt; &#x3c4;_0_0) async throws -&gt; &#x3c4;_0_0"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/NewLogger.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "62"
+                  endingLineNumber = "62"
+                  offsetFromSymbolStart = "1218">
+               </Location>
+               <Location
+                  uuid = "321E4213-87F5-4AE6-B7B5-9E5FA3C80E81 - 5e5569f4cfd38021"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for SwifterSwiftSSH_macos.SSHLogger.startNewLoggingContext&lt;&#x3c4;_0_0&gt;(() async throws -&gt; &#x3c4;_0_0) async throws -&gt; &#x3c4;_0_0"
+                  moduleName = "Tests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nilsbergmann/Entwicklung/ridenui/swifter-swift-ssh/SwifterSwiftSSH/NewLogger.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "62"
+                  endingLineNumber = "62"
+                  offsetFromSymbolStart = "1218">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -14,6 +14,10 @@
 		FB51F90E276D355D00D8C262 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB51F90B276D355D00D8C262 /* libssl.a */; };
 		FB51F919276D3B9400D8C262 /* bridge.m in Sources */ = {isa = PBXBuildFile; fileRef = FB51F918276D3B9400D8C262 /* bridge.m */; };
 		FB51F91C276D3F1900D8C262 /* SSHOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB51F91B276D3F1900D8C262 /* SSHOptions.swift */; };
+		FB87E8472867580700C805EC /* SSHLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB87E8462867580700C805EC /* SSHLog.swift */; };
+		FB87E8482867580700C805EC /* SSHLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB87E8462867580700C805EC /* SSHLog.swift */; };
+		FB87E8492867892D00C805EC /* SSHLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB87E8462867580700C805EC /* SSHLog.swift */; };
+		FB87E84A2867892D00C805EC /* SSHLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB87E8462867580700C805EC /* SSHLog.swift */; };
 		FB8C634627CBE69E0020B604 /* ExceptionsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8C634527CBE69E0020B604 /* ExceptionsHandler.swift */; };
 		FB8C634727CBE69E0020B604 /* ExceptionsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8C634527CBE69E0020B604 /* ExceptionsHandler.swift */; };
 		FB8C634927CBEE4D0020B604 /* signal_recovery.c in Sources */ = {isa = PBXBuildFile; fileRef = FB8C634827CBEE4D0020B604 /* signal_recovery.c */; };
@@ -35,8 +39,6 @@
 		FBA5F70327C96B1F00938E3B /* DispatchTime+toDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA5F70127C96B1F00938E3B /* DispatchTime+toDate.swift */; };
 		FBAE5ADE277148B400A591F0 /* DispatchQueue+currentLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAE5ADD277148B400A591F0 /* DispatchQueue+currentLabel.swift */; };
 		FBAE5ADF277148C300A591F0 /* DispatchQueue+currentLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAE5ADD277148B400A591F0 /* DispatchQueue+currentLabel.swift */; };
-		FBAE5AE1277148D000A591F0 /* SSHLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAE5AE0277148D000A591F0 /* SSHLog.swift */; };
-		FBAE5AE22771492E00A591F0 /* SSHLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAE5AE0277148D000A591F0 /* SSHLog.swift */; };
 		FBB5FFEB27739ED800DC24FA /* TestErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB996E2E276FB22C00F87614 /* TestErrors.swift */; };
 		FBB5FFEC27739ED800DC24FA /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB996E20276FAE5200F87614 /* Tests.swift */; };
 		FBB5FFF027739ED800DC24FA /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = FB996E2C276FB1E100F87614 /* credentials.plist */; };
@@ -110,6 +112,7 @@
 		FB51F90C276D355D00D8C262 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "Libraries-iOS/lib/libcrypto.a"; sourceTree = "<group>"; };
 		FB51F918276D3B9400D8C262 /* bridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = bridge.m; sourceTree = "<group>"; };
 		FB51F91B276D3F1900D8C262 /* SSHOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHOptions.swift; sourceTree = "<group>"; };
+		FB87E8462867580700C805EC /* SSHLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHLog.swift; sourceTree = "<group>"; };
 		FB8C634527CBE69E0020B604 /* ExceptionsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExceptionsHandler.swift; sourceTree = "<group>"; };
 		FB8C634827CBEE4D0020B604 /* signal_recovery.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = signal_recovery.c; sourceTree = "<group>"; };
 		FB996E17276FAD7800F87614 /* libSwifterSwiftSSH-macos.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libSwifterSwiftSSH-macos.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -120,7 +123,6 @@
 		FB996E2E276FB22C00F87614 /* TestErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestErrors.swift; sourceTree = "<group>"; };
 		FBA5F70127C96B1F00938E3B /* DispatchTime+toDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DispatchTime+toDate.swift"; sourceTree = "<group>"; };
 		FBAE5ADD277148B400A591F0 /* DispatchQueue+currentLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DispatchQueue+currentLabel.swift"; sourceTree = "<group>"; };
-		FBAE5AE0277148D000A591F0 /* SSHLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHLog.swift; sourceTree = "<group>"; };
 		FBB5FFF427739ED800DC24FA /* Tests-iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests-iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBB5FFF82773CCCE00DC24FA /* KeyUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyUtility.swift; sourceTree = "<group>"; };
 		FBBB492527721BCB00D07904 /* SSHExecDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHExecDelegate.swift; sourceTree = "<group>"; };
@@ -210,10 +212,10 @@
 				FBAE5ADD277148B400A591F0 /* DispatchQueue+currentLabel.swift */,
 				FBBB492527721BCB00D07904 /* SSHExecDelegate.swift */,
 				FBF319C727C26BB4007FBA4F /* SSHSession.swift */,
-				FBAE5AE0277148D000A591F0 /* SSHLog.swift */,
 				FBB5FFF82773CCCE00DC24FA /* KeyUtility.swift */,
 				FBA5F70127C96B1F00938E3B /* DispatchTime+toDate.swift */,
 				FB51F918276D3B9400D8C262 /* bridge.m */,
+				FB87E8462867580700C805EC /* SSHLog.swift */,
 			);
 			path = SwifterSwiftSSH;
 			sourceTree = "<group>";
@@ -401,6 +403,7 @@
 				FB51F919276D3B9400D8C262 /* bridge.m in Sources */,
 				FB1DCD38276D593C00B40636 /* SSHErrors.swift in Sources */,
 				FBA5F70227C96B1F00938E3B /* DispatchTime+toDate.swift in Sources */,
+				FB87E8472867580700C805EC /* SSHLog.swift in Sources */,
 				FBF87B8127711D6900D9D8E2 /* SSHConnection.swift in Sources */,
 				FB1DCD3B276D651F00B40636 /* SSHResult.swift in Sources */,
 				FB8C634627CBE69E0020B604 /* ExceptionsHandler.swift in Sources */,
@@ -409,7 +412,6 @@
 				FB51F91C276D3F1900D8C262 /* SSHOptions.swift in Sources */,
 				FBF87B7E27711D4700D9D8E2 /* SSHConnectionPool.swift in Sources */,
 				FB51F8E7276D12DD00D8C262 /* SSH.swift in Sources */,
-				FBAE5AE1277148D000A591F0 /* SSHLog.swift in Sources */,
 				FBB5FFF92773CCCE00DC24FA /* KeyUtility.swift in Sources */,
 				FB8C634927CBEE4D0020B604 /* signal_recovery.c in Sources */,
 			);
@@ -423,6 +425,7 @@
 				FB996E0B276FAD7800F87614 /* bridge.m in Sources */,
 				FB996E0C276FAD7800F87614 /* SSHErrors.swift in Sources */,
 				FBA5F70327C96B1F00938E3B /* DispatchTime+toDate.swift in Sources */,
+				FB87E8482867580700C805EC /* SSHLog.swift in Sources */,
 				FBF87B8227711D6900D9D8E2 /* SSHConnection.swift in Sources */,
 				FB996E0D276FAD7800F87614 /* SSHResult.swift in Sources */,
 				FB8C634727CBE69E0020B604 /* ExceptionsHandler.swift in Sources */,
@@ -431,7 +434,6 @@
 				FB996E0E276FAD7800F87614 /* SSHOptions.swift in Sources */,
 				FBF87B7F27711D4B00D9D8E2 /* SSHConnectionPool.swift in Sources */,
 				FB996E0F276FAD7800F87614 /* SSH.swift in Sources */,
-				FBAE5AE22771492E00A591F0 /* SSHLog.swift in Sources */,
 				FBB5FFFC2773F6D000DC24FA /* KeyUtility.swift in Sources */,
 				FB8C634A27CBEE4E0020B604 /* signal_recovery.c in Sources */,
 			);
@@ -442,6 +444,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB996E2F276FB22C00F87614 /* TestErrors.swift in Sources */,
+				FB87E8492867892D00C805EC /* SSHLog.swift in Sources */,
 				FB996E21276FAE5200F87614 /* Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -451,6 +454,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FBB5FFEB27739ED800DC24FA /* TestErrors.swift in Sources */,
+				FB87E84A2867892D00C805EC /* SSHLog.swift in Sources */,
 				FBB5FFEC27739ED800DC24FA /* Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

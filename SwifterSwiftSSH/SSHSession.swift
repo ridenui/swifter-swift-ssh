@@ -21,6 +21,8 @@ typealias ExitStatusCallback = (_ exitStatus: Int32) -> Void;
 class UserData {
     public var channel_exit_signal_function: ExitSignalCallback?;
     public var channel_exit_status_function: ExitStatusCallback?;
+    
+    public var taskId: Int = -2;
 }
 
 var globalId = 0;
@@ -44,11 +46,16 @@ actor SSHSession {
     init(options: SSHOption) async throws {
         self.options = options;
         
+        self.userData.taskId = SSHLogger.shared.getTaskId();
+        
         try self.createSession();
     }
     
     private func createSession() throws {
-        LogSSH("+ createSession() (\(self.id))")
+        SSHLogger.shared.openLog("SSHSessionCreateSession", attributes: ["id": self.id])
+        defer {
+            SSHLogger.shared.closeLog("SSHSessionCreateSession", attributes: ["id": self.id])
+        }
         
         self.ssh_session = ssh_new();
         
@@ -72,11 +79,13 @@ actor SSHSession {
         if let knownHostFile = options.knownHostFile {
             ssh_options_set(self.ssh_session, SSH_OPTIONS_KNOWNHOSTS, knownHostFile);
         }
-                
-        LogSSH("- createSession() (\(self.id))")
     }
     
     public func connect() async throws {
+        SSHLogger.shared.openLog("SSHSessionConnect", attributes: ["id": self.id])
+        defer {
+            SSHLogger.shared.closeLog("SSHSessionConnect", attributes: ["id": self.id])
+        }
         self.sessionLock.lock()
         defer {
             self.sessionLock.unlock()
@@ -97,7 +106,10 @@ actor SSHSession {
         var isTimeOut = connectStarted < .now() - 5;
         
         if self.connectionState != .AUTHENTICATED || ssh_is_connected(self.ssh_session) < 1 {
-            LogSSH("ssh_connect (\(self.id))");
+            SSHLogger.shared.openLog("SSHSession:ssh_connect", attributes: ["id": self.id])
+            defer {
+                SSHLogger.shared.closeLog("SSHSession:ssh_connect", attributes: ["id": self.id])
+            }
                         
             try self.exceptionHandler.execute({
                 rc = ssh_connect(self.ssh_session)
@@ -121,7 +133,7 @@ actor SSHSession {
                     if errorString.contains("unconnected") {
                         throw SSHError.SOCKET_UNCONNECTED
                     }
-                    LogSSH("libssh error string \(errorString)");
+                    SSHLogger.shared.midLog("SSHSession:ssh_connect", attributes: ["msg": "libssh error", "error": errorString, "id": self.id])
                     throw SSHError.CONNECTION_ERROR(errorString);
                 } else {
                     throw SSHError.CONNECTION_ERROR("unknown connection error");
@@ -130,7 +142,8 @@ actor SSHSession {
             
             self.connectionState = .CONNECTED;
             
-            LogSSH("connectionState = .CONNECTED (\(self.id))")
+            
+            SSHLogger.shared.midLog("SSHSession:ssh_connect", attributes: ["connectionState": ".CONNECTED", "id": self.id])
             
             var ra: Int32 = SSH_ERROR;
             
@@ -148,7 +161,7 @@ actor SSHSession {
             
             if ra == SSH_AUTH_SUCCESS.rawValue {
                 self.connectionState = .AUTHENTICATED;
-                LogSSH("connectionState = .AUTHENTICATED (\(self.id))")
+                SSHLogger.shared.midLog("SSHSession:ssh_connect", attributes: ["connectionState": ".AUTHENTICATED", "id": self.id])
             } else if ra == SSH_AUTH_DENIED.rawValue {
                 throw SSHError.AUTH_DENIED;
             } else if ra == SSH_AUTH_ERROR.rawValue {
@@ -163,7 +176,7 @@ actor SSHSession {
         }
         
         if self.ssh_session == nil || ssh_is_connected(self.ssh_session) < 1 {
-            LogSSH("SSH Error for ssh_channel_open_session")
+            SSHLogger.shared.midLog("SSHSession:ssh_connect", attributes: ["error": "SSH Error for ssh_channel_open_session", "id": self.id])
             rc = SSH_ERROR;
         } else {
             try self.exceptionHandler.execute({
@@ -176,7 +189,7 @@ actor SSHSession {
         while (rc == SSH_AGAIN && !(connectStarted < .now() - 5)) {
             try Task.checkCancellation()
             if self.ssh_session == nil || ssh_is_connected(self.ssh_session) < 1 {
-                LogSSH("SSH Error for ssh_channel_open_session")
+                SSHLogger.shared.midLog("SSHSession:ssh_connect", attributes: ["error": "SSH Error for ssh_channel_open_session", "id": self.id])
                 rc = SSH_ERROR;
             } else {
                 try self.exceptionHandler.execute({
@@ -191,7 +204,7 @@ actor SSHSession {
         
         if rc == SSH_OK {
             self.connectionState = .CHANNEL_OPEN;
-            LogSSH("connectionState = .CHANNEL_OPEN (\(self.id))")
+            SSHLogger.shared.midLog("SSHSession:ssh_connect", attributes: ["connectionState": ".CHANNEL_OPEN", "id": self.id])
             self.ssh_channel = channel;
         } else {
             if self.ssh_session != nil {
@@ -204,26 +217,37 @@ actor SSHSession {
             }
             throw SSHError.CAN_NOT_OPEN_CHANNEL_SESSION(rc);
         }
-        
+                
         self.callbackStruct = ssh_channel_callbacks_struct();
+        
+        self.userData.taskId = SSHLogger.shared.getTaskId()
         
         self.callbackStruct!.userdata = unsafeBitCast(userData, to: UnsafeMutableRawPointer.self);
                 
         self.callbackStruct!.channel_exit_signal_function = { (session, channel, signal, core, errmsg, lang, userdata) in
             guard let userdata = userdata else {
-                LogSSH("channel_exit_signal_function - No userdata");
+                SSHLogger.shared.midLog("channel_exit_signal_function", attributes: ["error": "No userdata"]);
                 return;
             }
-            guard let signal = signal else {
-                LogSSH("channel_exit_signal_function - No signal");
-                return;
-            }
-            
-            LogSSH("channel_exit_signal_function with signal \(signal)");
             
             let localUserData = Unmanaged<UserData>.fromOpaque(userdata).takeUnretainedValue();
             
+            let taskId = localUserData.taskId;
+            
+            SSHLogger.shared.openLog("channel_exit_signal_function", taskId: taskId);
+            defer {
+                SSHLogger.shared.closeLog("channel_exit_signal_function", taskId: taskId);
+            }
+            
+            guard let signal = signal else {
+                SSHLogger.shared.midLog("channel_exit_signal_function", attributes: ["error": "No signal"], taskId: taskId);
+                return;
+            }
+            
+            SSHLogger.shared.midLog("channel_exit_signal_function", attributes: ["msg": "Got with signal", "signal": "\(signal)"], taskId: taskId);
+            
             guard let channel_exit_signal_function = localUserData.channel_exit_signal_function else {
+                SSHLogger.shared.midLog("channel_exit_signal_function", attributes: ["error": "No channel_exit_signal_function"], taskId: taskId);
                 return;
             }
             
@@ -240,12 +264,22 @@ actor SSHSession {
                 
         self.callbackStruct!.channel_exit_status_function = { (session, channel, exit_status, userdata) in
             guard let userdata = userdata else {
-                LogSSH("channel_exit_status_function - No userdata");
+                SSHLogger.shared.midLog("channel_exit_status_function", attributes: ["error": "No userdata"]);
                 return;
             }
+            
+            let localUserData = Unmanaged<UserData>.fromOpaque(userdata).takeUnretainedValue();
+                        
+            let taskId = localUserData.taskId;
+            
+            SSHLogger.shared.openLog("channel_exit_status_function", taskId: taskId);
+            defer {
+                SSHLogger.shared.closeLog("channel_exit_status_function", taskId: taskId);
+            }
+            
             let exitStatus = exit_status;
             
-            LogSSH("channel_exit_status_function with exitStatus \(exitStatus)");
+            SSHLogger.shared.midLog("channel_exit_status_function", attributes: ["msg": "Got with exitStatus", "exitStatus": "\(exitStatus)"], taskId: taskId);
             
             let localUserData = Unmanaged<UserData>.fromOpaque(userdata).takeUnretainedValue()
                         
@@ -264,7 +298,10 @@ actor SSHSession {
     }
     
     public func disconnect() async throws {
-        LogSSH("+(\(self.id)) disconnect")
+        SSHLogger.shared.openLog("SSHSessionDisconnect", attributes: ["id": self.id])
+        defer {
+            SSHLogger.shared.closeLog("SSHSessionDisconnect", attributes: ["id": self.id])
+        }
         
         let lockBefore = DispatchTime.now() + 5;
         
@@ -277,7 +314,7 @@ actor SSHSession {
         }
         
         if !lockResult {
-            LogSSH("+(\(self.id)) Warning bypass sessionLock for disconnect")
+            SSHLogger.shared.midLog("SSHSessionDisconnect", attributes: ["warning": "Warning bypass sessionLock for disconnect", "id": self.id])
         }
         
         if self.ssh_session == nil || self.connectionState == .NOT_CONNECTED {
@@ -290,7 +327,10 @@ actor SSHSession {
         }
         
         if ssh_is_connected(self.ssh_session) > 0 {
-            LogSSH("ssh_disconnect for (\(self.id))")
+            SSHLogger.shared.openLog("SSHSessionDisconnect:ssh_disconnect", attributes: ["id": self.id])
+            defer {
+                SSHLogger.shared.closeLog("SSHSessionDisconnect:ssh_disconnect", attributes: ["id": self.id])
+            }
             try self.exceptionHandler.execute({
                 ssh_disconnect(self.ssh_session);
             })
@@ -301,7 +341,6 @@ actor SSHSession {
         })
         self.ssh_session = nil;
         self.connectionState = .NOT_CONNECTED;
-        LogSSH("-(\(self.id)) disconnect")
     }
     
     public func requestExec(command: String) async throws {
@@ -346,8 +385,8 @@ actor SSHSession {
     }
     
     public func readNonBlocking(stderr: Bool = false) async throws -> (read: Int32, std: String?) {
-        let count = 65536
-        let buffer = UnsafeMutablePointer<CChar>.allocate(capacity: count);
+        let count = 256
+        let buffer = UnsafeMutablePointer<CChar>.allocate(capacity: count + 1);
         defer {
             buffer.deallocate();
         }
@@ -373,7 +412,10 @@ actor SSHSession {
     
     /// Teardown all libssh related structures
     public func teardown() throws {
-        LogSSH("+(\(self.id)) teardown")
+        SSHLogger.shared.openLog("SSHSessionTeardown", attributes: ["id": self.id])
+        defer {
+            SSHLogger.shared.closeLog("SSHSessionTeardown", attributes: ["id": self.id])
+        }
         guard let ssh_session = ssh_session else {
             return
         }
@@ -399,7 +441,6 @@ actor SSHSession {
             ssh_free(ssh_session);
         })
         self.ssh_session = nil;
-        LogSSH("-(\(self.id)) teardown")
     }
     
     private func runLibsshFunction<T>(task: @escaping (_ channel: ssh_channel) throws -> T) async throws -> T {
@@ -442,7 +483,6 @@ actor SSHSession {
         while (!thread.isFinished && !thread.isCancelled) {
             if timeout < .now() {
                 thread.cancel()
-                LogSSH("doUnsafeTask timed out")
                 throw SSHError.GENERAL_UNSAFE_TASK_TIMEOUT;
             }
             try await Task.sleep(nanoseconds: 10000);
@@ -459,24 +499,12 @@ actor SSHSession {
     /// - parameter bytesToCopy: The amount of bytes to copy
     /// - returns: String copied from the pointer
     static func convertCharPointerToString(pointer: UnsafeMutablePointer<CChar>, bytesToCopy: Int32) -> String {
-        return pointer.withMemoryRebound(to: UInt8.self, capacity: Int(bytesToCopy)) {
-            String(cString: $0)
-        }
+        pointer[Int(bytesToCopy)] = 0; // Insert zero
+        return String(cString: pointer)
     }
     
     static func convertCharPointerToString(pointer: UnsafePointer<CChar>) -> String {
-        var charDataArray: [UInt8] = [];
-        var i = 0;
-        while (true) {
-            if (pointer + i).pointee.magnitude == 0 {
-                break;
-            }
-            charDataArray.append((pointer + i).pointee.magnitude);
-            i += 1;
-        }
-        let data = Data(charDataArray);
-        
-        return String(data: data, encoding: .ascii) ?? "";
+        return String(cString: pointer, encoding: .ascii) ?? "";
     }
     
     deinit {
